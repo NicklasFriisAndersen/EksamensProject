@@ -7,6 +7,8 @@ namespace ServerAPI.Repositories
 	{
         public List<RegisteredChild> getAllItems();
 
+        public void insertOneItem(RegisteredChild item);
+
     }
 }
 

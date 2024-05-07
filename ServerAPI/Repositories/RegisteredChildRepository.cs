@@ -30,5 +30,10 @@ namespace ServerAPI.Repositories
 
             return collection.Find(filter).ToList();
         }
+
+        public void insertOneItem(RegisteredChild item)
+        {
+            collection.InsertOne(item);
+        }
     }
 }

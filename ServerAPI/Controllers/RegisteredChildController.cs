@@ -23,6 +23,13 @@ namespace ServerAPI.Controllers
         {
             return rRepo.getAllItems();
         }
+
+        [HttpPost]
+        [Route("add")]
+        public void insertOneItem(RegisteredChild registeredChild)
+        {
+            rRepo.insertOneItem(registeredChild);
+        }
     }
 }
 
