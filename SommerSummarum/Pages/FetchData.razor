@@ -1,6 +1,9 @@
 ﻿@page "/fetchdata"
 @using Core.Models;
+@using System.Text.Json
 @inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStore
+
 
 <PageTitle>Weather forecast</PageTitle>
 
@@ -35,15 +38,13 @@
         <InputText id="Hobbies" @bind-Value="childItem.Hobbies" class="form-control" />
     </div>
     <div class="col-md-12 mb-3">
-        <label for="Signature">Signature </label>
+        <label for="Signature">Underskrift </label>
         <InputText id="Signature" @bind-Value="childItem.Signature" class="form-control" />
     </div>
     <div class="col-md-6 mb-3">
         <label for="BeenBefore">Har været før</label>
         <InputCheckbox id="BeenBefore" @bind-Value="childItem.BeenBefore" class="form-check-input" />
     </div>
-
-
 
     <div class="col-12 mb-3">
         <button type="submit" class="btn btn-primary">Add</button>
@@ -56,11 +57,18 @@
 
     private EditContext? aEditContext;
 
+    private User? user;
+
     private RegisteredChild childItem = new RegisteredChild();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         aEditContext = new EditContext(childItem);
+        var userInfoJson = await localStore.GetItemAsStringAsync("userinfo");
+        if (!string.IsNullOrEmpty(userInfoJson))
+        {
+            user = JsonSerializer.Deserialize<User>(userInfoJson);
+        }
     }
 
 
@@ -72,6 +80,8 @@
 
     private async Task AddListingItem()
     {
+        childItem.User = user;
+        childItem.DateAdded = DateTime.Now;
         await Http.PostAsJsonAsync<RegisteredChild>($"{serverUrl}/api/registeredchildren/add", childItem);
         Console.WriteLine("Klient: add " + childItem.Name);
         childItem = new(); // clear fields in form

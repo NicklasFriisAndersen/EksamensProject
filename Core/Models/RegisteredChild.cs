@@ -26,6 +26,11 @@ namespace Core.Models
         public string? Signature { get; set; } = " ";
 
         public int? Krævnr { get; set; } = 0;
+
+        public DateTime DateAdded { get; set; }
+
+        public User? User { get; set; }
+
     }
 }
 
