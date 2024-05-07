@@ -9,6 +9,7 @@
 
 <h1>Weather forecast</h1>
 
+@*tilføj barn*@
 <EditForm Model="childItem" class="row p-3" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -51,6 +52,7 @@
     </div>
 </EditForm>
 
+
 @code {
 
     private string serverUrl = "https://localhost:7016";
@@ -86,5 +88,6 @@
         Console.WriteLine("Klient: add " + childItem.Name);
         childItem = new(); // clear fields in form
     }
+
 }
 
