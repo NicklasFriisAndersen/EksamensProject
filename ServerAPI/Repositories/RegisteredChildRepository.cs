@@ -17,7 +17,18 @@ namespace ServerAPI.Repositories
 
         public RegisteredChildRepository()
 		{
-        }
-	}
-}
+            mongoClient = new MongoClient(connectionString);
 
+            database = mongoClient.GetDatabase("SumarumDagpleje");
+
+            collection = database.GetCollection<RegisteredChild>("RegisteredChild");
+        }
+
+        public List<RegisteredChild> getAllItems()
+        {
+            var filter = Builders<RegisteredChild>.Filter.Empty;
+
+            return collection.Find(filter).ToList();
+        }
+    }
+}
