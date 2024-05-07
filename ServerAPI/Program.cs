@@ -10,6 +10,9 @@ public class Program
 
         // Add services to the container.
 
+        builder.Services.AddSingleton<ILoginRepository, LoginRepository>();
+        builder.Services.AddSingleton<IUserrepository, UserRepository>();
+
         builder.Services.AddControllers();
 
         builder.Services.AddCors(options =>
@@ -30,6 +33,8 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
+        
+        app.UseCors("policy");
 
         app.MapControllers();
 

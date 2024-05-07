@@ -1,0 +1,57 @@
+@using Core.Models;
+@inject NavigationManager navigationManager
+@inject HttpClient Http;
+
+@page "/CreateUserPage"
+<h3>Create User</h3>
+
+<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="col-md-12 mb-3">
+        <label for="Username">Username</label>
+        <InputText id="Username" @bind-Value="userItem.Username" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Password">Password</label>
+        <InputText id="Password" @bind-Value="userItem.Password" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Email">Email</label>
+        <InputText id="Email" @bind-Value="userItem.Email" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+            <label for="Kraevnummer">Krævnummer</label>
+            <InputText id="Kraevnummer" @bind-Value="userItem.Kraevnummer" class="form-control" />
+        </div>
+
+    <div class="col-12 mb-3">
+        <button type="submit" class="btn btn-primary">Create Account</button>
+    </div>
+</EditForm>
+
+@code {
+    private EditContext? aEditContext;
+
+    private string serverUrl = "https://localhost:7016";
+
+    private User userItem = new User();
+
+    protected override async Task OnInitializedAsync()
+    {
+        aEditContext = new EditContext(userItem);
+    }
+
+    public async Task HandleValidSubmit()
+    {
+        await AddUser();
+    }
+
+    private async Task AddUser()
+    {
+        await Http.PostAsJsonAsync<User>($"{serverUrl}/api/user/add", userItem);
+        Console.WriteLine("Klient: add " + userItem.Username + " " + userItem.Email + " " + userItem.Kraevnummer);
+        userItem = new(); // clear fields in form
+    }
+
+}

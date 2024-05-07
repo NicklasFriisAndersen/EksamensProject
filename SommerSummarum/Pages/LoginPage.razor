@@ -1,0 +1,78 @@
+@page "/LoginPage"
+@inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService localStore
+@inject HttpClient HttpClient
+@using Core.Models
+@using System.Net.Http
+@using System.Net
+@using System.Text.Json
+@using MongoDB.Bson
+@using MongoDB.Bson.Serialization
+@using MongoDB.Driver.Core.Operations
+
+<div class="row">
+     <!-- Login Section -->
+     <div class="col-md-6">
+         <div class="login-section">
+             <h3>Login</h3>
+             <div class="form-group">
+                 <label for="username">Brugernavn</label>
+                 <input id="username" @bind="username" class="form-control" />
+             </div>
+             <div class="form-group">
+                 <label for="password">Password</label>
+                 <input type="password" @bind="password" id="password" class="form-control" />
+             </div>
+             <div class="form-group" style="margin-top: 20px;">
+                 <button type="button" class="btn btn-primary" @onclick="HandleLogin">Login</button>
+             </div>
+         </div>
+     </div>
+ 
+     <!-- Registration Section -->
+     <div class="col-md-6">
+         <div class="registration-section">
+             <h3>Don't have an account?</h3>
+             <div class="form-group">
+                 <button type="button" class="btn btn-primary" @onclick="GotoCreateUser">Create User</button>
+             </div>
+         </div>
+     </div>
+ </div>
+
+@code {
+    private string username;
+    private string password;
+
+    private async Task HandleLogin()
+    {
+        // Construct the login URL with query string parameters
+        var queryString = $"?username={username}&password={password}";
+        var loginUrl = $"api/login/signin{queryString}";
+
+        // Perform GET request
+        var response = await HttpClient.GetAsync(loginUrl);
+
+        if (response.IsSuccessStatusCode)
+        {
+            // Redirect to profile page upon successful login
+            NavigationManager.NavigateTo("/ProfilePage", forceLoad: true);
+            string responseJson = await response.Content.ReadAsStringAsync();
+            //User? user = JsonSerializer.Deserialize<User>(responseJson);
+            User? user = BsonSerializer.Deserialize<User>(responseJson);
+            Console.WriteLine(responseJson);
+
+            await localStore.SetItemAsync("userinfo", user);
+        }
+        else
+        {
+            // Display error message or handle failed login
+            Console.WriteLine("Login failed");
+        }
+
+    }
+    private async Task GotoCreateUser()
+    {
+        NavigationManager.NavigateTo("/CreateUserPage");
+    }
+}
