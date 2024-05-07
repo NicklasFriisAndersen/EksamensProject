@@ -40,6 +40,7 @@
 
     public async Task HandleValidSubmit()
     {
+        await NavigateToLoginPage();
         await AddUser();
     }
 
@@ -50,4 +51,8 @@
         userItem = new(); // clear fields in form
     }
 
+    private async Task NavigateToLoginPage()
+    {
+        navigationManager.NavigateTo("LoginPage");
+    }
 }
