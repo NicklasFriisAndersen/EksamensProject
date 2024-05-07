@@ -20,10 +20,6 @@
         <label for="Email">Email</label>
         <InputText id="Email" @bind-Value="userItem.Email" class="form-control" />
     </div>
-    <div class="col-md-6 mb-3">
-            <label for="Kraevnummer">Krævnummer</label>
-            <InputText id="Kraevnummer" @bind-Value="userItem.Kraevnummer" class="form-control" />
-        </div>
 
     <div class="col-12 mb-3">
         <button type="submit" class="btn btn-primary">Create Account</button>
@@ -50,7 +46,7 @@
     private async Task AddUser()
     {
         await Http.PostAsJsonAsync<User>($"{serverUrl}/api/user/add", userItem);
-        Console.WriteLine("Klient: add " + userItem.Username + " " + userItem.Email + " " + userItem.Kraevnummer);
+        Console.WriteLine("Klient: add " + userItem.Username + " " + userItem.Email);
         userItem = new(); // clear fields in form
     }
 

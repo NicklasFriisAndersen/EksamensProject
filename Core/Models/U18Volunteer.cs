@@ -4,18 +4,20 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Core.Models;
 
-public class User
+public class U18Volunteer
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     [BsonElement("_id")]
     public string? Id { get; set; }
-
-    public string Username { get; set; } = "";
-
-    public string Password { get; set; } = "";
-
-    public string Email { get; set; } = "";
-
-    public string? Role { get; set; } = "User";
+    
+    public string Name { get; set; }
+    
+    //public string GuardianSignature {get; set;}
+    
+    public string KraevnummerU18 { get; set; }
+    
+    public User user { get; set; }
+    
+    
 }

@@ -4,18 +4,15 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Core.Models;
 
-public class User
+public class Week
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     [BsonElement("_id")]
     public string? Id { get; set; }
-
-    public string Username { get; set; } = "";
-
-    public string Password { get; set; } = "";
-
-    public string Email { get; set; } = "";
-
-    public string? Role { get; set; } = "User";
+    
+    public string WeekNumber { get; set; }
+    
+    public string Location { get; set; }
+    
 }
