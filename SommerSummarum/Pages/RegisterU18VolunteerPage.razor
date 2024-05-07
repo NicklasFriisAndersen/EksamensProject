@@ -37,12 +37,12 @@
 
     protected override async Task OnInitializedAsync()
     {
+        aEditContext = new EditContext(u18VolunteerItem);
         var userInfoJson = await localStore.GetItemAsStringAsync("userinfo");
         if (!string.IsNullOrEmpty(userInfoJson))
         {
             user = JsonSerializer.Deserialize<User>(userInfoJson);
         }
-        aEditContext = new EditContext(u18VolunteerItem);
     }
 
     public async Task HandleValidSubmit()
@@ -52,6 +52,8 @@
 
     public async Task AddU18Volunteer()
     {
+        u18VolunteerItem.user = user;
+        u18VolunteerItem.DateAdded = DateTime.Now;
         await Http.PostAsJsonAsync<U18Volunteer>($"{serverUrl}/api/u18volunteer/add", u18VolunteerItem);
         Console.WriteLine("Klient: add " + u18VolunteerItem.Name + " " + u18VolunteerItem.KraevnummerU18);
         u18VolunteerItem = new();

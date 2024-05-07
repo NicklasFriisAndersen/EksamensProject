@@ -11,13 +11,14 @@ public class U18Volunteer
     [BsonElement("_id")]
     public string? Id { get; set; }
     
-    public string Name { get; set; }
+    public string? Name { get; set; }
     
     //public string GuardianSignature {get; set;}
     
-    public string KraevnummerU18 { get; set; }
+    public string? KraevnummerU18 { get; set; }
     
-    public User user { get; set; }
+    public User? user { get; set; }
     
+    public DateTime? DateAdded { get; set; }
     
 }
