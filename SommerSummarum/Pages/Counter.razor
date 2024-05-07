@@ -1,5 +1,6 @@
 ﻿@page "/counter"
 @using Core.Models;
+@inject NavigationManager navigationManager
 @inject HttpClient Http;
 
 
@@ -23,10 +24,10 @@
         {
             <tr>
                 @*<td>@item.Title</td>
-                <td>@item.Price</td>
-                <td>@item.Description</td>
-                <td>@item.DatePosted.DayOfWeek</td>
-                <td>@item.Category</td>*@
+                    <td>@item.Price</td>
+                    <td>@item.Description</td>
+                    <td>@item.DatePosted.DayOfWeek</td>
+                    <td>@item.Category</td>*@
             </tr>
         }
     </tbody>
@@ -38,9 +39,9 @@
     private RegisteredChild[]? registeredChildList = new RegisteredChild[0];
 
 
-    protected override async Task OnInitializedAsync()
-    {
-        registeredChildList = await Http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/listing/getall");
-    }
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    registeredChildList = await Http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/listing/getall");
+    //}
 }
 
