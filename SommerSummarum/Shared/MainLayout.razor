@@ -1,4 +1,10 @@
 ﻿@inherits LayoutComponentBase
+@using Core.Models
+@inject HttpClient Http;
+@inject NavigationManager NavigationManager 
+@inject Blazored.LocalStorage.ILocalStorageService localstore
+@using MongoDB.Bson.Serialization
+@using System.Text.Json
 
 <div class="page">
     <div class="sidebar">
@@ -6,13 +12,52 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
+        @if (user == null)
+        {
+            <div class="top-row px-4">
+                <img src="Images/LogoGrey.png" alt="Logo" class="logo">
+                <a href="https://localhost:7168/loginpage">Login</a>
+            </div>
+        }
+        else
+        {
+            <div class="top-row px-4">
+                <img src="Images/LogoGrey.png" alt="Logo" class="logo">
+                <a href="#" @onclick="ClearLocalStorage">Sign out</a>
+            </div>
+        }
+        
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+
+@code
+{
+    private User? user;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var userInfoJson = await localstore.GetItemAsStringAsync("userinfo");
+        if (!string.IsNullOrEmpty(userInfoJson))
+        {
+            try
+            {
+                user = JsonSerializer.Deserialize<User>(userInfoJson);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deserializing user info: {ex.Message}");
+            }
+        }
+    }
+
+    public async void ClearLocalStorage()
+    {
+        await localstore.RemoveItemAsync("userinfo");  
+        user = null;  
+        StateHasChanged();
+    }
+}
 
