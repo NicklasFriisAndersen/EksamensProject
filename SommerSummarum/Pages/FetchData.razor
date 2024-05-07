@@ -6,7 +6,7 @@
 
 <h1>Weather forecast</h1>
 
-<EditForm Model="childItem" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+<EditForm Model="childItem" class="row p-3" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="col-md-12 mb-3">
@@ -22,59 +22,102 @@
         <InputText id="ClothingSize" @bind-Value="childItem.ClothingSize" class="form-control" />
     </div>
     <div class="col-md-12 mb-3">
-        <label for="Comment">Ekstra Kommentar </label>
+        <label for="Comment">Ekstra Kommentar</label>
         <InputText id="Comment" @bind-Value="childItem.Comment" class="form-control" />
     </div>
-
     <div class="col-md-6 mb-3">
-        <label for="Krævnr">Krævnr </label>
+        <label for="Krævnr">Krævnr</label>
         <InputNumber id="Krævnr" @bind-Value="childItem.Krævnr" class="form-control" />
     </div>
     <div class="col-md-6 mb-3">
-        <label for="Hobbies">Hobbyer </label>
+        <label for="Hobbies">Hobbyer</label>
         <InputText id="Hobbies" @bind-Value="childItem.Hobbies" class="form-control" />
     </div>
     <div class="col-md-12 mb-3">
-        <label for="Signature">Signature </label>
+        <label for="Signature">Signature</label>
         <InputText id="Signature" @bind-Value="childItem.Signature" class="form-control" />
     </div>
     <div class="col-md-6 mb-3">
         <label for="BeenBefore">Har været før</label>
         <InputCheckbox id="BeenBefore" @bind-Value="childItem.BeenBefore" class="form-check-input" />
     </div>
-
-
-
     <div class="col-12 mb-3">
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button class="btn btn-primary" @onclick="() => OpenConfirmationDialog(childItem)">Ansøg</button>
     </div>
 </EditForm>
 
-@code {
+<ModalDialog @ref="ConfirmationDialog" Title="Confirm register">
+    <div class="row p-3">
+        <div class="col-md-12 mb-3">
+            <strong>Navn:</strong>
+            <p>@currentRegisteredChild?.Name</p>
+        </div>
+        <div class="col-md-12 mb-3">
+            <strong>Alder:</strong>
+            <p>@currentRegisteredChild?.Age</p>
+        </div>
+        <div class="col-md-12 mb-3">
+            <strong>T-shirt størrelse:</strong>
+            <p>@currentRegisteredChild?.ClothingSize</p>
+        </div>
+        <div class="col-md-12 mb-3">
+            <strong>Kommentarer:</strong>
+            <p>@currentRegisteredChild?.Comment</p>
+        </div>
+        <div class="col-md-12 mb-3">
+            <strong>Har deltage før:</strong>
+            <p>@currentRegisteredChild?.BeenBefore</p>
+        </div>
+        <div class="col-md-12 mb-3">
+            <strong>Hobbyer:</strong>
+            <p>@currentRegisteredChild?.Hobbies</p>
+        </div>
+        <div class="col-md-12 mb-3">
+            <strong>Underskrift:</strong>
+            <p>@currentRegisteredChild?.Signature</p>
+        </div>
+        <div class="col-md-12 mb-3">
+            <strong>Krævnr:</strong>
+            <p>@currentRegisteredChild?.Krævnr</p>
+        </div>
+        <div class="col-12 mb-3">
+            <button class="btn btn-success" @onclick="AddChildItem">Ansøg</button>
+            <!--<button class="btn btn-secondary" @onclick="() => ConfirmationDialog.Close()">Annuller</button>-->
+        </div>
+    </div>
+</ModalDialog>
 
+@code {
     private string serverUrl = "https://localhost:7016";
 
     private EditContext? aEditContext;
 
     private RegisteredChild childItem = new RegisteredChild();
+    private RegisteredChild? currentRegisteredChild;
+    private ModalDialog ConfirmationDialog;
 
     protected override void OnInitialized()
     {
         aEditContext = new EditContext(childItem);
     }
 
+    public void OpenConfirmationDialog(RegisteredChild child)
+    {
+        currentRegisteredChild = child;
+        ConfirmationDialog.Open();
+    }
 
     public async Task HandleValidSubmit()
     {
-        await AddListingItem();
-        //listingList = await Http.GetFromJsonAsync<Listing[]>($"{serverUrl}/api/listing/getall");
+        OpenConfirmationDialog(childItem);
     }
 
-    private async Task AddListingItem()
+    private async Task AddChildItem()
     {
-        await Http.PostAsJsonAsync<RegisteredChild>($"{serverUrl}/api/registeredchildren/add", childItem);
-        Console.WriteLine("Klient: add " + childItem.Name);
-        childItem = new(); // clear fields in form
+        await Http.PostAsJsonAsync($"{serverUrl}/api/registeredchildren/add", childItem);
+        Console.WriteLine("Client: add " + childItem.Name);
+        childItem = new RegisteredChild(); // clear fields in form
+        aEditContext = new EditContext(childItem); // Reset the edit context
+        ConfirmationDialog.Close();
     }
 }
-
