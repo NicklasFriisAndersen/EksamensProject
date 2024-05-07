@@ -1,19 +1,46 @@
 ﻿@page "/counter"
+@using Core.Models;
+@inject HttpClient Http;
+
 
 <PageTitle>Counter</PageTitle>
 
 <h1>Counter</h1>
 
-<p role="status">Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Date Posted</th>
+            <th>Category</th>
+            <th>Purchase</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in registeredChildList ?? new RegisteredChild[0])
+        {
+            <tr>
+                @*<td>@item.Title</td>
+                <td>@item.Price</td>
+                <td>@item.Description</td>
+                <td>@item.DatePosted.DayOfWeek</td>
+                <td>@item.Category</td>*@
+            </tr>
+        }
+    </tbody>
+</table>
 
 @code {
-    private int currentCount = 0;
+    private string serverUrl = "https://localhost:7016";
 
-    private void IncrementCount()
+    private RegisteredChild[]? registeredChildList = new RegisteredChild[0];
+
+
+    protected override async Task OnInitializedAsync()
     {
-        currentCount++;
+        registeredChildList = await Http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/listing/getall");
     }
 }
 

@@ -8,6 +8,9 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddSingleton<IRegisteredChildRepository, RegisteredChildRepository>();
+
+
         // Add services to the container.
 
         builder.Services.AddControllers();
@@ -28,6 +31,8 @@ public class Program
         // Configure the HTTP request pipeline.
 
         app.UseHttpsRedirection();
+
+        app.UseCors("policy");
 
         app.UseAuthorization();
 
