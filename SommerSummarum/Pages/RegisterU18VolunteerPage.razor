@@ -1,0 +1,63 @@
+@inject NavigationManager navigationManager;
+@inject HttpClient Http;
+@inject Blazored.LocalStorage.ILocalStorageService localStore
+@using Core.Models
+@using System.Text.Json
+@page "/RegisterU18VolunteerPage"
+<h3>RegisterU18VolunteerPage</h3>
+
+<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="col-md-12 mb-3">
+        <label for="Username">Username</label>
+        <InputText id="Username" @bind-Value="userItem.Username" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Password">Password</label>
+        <InputText id="Password" @bind-Value="userItem.Password" class="form-control" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Email">Email</label>
+        <InputText id="Email" @bind-Value="userItem.Email" class="form-control" />
+    </div>
+
+    <div class="col-12 mb-3">
+        <button type="submit" class="btn btn-primary">Create Account</button>
+    </div>
+</EditForm>
+
+
+
+
+@code {
+    private User? user;
+    
+    private EditContext? aEditContext;
+
+    private string serverUrl = "https://localhost:7016";
+
+    private U18Volunteer u18VolunteerItem = new U18Volunteer();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var userInfoJson = await localStore.GetItemAsStringAsync("userinfo");
+        if (!string.IsNullOrEmpty(userInfoJson))
+        {
+            user = JsonSerializer.Deserialize<User>(userInfoJson);
+        }
+        aEditContext = new EditContext(u18VolunteerItem);
+    }
+
+    public async Task HandleValidSubmit()
+    {
+        await AddU18Volunteer();
+    }
+
+    public async Task AddU18Volunteer()
+    {
+        await Http.PostAsJsonAsync<U18Volunteer>($"{serverUrl}/api/u18volunteer/add", u18VolunteerItem);
+        Console.WriteLine("Klient: add " + u18VolunteerItem.Name + " " + u18VolunteerItem.KraevnummerU18);
+        u18VolunteerItem = new();
+    }
+}
