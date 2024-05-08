@@ -10,7 +10,8 @@
 
 <div class="form-group">
     <label for="kraevnummeru18">Søg efter Krævnummer</label>
-    <input id="kraevnummeru18" @bind="kraevnummeru18"/>
+    <input id="kraevnummeru18" @bind="kraevnummeru18" class="form-control" />
+    <button class="btn btn-primary" @onclick="FilterByKraevnummerU18">Søg</button>
 </div>
 
 <table class="table table-striped">
@@ -57,9 +58,16 @@
 
     private async Task FilterByKraevnummerU18()
     {
-        var url = $"{serverUrl}/api/u18volunteer/getbykraevu18?kraevnummerU18={U18Volunteer.KraevnummerU18}";
-        U18VolunteerList =  Http.Get
+        // Build the URL with the search query
+        var url = $"{serverUrl}/api/u18volunteer/getbykraevu18?kraevnummerU18={kraevnummeru18}";
+
+        // Fetch data from the API and deserialize into a U18Volunteer array
+        U18VolunteerList = await Http.GetFromJsonAsync<U18Volunteer[]>(url);
+
+        // Trigger a UI refresh to show the updated volunteer list
+        StateHasChanged();
     }
+
     
     
 }
