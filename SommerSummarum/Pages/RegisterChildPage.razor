@@ -11,7 +11,6 @@
 
 <h1>Weather forecast</h1>
 
-@*tilføj barn*@
 <EditForm Model="childItem" class="row p-3" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -171,12 +170,6 @@
 
 @code {
     private string serverUrl = "https://localhost:7016";
-
-    string selected1Date = "";
-    string selected2Date = "";
-
-    string selected1Day = "";
-    string selected2Day = "";
 
     private EditContext? aEditContext;
 
