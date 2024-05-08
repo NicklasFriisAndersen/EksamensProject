@@ -1,8 +1,10 @@
-﻿@page "/fetchdata"
+﻿@page "/registerchild"
 @using Core.Models;
 @using System.Text.Json
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStore
+@using Blazorise.SignaturePad
+@using ValidationSummary = Microsoft.AspNetCore.Components.Forms.ValidationSummary
 
 
 <PageTitle>Weather forecast</PageTitle>
@@ -37,14 +39,12 @@
         <label for="Hobbies">Hobbyer</label>
         <InputText id="Hobbies" @bind-Value="childItem.Hobbies" class="form-control" />
     </div>
-    <div class="col-md-12 mb-3">
-        <label for="Signature">Underskrift </label>
-        <InputText id="Signature" @bind-Value="childItem.Signature" class="form-control" />
-    </div>
     <div class="col-md-6 mb-3">
         <label for="BeenBefore">Har været før</label>
         <InputCheckbox id="BeenBefore" @bind-Value="childItem.BeenBefore" class="form-check-input" />
     </div>
+    <SignaturePad CanvasWidth="600" CanvasHeight="400" @bind-Value="@childItem.GuardianSignature" Class="signature-pad" Style="width: 100%; height: 300px; outline-style: dotted"></SignaturePad>
+
     <div class="col-12 mb-3">
         <button class="btn btn-primary" @onclick="() => OpenConfirmationDialog(childItem)">Ansøg</button>
     </div>
@@ -78,7 +78,7 @@
         </div>
         <div class="col-md-12 mb-3">
             <strong>Underskrift:</strong>
-            <p>@currentRegisteredChild?.Signature</p>
+            <p>@currentRegisteredChild?.GuardianSignature</p>
         </div>
         <div class="col-md-12 mb-3">
             <strong>Krævnr:</strong>
@@ -131,7 +131,7 @@
         Console.WriteLine("Klient: add " + childItem.Name);
         childItem = new(); // clear fields in form
         aEditContext = new EditContext(childItem); // Reset the edit context
-                ConfirmationDialog.Close();
+        ConfirmationDialog.Close();
 
     }
 

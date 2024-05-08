@@ -24,7 +24,7 @@ namespace Core.Models
 
         public string? Hobbies { get; set; } = " ";
 
-        public string? Signature { get; set; } = " ";
+        public byte[]? GuardianSignature { get; set; }
 
         public int? Krævnr { get; set; } = 0;
 
