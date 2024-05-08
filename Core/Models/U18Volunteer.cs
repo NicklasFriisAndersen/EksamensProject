@@ -13,7 +13,7 @@ public class U18Volunteer
     
     public string? Name { get; set; }
     
-    //public string GuardianSignature {get; set;}
+    public byte[]? GuardianSignature {get; set;}
     
     public string? KraevnummerU18 { get; set; }
     

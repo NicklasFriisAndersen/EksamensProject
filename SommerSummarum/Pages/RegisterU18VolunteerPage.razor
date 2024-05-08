@@ -3,13 +3,16 @@
 @inject Blazored.LocalStorage.ILocalStorageService localStore
 @using Core.Models
 @using System.Text.Json
+@using Blazorise.SignaturePad
+@using ValidationSummary = Microsoft.AspNetCore.Components.Forms.ValidationSummary
+
 @page "/RegisterU18VolunteerPage"
 <h3>RegisterU18VolunteerPage</h3>
 
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    <div class="col-md-12 mb-3">
+    <div class="col-md-6 mb-3">
         <label for="Navn">Navn</label>
         <InputText id="Navn" @bind-Value="u18VolunteerItem.Name" class="form-control" />
     </div>
@@ -17,6 +20,15 @@
         <label for="Kraevnummer">Krævnummer</label>
         <InputText id="Kraevnummer" @bind-Value="u18VolunteerItem.KraevnummerU18" class="form-control" />
     </div>
+    <div>
+        <label>Underskrift fra værge</label>
+        <br/>
+        <SignaturePad CanvasWidth="600" CanvasHeight="400" @bind-Value="@u18VolunteerItem.GuardianSignature" Class="signature-pad" Style="width: 100%; height: 300px; outline-style: dotted"></SignaturePad>
+
+
+    </div>
+    
+  
    
     <div class="col-12 mb-3">
         <button type="submit" class="btn btn-primary">Tilmeld frivillig under 18</button>

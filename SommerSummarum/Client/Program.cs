@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Blazored.LocalStorage;
 using SommerSummarum;
+using Blazorise;
+using Blazorise.Bootstrap; // or any other framework provider
+using Blazorise.Icons.FontAwesome;
 
 namespace SommerSummarum;
 
@@ -17,6 +20,14 @@ public class Program
 
         builder.Services.AddBlazoredLocalStorage();
         
+        builder.Services
+            .AddBlazorise(options =>
+            {
+                options.Immediate = true; // Optional, change based on your needs
+            })
+            .AddBootstrapProviders()
+            .AddFontAwesomeIcons(); // Optional, change based on your needs
+
         await builder.Build().RunAsync();
     }
 }
