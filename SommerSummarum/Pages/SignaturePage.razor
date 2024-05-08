@@ -1,0 +1,65 @@
+@inject Blazored.LocalStorage.ILocalStorageService localStore
+@using Core.Models
+@using System.Text.Json
+@inject HttpClient Http
+@using System.Net
+@using Blazorise.SignaturePad
+
+@page "/SignaturePage"
+<h3>SignaturePage</h3>
+
+<div class="form-group">
+    <label for="kraevnummeru18">Søg efter Krævnummer</label>
+    <input id="kraevnummeru18" @bind="kraevnummeru18"/>
+</div>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Navn</th>
+        <th>Krævnummer</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in U18VolunteerList ?? new U18Volunteer[0])
+    {
+        <tr>
+            <td>@item.user.Username</td>
+            <td>@item.KraevnummerU18</td>
+            <td>@item.user.Email</td>
+        </tr>
+    }
+    
+    
+    </tbody>
+
+
+</table>
+
+@code {
+    private User? user;
+
+    private string kraevnummeru18;
+    
+    private string serverUrl = "https://localhost:7016";
+
+    private U18Volunteer[]? U18VolunteerList = new U18Volunteer[0];
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var userInfoJson = await localStore.GetItemAsStringAsync("userinfo");
+        if (!string.IsNullOrEmpty(userInfoJson))
+        {
+            user = JsonSerializer.Deserialize<User>(userInfoJson);
+        }
+    }
+
+    private async Task FilterByKraevnummerU18()
+    {
+        var url = $"{serverUrl}/api/u18volunteer/getbykraevu18?kraevnummerU18={U18Volunteer.KraevnummerU18}";
+        U18VolunteerList =  Http.Get
+    }
+    
+    
+}

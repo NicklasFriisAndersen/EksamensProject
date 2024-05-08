@@ -25,4 +25,12 @@ public class U18VolunteerController : ControllerBase
     {
         u18repo.insertOneU18Volunteer(u18Volunteer);
     }
+
+    [HttpGet]
+    [Route("getbykraevu18")]
+    public IEnumerable<U18Volunteer> GetAllByKraevnummerU18([FromQuery] string kraevnummerU18)
+    {
+        return u18repo.sortSignatureByU18Kraevnummer(kraevnummerU18);
+    }
+    
 }
