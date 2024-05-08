@@ -28,6 +28,10 @@ namespace Core.Models
 
         public int? Krævnr { get; set; } = 0;
 
+        public Priority? FirstPriority { get; set; }
+
+        public Priority? SecondPriority { get; set; }
+
         public DateTime DateAdded { get; set; }
 
         public User? User { get; set; }

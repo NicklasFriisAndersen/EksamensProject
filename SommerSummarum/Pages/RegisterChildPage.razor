@@ -45,14 +45,14 @@
         <label for="Priority1">1. Prioritet</label>
 
         <!-- Vælg ugenummer-->
-        <InputSelect @bind-Value="selected1Date" class="form-control">
+        <InputSelect @bind-Value="firstPriority.Week" class="form-control">
             @foreach (var item in periodList)
             {
-                <option value="Dag1">@item.Week</option>
+                <option value="@item.Week">@item.Week</option>
             }
         </InputSelect>
         <!-- Vælg dag, viser ikke gentagne værdier-->
-        <InputSelect @bind-Value="selected1Day" class="form-control">
+        <InputSelect @bind-Value="firstPriority.Day" class="form-control">
             @{
                 var displayedDays = new List<string>();
                 foreach (var item in periodList)
@@ -75,14 +75,14 @@
         <label for="Priority1">2. Prioritet</label>
 
         <!-- Vælg ugenummer-->
-        <InputSelect @bind-Value="selected2Date" class="form-control">
+        <InputSelect @bind-Value="secondPriority.Week" class="form-control">
             @foreach (var item in periodList)
             {
-                <option value="Dag1">@item.Week</option>
+                <option value="@item.Week">@item.Week</option>
             }
         </InputSelect>
         <!-- Vælg dag, viser ikke gentagne værdier-->
-        <InputSelect @bind-Value="selected2Day" class="form-control">
+        <InputSelect @bind-Value="secondPriority.Day" class="form-control">
             @{
                 var displayedDays = new List<string>();
                 foreach (var item in periodList)
@@ -101,18 +101,23 @@
     </div>
 
     <!-- Checkbokse-->
-    <div class="col-md-6 mb-3">
-        <label for="BeenBefore">Har været før</label>
+    <div class="col-md-12 mb-3">
         <InputCheckbox id="BeenBefore" @bind-Value="childItem.BeenBefore" class="form-check-input" />
+        <label for="BeenBefore">Mit barn har været i Cirkus Summarum's pasningsordning før</label>
     </div>
-    <div class="col-md-6 mb-3">
-        <label for="IsVolunteering">Jeg deltager</label>
+
+
+    <div class="col-md-12 mb-3">
         <InputCheckbox id="IsVolunteering" @bind-Value="isVolunteering" class="form-check-input" />
+        <label for="IsVolunteering">Jeg har selv været inde og oprette mig selv som frivilig på Cirkus Summarum</label>
+
         @if (showVolunteerError)
         {
-            <p class="text-danger">Du skal være frivillig for at registrere dit barn.</p> <!-- Error message in Danish -->
+            <p class="text-danger">Du skal selv allerede være registreret som frivillig for at registrere dit barn.</p>
         }
     </div>
+
+    <!-- Underskrift-->
     <div>
         <label>Underskrift fra værge</label>
         <br />
@@ -179,6 +184,10 @@
 
     private List<Period>? periodList = new();
 
+    private bool showVolunteerError = false;
+
+    private Priority firstPriority = new Priority();
+    private Priority secondPriority = new Priority();
 
     private RegisteredChild childItem = new RegisteredChild();
     private RegisteredChild? currentRegisteredChild;
@@ -208,8 +217,6 @@
         ConfirmationDialog.Open();
     }
 
-    private bool showVolunteerError = false;
-
     public void HandleValidSubmit()
     {
         if (isVolunteering)
@@ -221,7 +228,6 @@
         {
             // If not volunteering, show an error and do not open the dialog
             showVolunteerError = true;
-            Console.WriteLine("Error: You must agree to volunteer to register your child.");
         }
     }
 
@@ -229,8 +235,10 @@
     {
         childItem.User = user;
         childItem.DateAdded = DateTime.Now;
+        childItem.FirstPriority = firstPriority;
+        childItem.SecondPriority = secondPriority;
+
         await Http.PostAsJsonAsync<RegisteredChild>($"{serverUrl}/api/registeredchildren/add", childItem);
-        Console.WriteLine("Klient: add " + childItem.Name);
         childItem = new(); // clear fields in form
         aEditContext = new EditContext(childItem); // Reset the edit context
         ConfirmationDialog.Close();
