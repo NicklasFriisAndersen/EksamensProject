@@ -39,10 +39,74 @@
         <label for="Hobbies">Hobbyer</label>
         <InputText id="Hobbies" @bind-Value="childItem.Hobbies" class="form-control" />
     </div>
+
+    <!-- Første prioritet-->
+    <div class="col-md-3 mb-3">
+        <label for="Priority1">1. Prioritet</label>
+
+        <!-- Vælg ugenummer-->
+        <InputSelect @bind-Value="selected1Date" class="form-control">
+            @foreach (var item in periodList)
+            {
+                <option value="Dag1">@item.Week</option>
+            }
+        </InputSelect>
+        <!-- Vælg dag, viser ikke gentagne værdier-->
+        <InputSelect @bind-Value="selected1Day" class="form-control">
+            @{
+                var displayedDays = new List<string>();
+                foreach (var item in periodList)
+                {
+                    foreach (var day in item.Days)
+                    {
+                        if (!displayedDays.Contains(day))
+                        {
+                            displayedDays.Add(day);
+                            <option value="@day">@day</option>
+                        }
+                    }
+                }
+            }
+        </InputSelect>
+    </div>
+
+    <!-- Anden prioritet-->
+    <div class="col-md-3 mb-3">
+        <label for="Priority1">2. Prioritet</label>
+
+        <!-- Vælg ugenummer-->
+        <InputSelect @bind-Value="selected2Date" class="form-control">
+            @foreach (var item in periodList)
+            {
+                <option value="Dag1">@item.Week</option>
+            }
+        </InputSelect>
+        <!-- Vælg dag, viser ikke gentagne værdier-->
+        <InputSelect @bind-Value="selected2Day" class="form-control">
+            @{
+                var displayedDays = new List<string>();
+                foreach (var item in periodList)
+                {
+                    foreach (var day in item.Days)
+                    {
+                        if (!displayedDays.Contains(day))
+                        {
+                            displayedDays.Add(day);
+                            <option value="@day">@day</option>
+                        }
+                    }
+                }
+            }
+        </InputSelect>
+    </div>
+
+    <!-- Checkbokse-->
     <div class="col-md-6 mb-3">
         <label for="BeenBefore">Har været før</label>
         <InputCheckbox id="BeenBefore" @bind-Value="childItem.BeenBefore" class="form-check-input" />
     </div>
+
+    <!-- Underskrift-->
     <div>
         <label>Underskrift fra værge</label>
         <br />
@@ -97,9 +161,18 @@
 @code {
     private string serverUrl = "https://localhost:7016";
 
+    string selected1Date = "";
+    string selected2Date = "";
+
+    string selected1Day = "";
+    string selected2Day = "";
+
     private EditContext? aEditContext;
 
     private User? user;
+
+    private List<Period>? periodList = new();
+
 
     private RegisteredChild childItem = new RegisteredChild();
     private RegisteredChild? currentRegisteredChild;
@@ -112,6 +185,13 @@
         if (!string.IsNullOrEmpty(userInfoJson))
         {
             user = JsonSerializer.Deserialize<User>(userInfoJson);
+        }
+        periodList = await Http.GetFromJsonAsync<List<Period>>($"{serverUrl}/api/period/getAll");
+
+        foreach (var item in periodList)
+        {
+            Console.WriteLine(item.Week);
+
         }
     }
 

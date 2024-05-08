@@ -10,8 +10,10 @@ public class Period
     [BsonRepresentation(BsonType.ObjectId)]
     [BsonElement("_id")]
     public string? Id { get; set; }
-    
-    public Week week { get; set; }
-    
-    public List<DayOption> DayOption { get; set; }
+
+    public string Week { get; set; }
+
+    public string Location { get; set; }
+
+    public List<string> Days { get; set; }
 }

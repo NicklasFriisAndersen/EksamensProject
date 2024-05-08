@@ -16,6 +16,8 @@ public class Program
         builder.Services.AddSingleton<ILoginRepository, LoginRepository>();
         builder.Services.AddSingleton<IUserrepository, UserRepository>();
         builder.Services.AddSingleton<IU18VolunteerRepository, U18VolunteerRepository>();
+        builder.Services.AddSingleton<IPeriodRepository, PeriodRepository>();
+
 
         builder.Services.AddControllers();
 
