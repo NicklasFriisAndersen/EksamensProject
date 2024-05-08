@@ -43,13 +43,21 @@
         <label for="BeenBefore">Har været før</label>
         <InputCheckbox id="BeenBefore" @bind-Value="childItem.BeenBefore" class="form-check-input" />
     </div>
+    <div class="col-md-6 mb-3">
+        <label for="IsVolunteering">Jeg deltager</label>
+        <InputCheckbox id="IsVolunteering" @bind-Value="isVolunteering" class="form-check-input" />
+        @if (showVolunteerError)
+        {
+            <p class="text-danger">Du skal være frivillig for at registrere dit barn.</p> <!-- Error message in Danish -->
+        }
+    </div>
     <div>
         <label>Underskrift fra værge</label>
         <br />
         <SignaturePad CanvasWidth="600" CanvasHeight="400" @bind-Value="@childItem.GuardianSignature" Class="signature-pad" Style="width: 100%; height: 300px; outline-style: dotted"></SignaturePad>
     </div>
     <div class="col-12 mb-3">
-        <button class="btn btn-primary" @onclick="() => OpenConfirmationDialog(childItem)">Ansøg</button>
+        <button class="btn btn-primary" @onclick="() => HandleValidSubmit()">Ansøg</button>
     </div>
 </EditForm>
 
@@ -104,6 +112,7 @@
     private RegisteredChild childItem = new RegisteredChild();
     private RegisteredChild? currentRegisteredChild;
     private ModalDialog ConfirmationDialog;
+    public bool isVolunteering;
 
     protected override async Task OnInitializedAsync()
     {
@@ -121,9 +130,21 @@
         ConfirmationDialog.Open();
     }
 
-    public async Task HandleValidSubmit()
+    private bool showVolunteerError = false;
+
+    public void HandleValidSubmit()
     {
-        OpenConfirmationDialog(childItem);
+        if (isVolunteering)
+        {
+            showVolunteerError = false;
+            OpenConfirmationDialog(childItem); // Only open the dialog if volunteering is true
+        }
+        else
+        {
+            // If not volunteering, show an error and do not open the dialog
+            showVolunteerError = true;
+            Console.WriteLine("Error: You must agree to volunteer to register your child.");
+        }
     }
 
     private async Task AddChildItem()
