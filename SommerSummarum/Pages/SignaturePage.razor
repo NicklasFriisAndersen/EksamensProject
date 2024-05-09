@@ -8,11 +8,15 @@
 @page "/SignaturePage"
 <h3>SignaturePage</h3>
 
-<div class="form-group">
-    <label for="kraevnummeru18">Søg efter Krævnummer</label>
-    <input id="kraevnummeru18" @bind="kraevnummeru18" class="form-control" />
-    <button class="btn btn-primary" @onclick="FilterByKraevnummerU18">Søg</button>
+<div class="col-md-6 mb-3">
+
+    <label for="kraevnummeru18">Søg efter Krævnummer på U18 Frivillig</label>
+    <input id="kraevnummeru18" @bind="kraevnummeru18" class="form-control"/>
+
+    <button class="btn btn-primary" @onclick="FilterBoth">Søg</button>
 </div>
+
+
 
 <table class="table table-striped">
     <thead>
@@ -29,24 +33,62 @@
             <td>@item.user.Username</td>
             <td>@item.KraevnummerU18</td>
             <td>@item.user.Email</td>
+            @if (item.GuardianSignature is not null)
+            {
+                <td>
+                    <button class="btn btn-primary" @onclick="() => OpenSignatureDialog(item.GuardianSignature)">Se Signatur</button>
+                </td>
+            }
+           
         </tr>
     }
-    
-    
+    @foreach (var item in RegisteredChildList ?? new RegisteredChild[0])
+    {
+        <tr>
+            <td>@item.User.Username</td>
+            <td>@item.Krævnr</td>
+            <td>@item.User.Email</td>
+            @if (item.GuardianSignature is not null)
+                        {
+                            <td>
+                                <button class="btn btn-primary" @onclick="() => OpenSignatureDialog(item.GuardianSignature)">Se Signatur</button>
+                            </td>
+                        }
+        </tr>
+    }
+
+
     </tbody>
 
 
 </table>
 
+<ModalDialog @ref="@SignatureDialog" Title="Signatur af værge">
+    <div class="row p-3">
+        <div class="col-md-12 mb-3">
+            <strong>Underskrift:</strong>
+            <img src="data:image/jpg;base64, @Convert.ToBase64String(currentSignature)" width="200"/>
+        </div>
+
+
+    </div>
+</ModalDialog>
+
 @code {
     private User? user;
 
+    private ModalDialog? SignatureDialog;
+
     private string kraevnummeru18;
-    
+
+    private byte[] currentSignature = new byte[0];
+
     private string serverUrl = "https://localhost:7016";
 
     private U18Volunteer[]? U18VolunteerList = new U18Volunteer[0];
-    
+
+    private RegisteredChild[]? RegisteredChildList = new RegisteredChild[0];
+
     protected override async Task OnInitializedAsync()
     {
         var userInfoJson = await localStore.GetItemAsStringAsync("userinfo");
@@ -60,6 +102,7 @@
     {
         // Build the URL with the search query
         var url = $"{serverUrl}/api/u18volunteer/getbykraevu18?kraevnummerU18={kraevnummeru18}";
+        Console.WriteLine(kraevnummeru18);
 
         // Fetch data from the API and deserialize into a U18Volunteer array
         U18VolunteerList = await Http.GetFromJsonAsync<U18Volunteer[]>(url);
@@ -68,6 +111,33 @@
         StateHasChanged();
     }
 
+    private async Task FilterBoth()
+    {
+        await FilterByKraevnummerU18();
+        await FilterByKrævnr();
+        
+    }
+    
+    private async Task FilterByKrævnr()
+    {
+        // Build the URL with the search query
+        var url = $"{serverUrl}/api/registeredchildren/getbykraevnr?kraevnr={kraevnummeru18}";
+        Console.WriteLine(kraevnummeru18);
+
+        // Fetch data from the API and deserialize into a U18Volunteer array
+        RegisteredChildList = await Http.GetFromJsonAsync<RegisteredChild[]>(url);
+
+        // Trigger a UI refresh to show the updated volunteer list
+        StateHasChanged();
+    }
     
     
+
+    private void OpenSignatureDialog(byte[] sigsag)
+    {
+        currentSignature = sigsag;
+        SignatureDialog.Open();
+    }
+
+
 }

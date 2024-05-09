@@ -35,5 +35,11 @@ namespace ServerAPI.Repositories
         {
             collection.InsertOne(item);
         }
+
+        public List<RegisteredChild> FilterChildByKraevNummer(string kraevnr)
+        {
+            var filter = Builders<RegisteredChild>.Filter.Eq("Krævnr", kraevnr);
+            return collection.Find(filter).ToList();
+        }
     }
 }

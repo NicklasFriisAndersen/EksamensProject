@@ -30,6 +30,13 @@ namespace ServerAPI.Controllers
         {
             rRepo.insertOneItem(registeredChild);
         }
+        
+        [HttpGet]
+        [Route("getbykraevnr")]
+        public IEnumerable<RegisteredChild> GetAllByKraevnr([FromQuery] string kraevnr)
+        {
+            return rRepo.FilterChildByKraevNummer(kraevnr);
+        }
     }
 }
 

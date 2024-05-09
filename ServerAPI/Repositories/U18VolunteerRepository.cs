@@ -32,7 +32,7 @@ public class U18VolunteerRepository : IU18VolunteerRepository
 
     public List<U18Volunteer> sortSignatureByU18Kraevnummer(string kraevnummerU18)
     {
-        var filter = Builders<U18Volunteer>.Filter.Eq("U18Volunteer.KraevnummerU18", kraevnummerU18);
+        var filter = Builders<U18Volunteer>.Filter.Eq("KraevnummerU18", kraevnummerU18);
         return collection.Find(filter).ToList();
     }
 }
