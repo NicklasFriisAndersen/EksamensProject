@@ -10,7 +10,7 @@ main {
 
 
 .logo {
-    width: 150px; /* Reduced width to fit in smaller areas */
+    width: 50px; /* Reduced width to fit in smaller areas */
     height: auto; /* Maintain the aspect ratio */
     object-fit: contain; /* Keep the aspect ratio and prevent distortion */
     display: block; /* Block-level element */
