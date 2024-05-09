@@ -8,6 +8,23 @@ main {
     flex: 1;
 }
 
+
+.logo {
+    width: 150px; /* Reduced width to fit in smaller areas */
+    height: auto; /* Maintain the aspect ratio */
+    object-fit: contain; /* Keep the aspect ratio and prevent distortion */
+    display: block; /* Block-level element */
+    margin-left: 10px;
+    margin-right: 10px;
+    z-index: 1;
+    position: absolute; /* Absolute positioning to control where it appears */
+    top: 10px; /* Align to the top with a bit of padding */
+    right: 10px; /* Align to the right with a bit of padding */
+    grid-column: 2; /* Places the logo in the center column */
+}
+
+
+
 .sidebar {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
@@ -15,7 +32,7 @@ main {
 .top-row {
     background-color: #f7f7f7;
     border-bottom: 1px solid #d6d5d5;
-    justify-content: flex-end;
+    justify-content: space-between;
     height: 3.5rem;
     display: flex;
     align-items: center;
