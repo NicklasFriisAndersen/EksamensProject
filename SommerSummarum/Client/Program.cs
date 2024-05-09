@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Blazored.LocalStorage;
 using SommerSummarum;
 using Blazorise;
-using Blazorise.Bootstrap; // or any other framework provider
+using Blazorise.Bootstrap; 
 using Blazorise.Icons.FontAwesome;
+using SommerSummarum.Services;
+
+
 
 namespace SommerSummarum;
 
@@ -18,8 +21,16 @@ public class Program
 
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7016/") });
 
+        builder.Services.AddSingleton(sp => new HttpClient
+        {
+            BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
+        });
+
         builder.Services.AddBlazoredLocalStorage();
-        
+
+        builder.Services.AddSingleton<IRegisterChildService, RegisterChildService>();
+
+
         builder.Services
             .AddBlazorise(options =>
             {

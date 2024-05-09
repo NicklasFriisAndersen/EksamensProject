@@ -32,4 +32,10 @@
   <ItemGroup>
     <Content Remove="Shared\SurveyPrompt %28copy%29.razor" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
 </Project>
