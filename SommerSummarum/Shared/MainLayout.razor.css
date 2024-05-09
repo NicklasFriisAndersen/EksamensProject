@@ -10,7 +10,7 @@ main {
 
 
 .logo {
-    width: 70px; /* Set the width of the image */
+    width: 5rem; /* Set the width of the image */
     object-fit: contain; /* This property makes sure that the aspect ratio is maintained */
     display: block; /* Makes the image a block element */
     margin-left: auto;
