@@ -10,17 +10,11 @@ main {
 
 
 .logo {
-    width: 50px; /* Reduced width to fit in smaller areas */
-    height: auto; /* Maintain the aspect ratio */
-    object-fit: contain; /* Keep the aspect ratio and prevent distortion */
-    display: block; /* Block-level element */
-    margin-left: 10px;
-    margin-right: 10px;
-    z-index: 1;
-    position: absolute; /* Absolute positioning to control where it appears */
-    top: 10px; /* Align to the top with a bit of padding */
-    right: 10px; /* Align to the right with a bit of padding */
-    grid-column: 2; /* Places the logo in the center column */
+    width: 70px; /* Set the width of the image */
+    object-fit: contain; /* This property makes sure that the aspect ratio is maintained */
+    display: block; /* Makes the image a block element */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
