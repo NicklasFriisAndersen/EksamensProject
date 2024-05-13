@@ -9,6 +9,9 @@
 @using MongoDB.Bson
 @using MongoDB.Bson.Serialization
 @using MongoDB.Driver.Core.Operations
+@using SommerSummarum.Services
+@inject ILoginService loginService
+
 
 <div class="row">
      <!-- Login Section -->
@@ -43,33 +46,24 @@
 @code {
     private string username;
     private string password;
+    
+    [Inject]
+    private ILoginService lService { get; set; }
+    
 
     private async Task HandleLogin()
     {
-        // Construct the login URL with query string parameters
-        var queryString = $"?username={username}&password={password}";
-        var loginUrl = $"api/login/signin{queryString}";
-
-        // Perform GET request
-        var response = await HttpClient.GetAsync(loginUrl);
-
-        if (response.IsSuccessStatusCode)
+        var user = await LoginService.LoginAsync(username, password);
+        if (user == null)
         {
-            // Redirect to profile page upon successful login
-            NavigationManager.NavigateTo("/ProfilePage", forceLoad: true);
-            string responseJson = await response.Content.ReadAsStringAsync();
-            //User? user = JsonSerializer.Deserialize<User>(responseJson);
-            User? user = BsonSerializer.Deserialize<User>(responseJson);
-            Console.WriteLine(responseJson);
-
-            await localStore.SetItemAsync("userinfo", user);
+            Console.WriteLine("Login failed. Please check your credentials.");
         }
         else
         {
-            // Display error message or handle failed login
-            Console.WriteLine("Login failed");
+            Console.WriteLine("Login successful!");
+            // Here, add any logic needed after successful login
+            // For example, navigating to another page or updating UI components
         }
-
     }
     private async Task GotoCreateUser()
     {

@@ -29,6 +29,7 @@ public class Program
         builder.Services.AddBlazoredLocalStorage();
 
         builder.Services.AddSingleton<IRegisterChildService, RegisterChildService>();
+        builder.Services.AddSingleton<ILoginService, LoginService>();
 
 
         builder.Services
