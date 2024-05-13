@@ -55,14 +55,16 @@
 
         if (response.IsSuccessStatusCode)
         {
+            
             // Redirect to profile page upon successful login
-            NavigationManager.NavigateTo("/ProfilePage", forceLoad: true);
+            
             string responseJson = await response.Content.ReadAsStringAsync();
             //User? user = JsonSerializer.Deserialize<User>(responseJson);
             User? user = BsonSerializer.Deserialize<User>(responseJson);
             Console.WriteLine(responseJson);
 
             await localStore.SetItemAsync("userinfo", user);
+            NavigationManager.NavigateTo("/ProfilePage", forceLoad: true);
         }
         else
         {
