@@ -1,6 +1,5 @@
 ﻿@page "/registerchild"
-@using Core.Models
-@using SommerSummarum.Services
+@using Core.Models;
 @using System.Text.Json
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStore
@@ -158,16 +157,16 @@
         {
             <div class="col-md-12 mb-3">
                 <strong>Underskrift:</strong>
-                <img src="data:image/jpg;base64, @Convert.ToBase64String(currentRegisteredChild?.GuardianSignature)" width="200" />
+                <img src="data:image/jpg;base64, @Convert.ToBase64String(currentRegisteredChild?.GuardianSignature)" width="200"/>
             </div>
         }
-
+        
         <div class="col-md-12 mb-3">
             <strong>Krævnr:</strong>
             <p>@currentRegisteredChild?.Krævnr</p>
         </div>
         <div class="col-12 mb-3">
-            <button class="btn btn-success" @onclick="AddChild">Ansøg</button>
+            <button class="btn btn-success" @onclick="AddChildItem">Ansøg</button>
             <!--<button class="btn btn-secondary" @onclick="() => ConfirmationDialog.Close()">Annuller</button>-->
         </div>
     </div>
@@ -191,9 +190,6 @@
     private RegisteredChild? currentRegisteredChild;
     private ModalDialog ConfirmationDialog;
     public bool isVolunteering;
-
-    [Inject]
-    private IRegisterChildService rService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -232,18 +228,18 @@
         }
     }
 
-    public async Task AddChild()
+    private async Task AddChildItem()
     {
         childItem.User = user;
         childItem.DateAdded = DateTime.Now;
         childItem.FirstPriority = firstPriority;
         childItem.SecondPriority = secondPriority;
 
-        await rService.AddChildItem(childItem);
-
+        await Http.PostAsJsonAsync<RegisteredChild>($"{serverUrl}/api/registeredchildren/add", childItem);
         childItem = new(); // clear fields in form
         aEditContext = new EditContext(childItem); // Reset the edit context
         ConfirmationDialog.Close();
+
     }
 
 }
