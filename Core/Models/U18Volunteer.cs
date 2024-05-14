@@ -17,7 +17,11 @@ public class U18Volunteer
     
     public string? KraevnummerU18 { get; set; }
     
+    public string? ParentName { get; set; }
     
+    public string? ParentEmail { get; set; }
+    
+    public string? ParentPhoneNumber { get; set; }
     
     public DateTime? DateAdded { get; set; }
     
