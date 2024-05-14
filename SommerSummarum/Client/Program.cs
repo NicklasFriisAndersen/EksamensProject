@@ -34,6 +34,10 @@ public class Program
         builder.Services.AddSingleton<ILoginService, LoginService>();
 
         builder.Services.AddSingleton<IU18VolunteerService, U18VolunteerService>();
+        builder.Services.AddSingleton<IUserService, UserService>();
+
+        builder.Services.AddSingleton<IPeriodService, PeriodService>();
+
 
 
         builder.Services
