@@ -6,6 +6,9 @@ namespace SommerSummarum.Services
 	public interface IRegisterChildService
 	{
         Task AddChildItem(RegisteredChild registeredChild);
+
+        Task EditChildItem(RegisteredChild registeredChild);
+
     }
 }
 

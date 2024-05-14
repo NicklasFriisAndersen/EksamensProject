@@ -12,7 +12,7 @@ namespace ServerAPI.Repositories
         
         public List<RegisteredChild> FilterChildByKraevNummer(string kraevnr);
 
-        public UpdateResult UpdateAssignedPeriod(string id, string period);
+        public void UpdateAssignedPeriod(RegisteredChild registeredChild);
 
 
     }

@@ -42,15 +42,27 @@ namespace ServerAPI.Repositories
             return collection.Find(filter).ToList();
         }
 
-        public UpdateResult UpdateAssignedPeriod(string id, string period)
+        public void UpdateAssignedPeriod(RegisteredChild registeredChild)
         {
-            var filter = Builders<RegisteredChild>.Filter.Eq("_id", id);
+            var filter = Builders<RegisteredChild>.Filter.Eq("Id", registeredChild.Id);
 
-            var update = Builders<RegisteredChild>.Update.Set("AssignedPeriod", period);
+            var update = Builders<RegisteredChild>.Update
+                .Set(r => r.Name, registeredChild.Name)
+                .Set(r => r.Age, registeredChild.Age)
+                .Set(r => r.ClothingSize, registeredChild.ClothingSize)
+                .Set(r => r.Comment, registeredChild.Comment)
+                .Set(r => r.BeenBefore, registeredChild.BeenBefore)
+                .Set(r => r.Hobbies, registeredChild.Hobbies)
+                .Set(r => r.GuardianSignature, registeredChild.GuardianSignature)
+                .Set(r => r.Krævnr, registeredChild.Krævnr)
+                .Set(r => r.AssignedPeriod, registeredChild.AssignedPeriod)
+                .Set(r => r.FirstPriority, registeredChild.FirstPriority)
+                .Set(r => r.SecondPriority, registeredChild.SecondPriority)
+                .Set(r => r.DateAdded, registeredChild.DateAdded)
+                .Set(r => r.User, registeredChild.User);
 
-            var result = collection.UpdateOne(filter, update);
+            collection.UpdateOne(filter, update);
 
-            return result;
         }
 
 

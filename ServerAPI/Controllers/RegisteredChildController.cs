@@ -37,6 +37,13 @@ namespace ServerAPI.Controllers
         {
             return rRepo.FilterChildByKraevNummer(kraevnr);
         }
+
+        [HttpPost]
+        [Route("edit")]
+        public void editOneItem(RegisteredChild registeredChild)
+        {
+            rRepo.UpdateAssignedPeriod(registeredChild);
+        }
     }
 }
 

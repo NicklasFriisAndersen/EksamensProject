@@ -13,9 +13,12 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Description</th>
+                <th>Navn</th>
+                <th>Alder</th>
+                <th>Kommentar</th>
+                <th>1. Prioritet</th>
+                <th>2. Prioritet</th>
+                <th>Valgt Prioritet</th>
             </tr>
         </thead>
         <tbody>
@@ -25,19 +28,17 @@
                     <td>@item.Name</td>
                     <td>@item.Age</td>
                     <td>@item.Comment</td>
-                    @*<td><button class="btn btn-primary" @onclick="() => OpenPurchaseDialog(item)">Purchase</button></td>*@
+                    <td>@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")</td>
+                    <td>@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</td>
                     <td>
                         <InputSelect @bind-Value="@item.AssignedPeriod" class="form-control">
-                            @foreach (var period in periodList)
-                            {
-                                @foreach (var day in period.Days)
-                                {
-                                    var displayText = $"{period.Week}, {day}";
-                                    <option value="@displayText">@displayText</option>
-                                }
-                            }
+                            <option value="@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")">@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")</option>
+                            <option value="@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")">@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</option>
                         </InputSelect>
                     </td>
+
+                    <td><button class="btn btn-primary" @onclick="() => UpdateChild(item)">Purchase</button></td>
+
                 </tr>
             }
         </tbody>
@@ -47,6 +48,9 @@
 @code {
     [Inject]
     private IPeriodService pService { get; set; }
+
+    [Inject]
+    private IRegisterChildService rService { get; set; }
 
     private string serverUrl = "https://localhost:7016";
 
@@ -72,8 +76,9 @@
         }
     }
 
-    public void UpdateChild()
+    public async void UpdateChild(RegisteredChild registeredChild)
     {
+        await rService.EditChildItem(registeredChild);
     }
 
 }
