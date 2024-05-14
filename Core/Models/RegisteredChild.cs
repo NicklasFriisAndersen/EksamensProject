@@ -26,7 +26,9 @@ namespace Core.Models
 
         public byte[]? GuardianSignature { get; set; }
 
-        public int? Krævnr { get; set; } 
+        public int? Krævnr { get; set; }
+
+        public string? AssignedPeriod { get; set; }
 
         public Priority? FirstPriority { get; set; }
 
