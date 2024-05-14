@@ -1,6 +1,7 @@
 @using Core.Models;
 @inject NavigationManager navigationManager
 @inject HttpClient Http;
+@using SommerSummarum.Services
 
 @page "/CreateUserPage"
 <h3>Create User</h3>
@@ -33,6 +34,9 @@
 
     private User userItem = new User();
 
+    [Inject]
+    private IUserService uService { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         aEditContext = new EditContext(userItem);
@@ -46,10 +50,9 @@
 
     private async Task AddUser()
     {
-        await Http.PostAsJsonAsync<User>($"{serverUrl}/api/user/add", userItem);
-        Console.WriteLine("Klient: add " + userItem.Username + " " + userItem.Email);
-        userItem = new(); // clear fields in form
+        await uService.AddUser(userItem);
     }
+
 
     private async Task NavigateToLoginPage()
     {

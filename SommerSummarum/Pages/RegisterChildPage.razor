@@ -181,6 +181,8 @@
 
     private User? user;
 
+    //private Period[]? periodList;
+
     private List<Period>? periodList = new();
 
     private bool showVolunteerError = false;
@@ -196,6 +198,9 @@
     [Inject]
     private IRegisterChildService rService { get; set; }
 
+    [Inject]
+    private IPeriodService pService { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         aEditContext = new EditContext(childItem);
@@ -204,13 +209,8 @@
         {
             user = JsonSerializer.Deserialize<User>(userInfoJson);
         }
-        periodList = await Http.GetFromJsonAsync<List<Period>>($"{serverUrl}/api/period/getAll");
 
-        foreach (var item in periodList)
-        {
-            Console.WriteLine(item.Week);
-
-        }
+        periodList  = await pService.GetAllPeriod();
     }
 
     public void OpenConfirmationDialog(RegisteredChild child)
