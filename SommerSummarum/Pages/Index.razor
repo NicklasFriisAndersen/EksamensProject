@@ -1,55 +1,10 @@
-﻿@page "/organize"
-@using Blazorise
-@using Blazorise.SignaturePad
-@inject HttpClient Http
-@using Core.Models
+﻿@page "/"
 
-<h3>Organiser Ledige Pladser</h3>
+<PageTitle>Index</PageTitle>
 
-<div class="col-md-12 mb-3">
+<h1>Hello, world!</h1>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in childList ?? new RegisteredChild[0])
-            {
-                <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Age</td>
-                    <td>@item.Comment</td>
-                    @*<td><button class="btn btn-primary" @onclick="() => OpenPurchaseDialog(item)">Purchase</button></td>*@
-                    <td>
-                        <InputSelect @bind-Value="test" class="form-control">
-                            test
-                            <option value="Elektronik">Elektronik</option>
-                            <option value="Clothing">Clothing</option>
-                            <option value="Books">Books</option>
-                        </InputSelect>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+Welcome to your new app.
 
-@code {
-    private string serverUrl = "https://localhost:7016";
+<SurveyPrompt Title="How is Blazor working for you?" />
 
-    private string test = "";
-
-
-    private RegisteredChild[]? childList = new RegisteredChild[0];
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        childList = await Http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/registeredchildren/getall");
-    }
-
-}
