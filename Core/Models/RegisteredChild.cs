@@ -28,7 +28,7 @@ namespace Core.Models
 
         public int? Krævnr { get; set; }
 
-        public string? AssignedPeriod { get; set; } = "";
+        public string? AssignedPeriod { get; set; } = "Ikke Tilføjet";
 
         public Priority? FirstPriority { get; set; }
 
