@@ -46,7 +46,7 @@
 
         <!-- Vælg ugenummer-->
         <InputSelect @bind-Value="firstPriority.Week" class="form-control">
-            <option value="">Select your option</option>
+            <option value="">Vælg Ugenummer</option>
             @foreach (var item in periodList)
             {
                 <option value="@item.Week">@item.Week</option>
@@ -56,8 +56,11 @@
         <InputSelect @bind-Value="firstPriority.Day" class="form-control">
             @{
                 var displayedDays = new List<string>();
+                <option value="">Vælg Periode</option>
+
                 foreach (var item in periodList)
                 {
+
                     foreach (var day in item.Days)
                     {
                         if (!displayedDays.Contains(day))
@@ -77,6 +80,10 @@
 
         <!-- Vælg ugenummer-->
         <InputSelect @bind-Value="secondPriority.Week" class="form-control">
+            <option value="">Vælg Ugenummer</option>
+            <option value="Jeg kan kun i 1. prioritet">Jeg kan kun i 1. prioritet</option>
+
+
             @foreach (var item in periodList)
             {
                 <option value="@item.Week">@item.Week</option>
@@ -85,7 +92,12 @@
         <!-- Vælg dag, viser ikke gentagne værdier-->
         <InputSelect @bind-Value="secondPriority.Day" class="form-control">
             @{
+
                 var displayedDays = new List<string>();
+                <option value="">Vælg Periode</option>
+                <option value="Jeg kan kun i 1. prioritet">Jeg kan kun i 1. prioritet</option>
+
+
                 foreach (var item in periodList)
                 {
                     foreach (var day in item.Days)
@@ -100,33 +112,39 @@
             }
         </InputSelect>
     </div>
-
-    <!-- Checkbokse-->
     <div class="col-md-12 mb-3">
-        <InputCheckbox id="BeenBefore" @bind-Value="childItem.BeenBefore" class="form-check-input" />
-        <label for="BeenBefore">Mit barn har været i Cirkus Summarum's pasningsordning før</label>
-    </div>
 
-
-    <div class="col-md-12 mb-3">
-        <InputCheckbox id="IsVolunteering" @bind-Value="isVolunteering" class="form-check-input" />
-        <label for="IsVolunteering">Jeg har selv været inde og oprette mig selv som frivilig på Cirkus Summarum</label>
-
-        @if (showVolunteerError)
+        @if (showPeriodError)
         {
-            <p class="text-danger">Du skal selv allerede være registreret som frivillig for at registrere dit barn.</p>
+            <p class="text-danger">Du skal vælge en gyldig periode.</p>
         }
     </div>
+        <!-- Checkbokse-->
+        <div class="col-md-12 mb-3">
+            <InputCheckbox id="BeenBefore" @bind-Value="childItem.BeenBefore" class="form-check-input" />
+            <label for="BeenBefore">Mit barn har været i Cirkus Summarum's pasningsordning før</label>
+        </div>
 
-    <!-- Underskrift-->
-    <div>
-        <label>Underskrift fra værge</label>
-        <br />
-        <SignaturePad CanvasWidth="600" CanvasHeight="400" @bind-Value="@childItem.GuardianSignature" Class="signature-pad" Style="width: 100%; height: 300px; outline-style: dotted"></SignaturePad>
-    </div>
-    <div class="col-12 mb-3">
-        <button class="btn btn-primary" @onclick="() => HandleValidSubmit()">Ansøg</button>
-    </div>
+
+        <div class="col-md-12 mb-3">
+            <InputCheckbox id="IsVolunteering" @bind-Value="isVolunteering" class="form-check-input" />
+            <label for="IsVolunteering">Jeg har selv været inde og oprette mig selv som frivilig på Cirkus Summarum</label>
+
+            @if (showVolunteerError)
+            {
+                <p class="text-danger">Du skal selv allerede være registreret som frivillig for at registrere dit barn.</p>
+            }
+        </div>
+
+        <!-- Underskrift-->
+        <div>
+            <label>Underskrift fra værge</label>
+            <br />
+            <SignaturePad CanvasWidth="600" CanvasHeight="400" @bind-Value="@childItem.GuardianSignature" Class="signature-pad" Style="width: 100%; height: 300px; outline-style: dotted"></SignaturePad>
+        </div>
+        <div class="col-12 mb-3">
+            <button class="btn btn-primary" @onclick="() => HandleValidSubmit()">Ansøg</button>
+        </div>
 </EditForm>
 
 <ModalDialog @ref="ConfirmationDialog" Title="Confirm register">
@@ -186,6 +204,8 @@
     private List<Period>? periodList = new();
 
     private bool showVolunteerError = false;
+    private bool showPeriodError = false;
+
 
     private Priority firstPriority = new Priority();
     private Priority secondPriority = new Priority();
@@ -194,6 +214,8 @@
     private RegisteredChild? currentRegisteredChild;
     private ModalDialog ConfirmationDialog;
     public bool isVolunteering;
+
+    public string defaultValue = null;
 
     [Inject]
     private IRegisterChildService rService { get; set; }
@@ -210,7 +232,7 @@
             user = JsonSerializer.Deserialize<User>(userInfoJson);
         }
 
-        periodList  = await pService.GetAllPeriod();
+        periodList = await pService.GetAllPeriod();
     }
 
     public void OpenConfirmationDialog(RegisteredChild child)
@@ -221,16 +243,28 @@
 
     public void HandleValidSubmit()
     {
-        if (isVolunteering)
+        if (firstPriority.Day == null || firstPriority.Week == null || secondPriority.Day == null || secondPriority.Week == null)
         {
-            showVolunteerError = false;
-            OpenConfirmationDialog(childItem); // Only open the dialog if volunteering is true
+            showPeriodError = true;
         }
         else
         {
-            // If not volunteering, show an error and do not open the dialog
-            showVolunteerError = true;
+            showPeriodError = false;
+
+            if (isVolunteering)
+            {
+                showVolunteerError = false;
+
+                OpenConfirmationDialog(childItem); // Only open the dialog if volunteering is true
+            }
+            else
+            {
+                // If not volunteering, show an error and do not open the dialog
+                showVolunteerError = true;
+            }
+
         }
+
     }
 
     public async Task AddChild()
