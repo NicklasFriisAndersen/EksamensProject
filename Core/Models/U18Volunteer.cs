@@ -17,7 +17,7 @@ public class U18Volunteer
     
     public string? KraevnummerU18 { get; set; }
     
-    public User? user { get; set; }
+    
     
     public DateTime? DateAdded { get; set; }
     
