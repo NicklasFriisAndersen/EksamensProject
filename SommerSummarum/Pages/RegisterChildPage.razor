@@ -46,6 +46,7 @@
 
         <!-- Vælg ugenummer-->
         <InputSelect @bind-Value="firstPriority.Week" class="form-control">
+            <option value="">Select your option</option>
             @foreach (var item in periodList)
             {
                 <option value="@item.Week">@item.Week</option>

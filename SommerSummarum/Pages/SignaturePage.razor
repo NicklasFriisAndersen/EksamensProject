@@ -11,7 +11,7 @@
 <div class="col-md-6 mb-3">
 
     <label for="kraevnummeru18">Søg efter Krævnummer på U18 Frivillig</label>
-    <input id="kraevnummeru18" @bind="kraevnummeru18" class="form-control"/>
+    <input id="kraevnummeru18" @bind="kraevnummeru18" class="form-control" placeholder="Indtast krævnummer"/> 
 
     <button class="btn btn-primary" @onclick="FilterBoth">Søg</button>
 </div>
@@ -41,7 +41,6 @@
                     <button class="btn btn-primary" @onclick="() => OpenSignatureDialog(item.GuardianSignature)">Se Signatur</button>
                 </td>
             }
-           
         </tr>
     }
     @foreach (var item in RegisteredChildList ?? new RegisteredChild[0])

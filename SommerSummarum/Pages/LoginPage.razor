@@ -18,11 +18,11 @@
              <h3>Login</h3>
              <div class="form-group">
                  <label for="username">Brugernavn</label>
-                 <input id="username" @bind="username" class="form-control" />
+                 <input id="username" @bind="username" class="form-control" placeholder="Indtast brugernavn" />
              </div>
              <div class="form-group">
                  <label for="password">Password</label>
-                 <input type="password" @bind="password" id="password" class="form-control" />
+                 <input type="password" @bind="password" id="password" class="form-control" placeholder="Indtast kode"/>
              </div>
              <div class="form-group" style="margin-top: 20px;">
                  <button type="button" class="btn btn-primary" @onclick="DoLogin">Login</button>
