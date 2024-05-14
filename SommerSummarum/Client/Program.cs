@@ -32,8 +32,8 @@ public class Program
         builder.Services.AddSingleton<IRegisterChildService, RegisterChildService>();
         //ét objekt bliver brugt til hele requesten
         builder.Services.AddSingleton<ILoginService, LoginService>();
-        
-        
+
+        builder.Services.AddSingleton<IU18VolunteerService, U18VolunteerService>();
 
 
         builder.Services

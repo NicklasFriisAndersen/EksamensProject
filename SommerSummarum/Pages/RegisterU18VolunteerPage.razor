@@ -4,6 +4,7 @@
 @using Core.Models
 @using System.Text.Json
 @using Blazorise.SignaturePad
+@using SommerSummarum.Services
 @using ValidationSummary = Microsoft.AspNetCore.Components.Forms.ValidationSummary
 
 @page "/RegisterU18VolunteerPage"
@@ -44,6 +45,9 @@
     private string serverUrl = "https://localhost:7016";
 
     private U18Volunteer u18VolunteerItem = new U18Volunteer();
+    
+    [Inject]
+    private IU18VolunteerService uService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -57,15 +61,10 @@
 
     public async Task HandleValidSubmit()
     {
-        await AddU18Volunteer();
-    }
-
-    public async Task AddU18Volunteer()
-    {
         u18VolunteerItem.user = user;
         u18VolunteerItem.DateAdded = DateTime.Now;
-        await Http.PostAsJsonAsync<U18Volunteer>($"{serverUrl}/api/u18volunteer/add", u18VolunteerItem);
-        Console.WriteLine("Klient: add " + u18VolunteerItem.Name + " " + u18VolunteerItem.KraevnummerU18);
+        await uService.AddU18Volunteer(u18VolunteerItem);
         u18VolunteerItem = new();
     }
+    
 }
