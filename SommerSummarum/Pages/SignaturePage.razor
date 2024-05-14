@@ -21,18 +21,20 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>Navn</th>
+        <th>Navn på værge</th>
         <th>Krævnummer</th>
-        <th>Email</th>
+        <th>Email på værge</th>
+        <th>Telefonnummer på værge</th>
     </tr>
     </thead>
     <tbody>
     @foreach (var item in U18VolunteerList ?? new U18Volunteer[0])
     {
         <tr>
-            <td>@item.user.Username</td>
+            <td>@item.ParentName</td>
             <td>@item.KraevnummerU18</td>
-            <td>@item.user.Email</td>
+            <td>@item.ParentEmail</td>
+            <td>@item.ParentPhoneNumber</td>
             @if (item.GuardianSignature is not null)
             {
                 <td>
