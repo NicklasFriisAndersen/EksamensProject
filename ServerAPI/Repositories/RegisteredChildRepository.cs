@@ -41,5 +41,19 @@ namespace ServerAPI.Repositories
             var filter = Builders<RegisteredChild>.Filter.Eq("Krævnr", kraevnr);
             return collection.Find(filter).ToList();
         }
+
+        public UpdateResult UpdateAssignedPeriod(string id, string period)
+        {
+            var filter = Builders<RegisteredChild>.Filter.Eq("_id", id);
+
+            var update = Builders<RegisteredChild>.Update.Set("AssignedPeriod", period);
+
+            var result = collection.UpdateOne(filter, update);
+
+            return result;
+        }
+
+
+
     }
 }
