@@ -35,6 +35,8 @@ public class Program
 
         builder.Services.AddSingleton<IUserService, UserService>();
 
+        builder.Services.AddSingleton<IPeriodService, PeriodService>();
+
 
 
         builder.Services
