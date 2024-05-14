@@ -23,4 +23,11 @@ public class UserController : ControllerBase
     {
         uRepo.insertOneUser(user);
     }
+
+    [HttpGet]
+    [Route("getall")]
+    public IEnumerable<User> GetAll()
+    {
+        return uRepo.GetAllUsers();
+    }
 }

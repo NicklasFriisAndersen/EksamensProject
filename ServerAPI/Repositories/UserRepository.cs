@@ -29,4 +29,11 @@ public class UserRepository : IUserrepository
     {
         collection.InsertOne(user);
     }
+    
+    public List<User> GetAllUsers()
+    {
+        var filter = Builders<User>.Filter.Empty;
+
+        return collection.Find(filter).ToList();
+    }
 }

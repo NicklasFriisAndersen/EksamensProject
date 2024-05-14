@@ -18,5 +18,10 @@ namespace SommerSummarum.Services
             await http.PostAsJsonAsync<User>($"{serverUrl}/api/user/add", userItem);
             userItem = new(); // clear fields in form
         }
+
+        public async Task<User[]> GetAllUsers()
+        {
+            return await http.GetFromJsonAsync<User[]>($"{serverUrl}/api/user/getall");
+        }
     }
 }
