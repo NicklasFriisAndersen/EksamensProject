@@ -47,9 +47,9 @@
     @foreach (var item in RegisteredChildList ?? new RegisteredChild[0])
     {
         <tr>
-            <td>@item.User.Username</td>
+           <td>@item.ParentName</td>
             <td>@item.Krævnr</td>
-            <td>@item.User.Email</td>
+            <td>@item.ParentEmail</td>
             @if (item.GuardianSignature is not null)
                         {
                             <td>

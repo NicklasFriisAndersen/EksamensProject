@@ -5,28 +5,28 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Core.Models
 {
-	public class RegisteredChild
-	{
+    public class RegisteredChild
+    {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         [BsonElement("_id")]
         public string? Id { get; set; }
 
-        public string? Name { get; set; } 
+        public string? Name { get; set; }
 
-        public int? Age { get; set; } 
+        public int? Age { get; set; }
 
-        public string? ClothingSize { get; set; } 
+        public string? ClothingSize { get; set; }
 
-        public string? Comment { get; set; } 
+        public string? Comment { get; set; }
 
         public bool BeenBefore { get; set; }
 
-        public string? Hobbies { get; set; } 
+        public string? Hobbies { get; set; }
 
         public byte[]? GuardianSignature { get; set; }
 
-        public int? Krævnr { get; set; } 
+        public int? Krævnr { get; set; }
 
         public Priority? FirstPriority { get; set; }
 
@@ -34,7 +34,13 @@ namespace Core.Models
 
         public DateTime DateAdded { get; set; }
 
-        public User? User { get; set; }
+        public string? ParentName { get; set; }
+
+        public string? ParentEmail { get; set; }
+
+        public string? ParentPhoneNumber { get; set; }
+
+        // public User? User { get; set; }
 
     }
 }
