@@ -21,6 +21,16 @@ namespace SommerSummarum.Services
         {
             await http.PostAsJsonAsync<RegisteredChild>($"{serverUrl}/api/registeredchildren/add", registeredChild);
         }
+
+        public async Task<RegisteredChild[]> FilterByKraev(string kraevnummeru18)
+        {
+            // Build the URL with the search query
+            var url = $"{serverUrl}/api/registeredchildren/getbykraevnr?kraevnr={kraevnummeru18}";
+            Console.WriteLine(kraevnummeru18);
+
+            // Fetch data from the API and deserialize into a U18Volunteer array
+            return await http.GetFromJsonAsync<RegisteredChild[]>(url);
+        }
     }
 }
 

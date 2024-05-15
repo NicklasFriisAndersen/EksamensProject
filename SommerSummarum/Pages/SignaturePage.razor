@@ -5,6 +5,7 @@
 @using System.Net
 @using Blazorise.SignaturePad
 @using MongoDB.Driver.Core.Operations
+@using SommerSummarum.Services
 
 @page "/SignaturePage"
 <h3>SignaturePage</h3>
@@ -96,6 +97,12 @@
     private U18Volunteer[]? U18VolunteerList = new U18Volunteer[0];
 
     private RegisteredChild[]? RegisteredChildList = new RegisteredChild[0];
+    
+    [Inject]
+    private IRegisterChildService rService { get; set; }
+    
+    [Inject]
+    private IU18VolunteerService uService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -108,12 +115,7 @@
 
     private async Task FilterByKraevnummerU18()
     {
-        // Build the URL with the search query
-        var url = $"{serverUrl}/api/u18volunteer/getbykraevu18?kraevnummerU18={kraevnummeru18}";
-        Console.WriteLine(kraevnummeru18);
-
-        // Fetch data from the API and deserialize into a U18Volunteer array
-        U18VolunteerList = await Http.GetFromJsonAsync<U18Volunteer[]>(url);
+        await uService.FilterByU18Kraev(kraevnummeru18);
 
         // Trigger a UI refresh to show the updated volunteer list
         StateHasChanged();
@@ -128,12 +130,7 @@
     
     private async Task FilterByKrævnr()
     {
-        // Build the URL with the search query
-        var url = $"{serverUrl}/api/registeredchildren/getbykraevnr?kraevnr={kraevnummeru18}";
-        Console.WriteLine(kraevnummeru18);
-
-        // Fetch data from the API and deserialize into a U18Volunteer array
-        RegisteredChildList = await Http.GetFromJsonAsync<RegisteredChild[]>(url);
+        await rService.FilterByKraev(kraevnummeru18);
 
         // Trigger a UI refresh to show the updated volunteer list
         StateHasChanged();

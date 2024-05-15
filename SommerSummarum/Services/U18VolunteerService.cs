@@ -18,4 +18,14 @@ public class U18VolunteerService : IU18VolunteerService
     {
         await http.PostAsJsonAsync<U18Volunteer>($"{serverUrl}/api/u18volunteer/add", u18VolunteerItem);
     }
+
+    public async Task<U18Volunteer[]> FilterByU18Kraev(string kraevnummeru18)
+    {
+        // Build the URL with the search query
+        var url = $"{serverUrl}/api/u18volunteer/getbykraevu18?kraevnummerU18={kraevnummeru18}";
+        Console.WriteLine(kraevnummeru18);
+
+        // Fetch data from the API and deserialize into a U18Volunteer array
+        return await http.GetFromJsonAsync<U18Volunteer[]>(url);
+    }
 }
