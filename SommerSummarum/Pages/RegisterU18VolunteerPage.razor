@@ -10,7 +10,7 @@
 @page "/RegisterU18VolunteerPage"
 <h3>RegisterU18VolunteerPage</h3>
 
-<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@HandleValidSubmit">
+<EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@OpenConfirmationDialog">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="col-md-6 mb-3">
@@ -46,6 +46,43 @@
     </div>
 </EditForm>
 
+<ModalDialog @ref="ConfirmationDialog" Title="Confirm register">
+    <div class="row p-3">
+        <div class="col-md-12 mb-3">
+            <strong>Navn:</strong>
+            <p>@u18VolunteerItem.Name</p>
+        </div>
+        <div class="col-md-12 mb-3">
+            <strong>Krævnummer på frivillig U18:</strong>
+            <p>@u18VolunteerItem.KraevnummerU18</p>
+        </div>
+        <div class="col-md-12 mb-3">
+            <strong>Navn på værge:</strong>
+            <p>@u18VolunteerItem.ParentName</p>
+        </div>
+        <div class="col-md-12 mb-3">
+            <strong>Telefon nummer på værge:</strong>
+            <p>@u18VolunteerItem.ParentPhoneNumber</p>
+        </div>
+        <div class="col-md-12 mb-3">
+            <strong>Email på værge:</strong>
+            <p>@u18VolunteerItem.ParentEmail</p>
+        </div>
+        @if (u18VolunteerItem?.GuardianSignature is not null)
+        {
+            <div class="col-md-12 mb-3">
+                <strong>Underskrift:</strong>
+                <img src="data:image/jpg;base64, @Convert.ToBase64String(u18VolunteerItem?.GuardianSignature)" width="200" />
+            </div>
+        }
+        
+        <div class="col-12 mb-3">
+            <button class="btn btn-success" @onclick="HandleValidSubmit">Bekræft</button>
+            <!--<button class="btn btn-secondary" @onclick="() => ConfirmationDialog.Close()">Annuller</button>-->
+        </div>
+    </div>
+</ModalDialog>
+
 
 
 
@@ -57,6 +94,8 @@
     private string serverUrl = "https://localhost:7016";
 
     private U18Volunteer u18VolunteerItem = new U18Volunteer();
+    
+    private ModalDialog ConfirmationDialog;
     
     [Inject]
     private IU18VolunteerService uService { get; set; }
@@ -71,11 +110,18 @@
         }
     }
 
+    public async Task OpenConfirmationDialog()
+    {
+        ConfirmationDialog.Open();
+    }
+
+    
     public async Task HandleValidSubmit()
     {
         u18VolunteerItem.DateAdded = DateTime.Now;
         await uService.AddU18Volunteer(u18VolunteerItem);
         u18VolunteerItem = new();
+        ConfirmationDialog.Close();
     }
     
 }
