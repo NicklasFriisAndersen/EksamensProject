@@ -19,7 +19,7 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [Route("add")]
-    public void insetOneUser(User user)
+    public void insertOneUser(User user)
     {
         uRepo.insertOneUser(user);
     }
@@ -29,5 +29,12 @@ public class UserController : ControllerBase
     public IEnumerable<User> GetAll()
     {
         return uRepo.GetAllUsers();
+    }
+
+    [HttpPost]
+    [Route("update")]
+    public void UpdateUserRole(User user)
+    {
+        uRepo.EditUserRole(user);
     }
 }

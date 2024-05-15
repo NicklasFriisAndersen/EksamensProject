@@ -2,6 +2,7 @@
 @using System.Text.Json
 @using SommerSummarum.Services
 @using System.Net
+@using ZstdSharp.Unsafe
 @inject Blazored.LocalStorage.ILocalStorageService localStore;
 
 @page "/UserPermitsPage"
@@ -12,7 +13,7 @@
         <tr>
             <th>Navn</th>
             <th>Mail</th>
-            
+            <th>Rolle</th>
         </tr>
     </thead>
     <tbody>
@@ -21,8 +22,13 @@
             <tr>
                 <td>@item.Username</td>
                 <td>@item.Email</td>
-                
-                
+                <td> <InputSelect @bind-Value="item.Role" class="form-control">
+                    @foreach (var role in Enum.GetValues(typeof(Roles)))
+                    {
+                        <option value="@role">@role</option>
+                    }
+                </InputSelect> </td>
+                <td><button onclick="@OnSave(item)">Gem rolle</button></td>
             </tr>
         }
     </tbody>
@@ -46,6 +52,10 @@
         }
         
         userList = await uRepo.GetAllUsers();
+    }
 
+    async Task OnSave(User user)
+    {
+        await uRepo.UpdateUserRole(user);
     }
 }

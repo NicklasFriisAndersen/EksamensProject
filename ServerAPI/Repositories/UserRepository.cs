@@ -36,4 +36,17 @@ public class UserRepository : IUserrepository
 
         return collection.Find(filter).ToList();
     }
+
+    public async Task EditUserRole(User user)
+    {
+        Console.WriteLine("inside repo");
+        var filter = Builders<User>.Filter
+            .Eq(u => u.Id, user.Id);
+        var update = Builders<User>.Update
+            .Set(r => r.Role, user.Role);
+        
+        var result = await collection.UpdateOneAsync(filter, update);
+        
+    }
+
 }

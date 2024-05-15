@@ -11,7 +11,7 @@ namespace SommerSummarum.Services
 
         public UserService(HttpClient http)
         {
-            this.http = http; 
+            this.http = http;
         }
         public async Task AddUser(User userItem)
         {
@@ -23,5 +23,11 @@ namespace SommerSummarum.Services
         {
             return await http.GetFromJsonAsync<User[]>($"{serverUrl}/api/user/getall");
         }
-    }
+
+        public async Task UpdateUserRole(User user)
+        {
+            Console.WriteLine("entered updateuserrole");
+            await http.PostAsJsonAsync($"{serverUrl}/api/user/update", user);
+        }
+     }
 }
