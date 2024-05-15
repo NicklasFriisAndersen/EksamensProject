@@ -19,8 +19,22 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [Route("add")]
-    public void insetOneUser(User user)
+    public void insertOneUser(User user)
     {
         uRepo.insertOneUser(user);
+    }
+
+    [HttpGet]
+    [Route("getall")]
+    public IEnumerable<User> GetAll()
+    {
+        return uRepo.GetAllUsers();
+    }
+
+    [HttpPost]
+    [Route("update")]
+    public void UpdateUserRole(User user)
+    {
+        uRepo.EditUserRole(user);
     }
 }

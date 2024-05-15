@@ -6,5 +6,9 @@ namespace SommerSummarum.Services
 public interface IUserService
     {
         Task AddUser(User userItem);
+
+        Task<User[]> GetAllUsers();
+
+        Task UpdateUserRole(User user);
     }
 }

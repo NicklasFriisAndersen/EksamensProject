@@ -1,0 +1,61 @@
+@using Core.Models;
+@using System.Text.Json
+@using SommerSummarum.Services
+@using System.Net
+@using ZstdSharp.Unsafe
+@inject Blazored.LocalStorage.ILocalStorageService localStore;
+
+@page "/UserPermitsPage"
+<h3>Liste over brugere</h3>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Navn</th>
+            <th>Mail</th>
+            <th>Rolle</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in userList ?? new User[0])
+        {
+            <tr>
+                <td>@item.Username</td>
+                <td>@item.Email</td>
+                <td> <InputSelect @bind-Value="item.Role" class="form-control">
+                    @foreach (var role in Enum.GetValues(typeof(Roles)))
+                    {
+                        <option value="@role">@role</option>
+                    }
+                </InputSelect> </td>
+                <td><button onclick="@OnSave(item)">Gem rolle</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private User? user;
+    
+    private User[]? userList = new User[0];
+    
+    
+    [Inject]
+    private IUserService uRepo { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var userInfoJson = await localStore.GetItemAsStringAsync("userinfo");
+        if (!string.IsNullOrEmpty(userInfoJson))
+        {
+            user = JsonSerializer.Deserialize<User>(userInfoJson);
+        }
+        
+        userList = await uRepo.GetAllUsers();
+    }
+
+    async Task OnSave(User user)
+    {
+        await uRepo.UpdateUserRole(user);
+    }
+}
