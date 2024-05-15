@@ -53,7 +53,7 @@
             @if (item.GuardianSignature is not null)
                         {
                             <td>
-                                <button class="btn btn-primary" @onclick="() => OpenSignatureDialog(item.GuardianSignature, item.User.Email)">Se Signatur</button>
+                                <button class="btn btn-primary" @onclick="() => OpenSignatureDialog(item.GuardianSignature, item.ParentEmail)">Se Signatur</button>
                             </td>
                         }
         </tr>
