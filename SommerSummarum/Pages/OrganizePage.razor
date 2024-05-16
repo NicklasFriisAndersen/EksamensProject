@@ -21,8 +21,10 @@
                     <th>Kommentar</th>
                     <th>1. Prioritet</th>
                     <th>2. Prioritet</th>
-                    <th>Valgt Prioritet</th>
-                    <th>Tilføj</th>
+                    <th>Tildel 1. Prioritet</th>
+                    <th>Tildel 2. Prioritet</th>
+                    <th>Fjern fra Periode</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -36,14 +38,11 @@
                             <td>@item.Comment</td>
                             <td>@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")</td>
                             <td>@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")</td>
-                            <td>
-                                <InputSelect @bind-Value="@item.AssignedPeriod" class="form-control">
-                                    <option value="Ikke Tilføjet">Ikke Tilføjet</option>
-                                    <option value="@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")">@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")</option>
-                                    <option value="@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")">@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")</option>
-                                </InputSelect>
-                            </td>
-                            <td><button class="btn btn-primary" @onclick="() => UpdateChild(item)">Tilføj</button></td>
+
+                            <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
+                            <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
+                            <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, remove)">Fjern</button></td>
+
                         </tr>
                     }
                 }
@@ -86,21 +85,8 @@
                         {
                             <td>@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</td>
                         }
-                        <td>
-                            <InputSelect @bind-Value="@item.AssignedPeriod" class="form-control">
-                                <option value="Ikke Tilføjet">Ikke Tilføjet</option>
-                                <option value="@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")">@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")</option>
-                                @if (item.SecondPriority.Week == "Jeg kan kun i 1. prioritet")
-                                {
-                                    <option>Jeg kan kun i 1. prioritet</option>
-                                }
-                                else
-                                {
-                                    <option value="@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")">@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</option>
-                                }
-                            </InputSelect>
-                        </td>
-                        <td><button class="btn btn-primary" @onclick="() => UpdateChild(item)">Tilføj</button></td>
+                        <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
+                        <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
                     </tr>
                 }
 
@@ -122,6 +108,11 @@
 
     private RegisteredChild[]? childList = new RegisteredChild[0];
 
+    private string prioritet1 = "prioritet1";
+    private string prioritet2 = "prioritet2";
+    private string remove = "remove";
+
+
     protected override async Task OnInitializedAsync()
     {
         childList = await Http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/registeredchildren/getall");
@@ -131,10 +122,35 @@
         {
             Console.WriteLine(item.Week);
         }
+
     }
 
-    public async Task UpdateChild(RegisteredChild registeredChild)
+    public async Task UpdateChild(RegisteredChild registeredChild, string prio)
     {
-            await rService.EditChildItem(registeredChild);
+        if (prio == "prioritet1")
+        {
+            registeredChild.AssignedPeriod.Week = registeredChild.FirstPriority.Week;
+            registeredChild.AssignedPeriod.Days = registeredChild.FirstPriority.Day;
+            Console.WriteLine("1. prio");
+
+        }
+        else if (prio == "prioritet2")
+        {
+            registeredChild.AssignedPeriod.Week = registeredChild.SecondPriority.Week;
+            registeredChild.AssignedPeriod.Days = registeredChild.SecondPriority.Day;
+            Console.WriteLine("2. prio");
+        }
+        else
+        {
+            registeredChild.AssignedPeriod.Week = "Ikke Tilføjet";
+            registeredChild.AssignedPeriod.Days = "Ikke Tilføjet";
+
+        }
+
+        await rService.EditChildItem(registeredChild);
+        Console.WriteLine("AssignedPeriod til database:");
+
+        Console.WriteLine(registeredChild.AssignedPeriod.Week);
+
     }
 }
