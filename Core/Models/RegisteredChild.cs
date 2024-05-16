@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace Core.Models
 {
@@ -41,6 +42,8 @@ namespace Core.Models
         public string? ParentEmail { get; set; }
 
         public string? ParentPhoneNumber { get; set; }
+
+        public string? AssignedPeriod { get; set; } = "Ikke Tilføjet";
 
         // public User? User { get; set; }
 

@@ -37,6 +37,14 @@ namespace ServerAPI.Controllers
         {
             return rRepo.FilterChildByKraevNummer(kraevnr);
         }
+
+
+        [HttpGet]
+        [Route("getbynewsletter")]
+        public IEnumerable<RegisteredChild> FilterByNewsletter()
+        {
+            return rRepo.FilterByNewsletter();
+        }
     }
 }
 

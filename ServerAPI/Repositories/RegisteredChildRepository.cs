@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace ServerAPI.Repositories
 {
-	public class RegisteredChildRepository : IRegisteredChildRepository
+    public class RegisteredChildRepository : IRegisteredChildRepository
     {
         private string connectionString = "mongodb+srv://eksamenprojekt:gruppe3eksamen@sumarumpasning.fmcwhpm.mongodb.net/";
 
@@ -16,7 +16,7 @@ namespace ServerAPI.Repositories
         IMongoCollection<RegisteredChild> collection;
 
         public RegisteredChildRepository()
-		{
+        {
             mongoClient = new MongoClient(connectionString);
 
             database = mongoClient.GetDatabase("SumarumDagpleje");
@@ -39,6 +39,12 @@ namespace ServerAPI.Repositories
         public List<RegisteredChild> FilterChildByKraevNummer(string kraevnr)
         {
             var filter = Builders<RegisteredChild>.Filter.Eq("Krævnr", kraevnr);
+            return collection.Find(filter).ToList();
+        }
+
+        public List<RegisteredChild> FilterByNewsletter()
+        {
+            var filter = Builders<RegisteredChild>.Filter.Eq("Newsletter", true);
             return collection.Find(filter).ToList();
         }
     }
