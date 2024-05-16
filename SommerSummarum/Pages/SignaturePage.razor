@@ -115,9 +115,12 @@
 
     private async Task FilterByKraevnummerU18()
     {
-        await uService.FilterByU18Kraev(kraevnummeru18);
+        // Build the URL with the search query
+        var url = $"{serverUrl}/api/u18volunteer/getbykraevu18?kraevnummerU18={kraevnummeru18}";
+        Console.WriteLine(kraevnummeru18);
 
-        // Trigger a UI refresh to show the updated volunteer list
+        // Fetch data from the API and deserialize into a U18Volunteer array
+        U18VolunteerList =  await Http.GetFromJsonAsync<U18Volunteer[]>(url);
         StateHasChanged();
     }
 
