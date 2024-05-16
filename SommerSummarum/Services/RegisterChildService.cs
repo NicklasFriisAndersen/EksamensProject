@@ -21,6 +21,14 @@ namespace SommerSummarum.Services
         {
             await http.PostAsJsonAsync<RegisteredChild>($"{serverUrl}/api/registeredchildren/add", registeredChild);
         }
+
+        public async Task<RegisteredChild[]?> FilterByNewsletter()
+        {
+          return await http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/registeredchildren/getbynewsletter");
+            
+        }
+
+
     }
 }
 

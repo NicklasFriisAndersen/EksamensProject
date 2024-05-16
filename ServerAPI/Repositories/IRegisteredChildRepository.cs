@@ -11,6 +11,8 @@ namespace ServerAPI.Repositories
         
         public List<RegisteredChild> FilterChildByKraevNummer(string kraevnr);
 
+
+        public List<RegisteredChild> FilterByNewsletter();
     }
 }
 

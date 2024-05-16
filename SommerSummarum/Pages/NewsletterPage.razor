@@ -1,0 +1,56 @@
+﻿@page "/newsletter"
+@using Core.Models;
+@inject HttpClient Http
+@using System.Text.Json
+@using SommerSummarum.Services
+
+
+<PageTitle>Nyhedsbrev</PageTitle>
+
+<h2>Nyhedsbrev modtagere</h2>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Værge Navn</th>
+            <th>Værge tlf. nr.</th>
+            <th>Værge Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in registeredChildList)
+        {
+            <tr>
+                <td>@item.ParentName</td>
+                <td>@item.ParentPhoneNumber</td>
+                <td>@item.ParentEmail</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+
+    private string serverUrl = "https://localhost:7016";
+
+    private RegisteredChild[]? registeredChildList = new RegisteredChild[0];
+
+    [Inject]
+    private IRegisterChildService rService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        registeredChildList = await rService.FilterByNewsletter();
+    }   
+   
+
+    /*private async Task FilterByNewsletter()
+    {
+    var url = ($"{serverUrl}/api/registeredchildren/getbynewsletter");
+        registeredChildren = await Http.GetFromJsonAsync<List<RegisteredChild>>(url);
+        StateHasChanged();
+    }*/
+
+}
