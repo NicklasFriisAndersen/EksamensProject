@@ -55,11 +55,13 @@ namespace ServerAPI.Repositories
                 .Set(r => r.Hobbies, registeredChild.Hobbies)
                 .Set(r => r.GuardianSignature, registeredChild.GuardianSignature)
                 .Set(r => r.Krævnr, registeredChild.Krævnr)
+                .Set(r => r.ParentName, registeredChild.ParentName)
+                .Set(r => r.ParentEmail, registeredChild.ParentEmail)
+                .Set(r => r.ParentPhoneNumber, registeredChild.ParentPhoneNumber)
                 .Set(r => r.AssignedPeriod, registeredChild.AssignedPeriod)
                 .Set(r => r.FirstPriority, registeredChild.FirstPriority)
                 .Set(r => r.SecondPriority, registeredChild.SecondPriority)
-                .Set(r => r.DateAdded, registeredChild.DateAdded)
-                .Set(r => r.User, registeredChild.User);
+                .Set(r => r.DateAdded, registeredChild.DateAdded);
 
             collection.UpdateOne(filter, update);
 

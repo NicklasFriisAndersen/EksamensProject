@@ -37,7 +37,7 @@
                             <td>@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")</td>
                             <td>@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")</td>
                             <td>
-                                <InputSelect @bind-Value="@item.AssignedPeriod" class="form-control">
+                                <InputSelect @bind-Value="@item.AssignedPeriod" @onchange="@(async e => await UpdateChild(item))" class="form-control">
                                     <option value="Ikke Tilføjet">Ikke Tilføjet</option>
                                     <option value="@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")">@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")</option>
                                     <option value="@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")">@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")</option>
@@ -89,27 +89,27 @@
                             <td>@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</td>
 
                         }
-                        <td>
-                            <InputSelect @bind-Value="@item.AssignedPeriod" class="form-control">
-                                <option value="Ikke Tilføjet">Ikke Tilføjet</option>
-                                <option value="@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")">@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")</option>
-                                @if (item.SecondPriority.Week == "Jeg kan kun i 1. prioritet")
-                                {
-                                    <option>Jeg kan kun i 1. prioritet</option>
-                                }
-                                else
-                                {
-                                    <option value="@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")">@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</option>
+                    <td>
+                        <InputSelect @bind-Value="@item.AssignedPeriod" @onchange="@(async e => await UpdateChild(item))" class="form-control">
+                            <option value="Ikke Tilføjet">Ikke Tilføjet</option>
+                            <option value="@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")">@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")</option>
+                            @if (item.SecondPriority.Week == "Jeg kan kun i 1. prioritet")
+                            {
+                                <option>Jeg kan kun i 1. prioritet</option>
+                            }
+                            else
+                            {
+                                <option value="@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")">@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</option>
 
-                                }
+                            }
 
-                            </InputSelect>
-                        </td>
+                        </InputSelect>
+                    </td>
 
                         <td><button class="btn btn-primary" @onclick="() => UpdateChild(item)">Tilføj</button></td>
 
                     </tr>
-                //}
+                //}A
 
             }
         </tbody>
@@ -147,7 +147,7 @@
         }
     }
 
-    public async void UpdateChild(RegisteredChild registeredChild)
+    public async Task UpdateChild(RegisteredChild registeredChild)
     {
         await rService.EditChildItem(registeredChild);
     }

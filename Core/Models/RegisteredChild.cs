@@ -30,6 +30,12 @@ namespace Core.Models
 
         public int? Krævnr { get; set; }
 
+        public string? ParentName { get; set; }
+
+        public string? ParentEmail { get; set; }
+
+        public string? ParentPhoneNumber { get; set; }
+
         public string? AssignedPeriod { get; set; } = "Ikke Tilføjet";
 
         public Priority? FirstPriority { get; set; }
@@ -38,13 +44,6 @@ namespace Core.Models
 
         public DateTime DateAdded { get; set; }
 
-        public string? ParentName { get; set; }
-
-        public string? ParentEmail { get; set; }
-
-        public string? ParentPhoneNumber { get; set; }
-
-        // public User? User { get; set; }
 
     }
 }
