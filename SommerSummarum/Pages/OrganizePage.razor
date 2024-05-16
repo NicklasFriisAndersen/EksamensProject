@@ -37,7 +37,7 @@
                             <td>@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")</td>
                             <td>@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")</td>
                             <td>
-                                <InputSelect @bind-Value="@item.AssignedPeriod" @onchange="@(async e => await UpdateChild(item))" class="form-control">
+                                <InputSelect @bind-Value="@item.AssignedPeriod" class="form-control">
                                     <option value="Ikke Tilføjet">Ikke Tilføjet</option>
                                     <option value="@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")">@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")</option>
                                     <option value="@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")">@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")</option>
@@ -46,13 +46,11 @@
                             <td><button class="btn btn-primary" @onclick="() => UpdateChild(item)">Tilføj</button></td>
                         </tr>
                     }
-
                 }
             </tbody>
         </table>
     }
 </div>
-
 
 <h3>Tildel perioder</h3>
 
@@ -72,9 +70,9 @@
         </thead>
         <tbody>
             @foreach (var item in childList ?? new RegisteredChild[0])
+            {
+                if (item.AssignedPeriod == "Ikke Tilføjet")
                 {
-                    //if (item.AssignedPeriod == "Ikke Tilføjet")
-                    //{
                     <tr>
                         <td>@item.Name</td>
                         <td>@item.Age</td>
@@ -87,29 +85,24 @@
                         else
                         {
                             <td>@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</td>
-
                         }
-                    <td>
-                        <InputSelect @bind-Value="@item.AssignedPeriod" @onchange="@(async e => await UpdateChild(item))" class="form-control">
-                            <option value="Ikke Tilføjet">Ikke Tilføjet</option>
-                            <option value="@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")">@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")</option>
-                            @if (item.SecondPriority.Week == "Jeg kan kun i 1. prioritet")
-                            {
-                                <option>Jeg kan kun i 1. prioritet</option>
-                            }
-                            else
-                            {
-                                <option value="@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")">@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</option>
-
-                            }
-
-                        </InputSelect>
-                    </td>
-
+                        <td>
+                            <InputSelect @bind-Value="@item.AssignedPeriod" class="form-control">
+                                <option value="Ikke Tilføjet">Ikke Tilføjet</option>
+                                <option value="@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")">@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")</option>
+                                @if (item.SecondPriority.Week == "Jeg kan kun i 1. prioritet")
+                                {
+                                    <option>Jeg kan kun i 1. prioritet</option>
+                                }
+                                else
+                                {
+                                    <option value="@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")">@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</option>
+                                }
+                            </InputSelect>
+                        </td>
                         <td><button class="btn btn-primary" @onclick="() => UpdateChild(item)">Tilføj</button></td>
-
                     </tr>
-                //}A
+                }
 
             }
         </tbody>
@@ -125,20 +118,15 @@
 
     private string serverUrl = "https://localhost:7016";
 
-    //private string test = "";
-
-    //private string selectedPeriod = "";
-
     private List<Period>? periodList = new();
-
 
     private RegisteredChild[]? childList = new RegisteredChild[0];
 
+    private string tempAssignedPeriod = "Ikke Tilføjet";
 
     protected override async Task OnInitializedAsync()
     {
         childList = await Http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/registeredchildren/getall");
-
         periodList = await pService.GetAllPeriod();
 
         foreach (var item in periodList)
@@ -149,7 +137,7 @@
 
     public async Task UpdateChild(RegisteredChild registeredChild)
     {
-        await rService.EditChildItem(registeredChild);
+            await rService.EditChildItem(registeredChild);
+            Console.WriteLine(registeredChild.AssignedPeriod);
     }
-
 }
