@@ -25,7 +25,18 @@
     </div>
     <div class="col-md-6 mb-3">
         <label for="ClothingSize">T-shirt Størrelse</label>
-        <InputText id="ClothingSize" @bind-Value="childItem.ClothingSize" class="form-control" placeholder="Indtast størrelse på barn"/>
+        <InputSelect id="ClothingSize" @bind-Value="childItem.ClothingSize" class="form-control" placeholder="Indtast størrelse på barn">
+            <option value="">Vælg barnets tøjstørrelse</option>
+            <option value="110-116">110-116</option>
+            <option value="122-128">122-128</option>
+            <option value="134-140">134-140</option>
+            <option value="146-152">146-152</option>
+            <option value="158-164">158-164</option>
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+        </InputSelect>
+                   
+       
     </div>
     <div class="col-md-12 mb-3">
         <label for="Comment">Ekstra Kommentar</label>
@@ -236,7 +247,7 @@
 
     private bool showVolunteerError = false;
     private bool showPeriodError = false;
-
+    
 
     private Priority firstPriority = new Priority();
     private Priority secondPriority = new Priority();
