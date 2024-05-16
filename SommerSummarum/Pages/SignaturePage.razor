@@ -26,6 +26,7 @@
         <th>Krævnummer</th>
         <th>Email på værge</th>
         <th>Telefonnummer på værge</th>
+        <th>Signatur</th>
     </tr>
     </thead>
     <tbody>
@@ -50,6 +51,7 @@
            <td>@item.ParentName</td>
             <td>@item.Krævnr</td>
             <td>@item.ParentEmail</td>
+            <td>@item.ParentPhoneNumber</td>
             @if (item.GuardianSignature is not null)
                         {
                             <td>
