@@ -22,6 +22,8 @@ namespace Core.Models
 
         public bool BeenBefore { get; set; }
 
+        public bool Newsletter { get; set; }
+
         public string? Hobbies { get; set; }
 
         public byte[]? GuardianSignature { get; set; }
