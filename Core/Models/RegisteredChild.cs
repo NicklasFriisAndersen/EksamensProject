@@ -36,7 +36,7 @@ namespace Core.Models
 
         public string? ParentPhoneNumber { get; set; }
 
-        public string? AssignedPeriod { get; set; } = "Ikke Tilføjet";
+        public AssignedPeriod? AssignedPeriod { get; set; }
 
         public Priority? FirstPriority { get; set; }
 

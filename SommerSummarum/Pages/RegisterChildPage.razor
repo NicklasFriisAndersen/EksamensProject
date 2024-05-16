@@ -238,6 +238,8 @@
     private bool showPeriodError = false;
 
 
+    private AssignedPeriod assignedPeriod = new AssignedPeriod();
+
     private Priority firstPriority = new Priority();
     private Priority secondPriority = new Priority();
 
@@ -254,13 +256,13 @@
     [Inject]
     private IPeriodService pService { get; set; }
 
-   protected override async Task OnInitializedAsync()
-   {
-      aEditContext = new EditContext(childItem);
-      //  var userInfoJson = await localStore.GetItemAsStringAsync("userinfo");
+    protected override async Task OnInitializedAsync()
+    {
+        aEditContext = new EditContext(childItem);
+        //  var userInfoJson = await localStore.GetItemAsStringAsync("userinfo");
         //if (!string.IsNullOrEmpty(userInfoJson))
         //{
-          //  user = JsonSerializer.Deserialize<User>(userInfoJson);
+        //  user = JsonSerializer.Deserialize<User>(userInfoJson);
         //}
 
         periodList = await pService.GetAllPeriod();
@@ -300,7 +302,7 @@
 
     public async Task AddChild()
     {
-      //  childItem.User = user;
+        childItem.AssignedPeriod = assignedPeriod;
         childItem.DateAdded = DateTime.Now;
         childItem.FirstPriority = firstPriority;
         childItem.SecondPriority = secondPriority;

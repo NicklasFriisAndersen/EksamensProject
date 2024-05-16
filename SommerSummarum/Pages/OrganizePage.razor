@@ -28,7 +28,7 @@
             <tbody>
                 @foreach (var item in childList ?? new RegisteredChild[0])
                 {
-                    if (item.AssignedPeriod.Contains(weekGroup.Key.ToString()))
+                    if (item.AssignedPeriod.Week == weekGroup.Key)
                     {
                         <tr>
                             <td>@item.Name</td>
@@ -71,7 +71,7 @@
         <tbody>
             @foreach (var item in childList ?? new RegisteredChild[0])
             {
-                if (item.AssignedPeriod == "Ikke Tilføjet")
+                if (item.AssignedPeriod.Week == "Ikke Tilføjet")
                 {
                     <tr>
                         <td>@item.Name</td>
@@ -122,8 +122,6 @@
 
     private RegisteredChild[]? childList = new RegisteredChild[0];
 
-    private string tempAssignedPeriod = "Ikke Tilføjet";
-
     protected override async Task OnInitializedAsync()
     {
         childList = await Http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/registeredchildren/getall");
@@ -138,6 +136,5 @@
     public async Task UpdateChild(RegisteredChild registeredChild)
     {
             await rService.EditChildItem(registeredChild);
-            Console.WriteLine(registeredChild.AssignedPeriod);
     }
 }
