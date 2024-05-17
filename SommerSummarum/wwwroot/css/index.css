@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #fff; /* Set background color to white */
+}
+
+.logo {
+    display: block;
+    float: left; /* Float the logo to the left */
+    max-width: 400px; /* Set a maximum width for the logo */
+    width: 30%; /* Make the logo take up 30% of the width */
+    height: auto;
+    margin-right: 20px; /* Add some right margin for spacing */
+    margin-bottom: 20px; /* Add some bottom margin for spacing */
+    transform: translateY(50%); /* Move the logo down by 50% of its own height */
+}
+
+.main-text {
+    text-align: center; /* Center the main text */
+    margin-top: 20px; /* Add some top margin */
+}
+
+.additional-info {
+    max-width: 40%; /* Set a maximum width for the additional info */
+    float: right; /* Float the additional info to the right */
+    padding-left: 20px; /* Add some padding to the left for space */
+}
+
+h1 {
+    font-size: 28px;
+    color: #333;
+    font-weight: bold;
+}
+
+p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 20px; /* Add some bottom margin */
+}
