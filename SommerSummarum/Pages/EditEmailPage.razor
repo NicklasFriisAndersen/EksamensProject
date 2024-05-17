@@ -1,14 +1,52 @@
 @page "/EditEmailPage"
 @using System.Text.Json
+@using Blazorise
+@using Blazorise.RichTextEdit
 @using Core.Models
 @inject Blazored.LocalStorage.ILocalStorageService localStore
+
 <h3>EditEmailPage</h3>
+
+<RichTextEdit @ref="richTextEditRef"
+              Theme="RichTextEditTheme.Snow"
+              ContentChanged="@OnContentChanged"
+              PlaceHolder="Type your post here..."
+              ReadOnly="@readOnly"
+              SubmitOnEnter="false"
+              EnterPressed="@OnSave"
+              ToolbarPosition="Placement.Bottom">
+    <Editor>My example content</Editor>
+    <Toolbar>
+        <RichTextEditToolbarGroup>
+            <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
+            <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
+                <RichTextEditToolbarSelectItem Value="small" />
+                <RichTextEditToolbarSelectItem Selected />
+                <RichTextEditToolbarSelectItem Value="large" />
+                <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
+            </RichTextEditToolbarSelect>
+            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
+        </RichTextEditToolbarGroup>
+        <!-- Custom toolbar content -->
+        <RichTextEditToolbarGroup Float="Float.End">
+            <Button OnClick="() => window.open('https://www.quilljs.com/', 'quilljs')"><Icon Name="IconName.InfoCircle" /></Button>
+            <Button Clicked="@OnSave"><Icon Name="IconName.Save" /></Button>
+        </RichTextEditToolbarGroup>
+    </Toolbar>
+</RichTextEdit>
 
 @code {
     private User? user;
-    
-    
-    
+
+    protected RichTextEdit richTextEditRef;  // Remove @inject and define as a field
+    protected bool readOnly;
+    protected string contentAsHtml;
+    protected string contentAsDeltaJson;
+    protected string contentAsText;
+    protected string savedContent;
+
     protected override async Task OnInitializedAsync()
     {
         var userInfoJson = await localStore.GetItemAsStringAsync("userinfo");
@@ -17,4 +55,18 @@
             user = JsonSerializer.Deserialize<User>(userInfoJson);
         }
     }
+
+    public async Task OnContentChanged()
+    {
+        contentAsHtml = await richTextEditRef.GetHtmlAsync();
+        contentAsDeltaJson = await richTextEditRef.GetDeltaAsync();
+        contentAsText = await richTextEditRef.GetTextAsync();
+    }
+
+    public async Task OnSave()
+    {
+        savedContent = await richTextEditRef.GetHtmlAsync();
+        await richTextEditRef.ClearAsync();
+    }
 }
+
