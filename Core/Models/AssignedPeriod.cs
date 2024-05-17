@@ -10,5 +10,4 @@ public class AssignedPeriod
 
     public string Days { get; set; } = "Ikke Tilføjet";
 
-    public string Location { get; set; } = "Ikke Tilføjet";
 }
