@@ -44,6 +44,5 @@ namespace Core.Models
 
         public DateTime DateAdded { get; set; }
 
-
     }
 }
