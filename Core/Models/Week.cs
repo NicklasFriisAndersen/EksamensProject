@@ -14,5 +14,4 @@ public class Week
     public string WeekNumber { get; set; }
     
     public string Location { get; set; }
-    
 }
