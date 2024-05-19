@@ -12,7 +12,37 @@
 <div class="col-md-12 mb-3">
     @foreach (var weekGroup in periodList.GroupBy(p => p.Week))
     {
-        <h4>@weekGroup.Key</h4>
+        int onsdagSøndagCount = 0;
+        int onsdagFredagCount = 0;
+        int lørdagSøndagCount = 0;
+
+        // Tæl børn for hver periode-type inden for denne uge
+        foreach (var item in childList ?? new RegisteredChild[0])
+        {
+            if (item.AssignedPeriod.Week == weekGroup.Key)
+            {
+                var days = item.AssignedPeriod.Days.ToLower(); // for at undgå case-sensitivity problemer
+                if (days == "onsdag-søndag")
+                {
+                    onsdagSøndagCount++;
+                }
+                else if (days == "onsdag-fredag")
+                {
+                    onsdagFredagCount++;
+                }
+                else if (days == "lørdag-søndag")
+                {
+                    lørdagSøndagCount++;
+                }
+            }
+        }
+
+        <h4>Uge @weekGroup.Key</h4>
+        <p>
+            Onsdag-Søndag: @onsdagSøndagCount<br />
+            Onsdag-Fredag: @onsdagFredagCount<br />
+            Lørdag-Søndag: @lørdagSøndagCount
+        </p>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -24,7 +54,6 @@
                     <th>Tildel 1. Prioritet</th>
                     <th>Tildel 2. Prioritet</th>
                     <th>Fjern fra Periode</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -38,11 +67,9 @@
                             <td>@item.Comment</td>
                             <td>@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")</td>
                             <td>@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")</td>
-
                             <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
                             <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
                             <td><button class="btn btn-secondary" @onclick="() => UpdateChild(item, remove)">Fjern</button></td>
-
                         </tr>
                     }
                 }
@@ -52,8 +79,6 @@
 </div>
 
 <h3>Tildel perioder</h3>
-
-<!--tabel til alle ledige børn-->
 <div class="col-md-12 mb-3">
     <table class="table table-striped">
         <thead>
@@ -89,11 +114,11 @@
                         <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
                     </tr>
                 }
-
             }
         </tbody>
     </table>
 </div>
+
 
 @code {
     [Inject]
