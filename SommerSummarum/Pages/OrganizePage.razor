@@ -21,16 +21,16 @@
         {
             if (item.AssignedPeriod.Week == weekGroup.Key)
             {
-                var days = item.AssignedPeriod.Days.ToLower(); // for at undgå case-sensitivity problemer
-                if (days == "onsdag-søndag")
+                var days = item.AssignedPeriod.Days;
+                if (days == "Onsdag-Søndag")
                 {
                     onsdagSøndagCount++;
                 }
-                else if (days == "onsdag-fredag")
+                else if (days == "Onsdag-Fredag")
                 {
                     onsdagFredagCount++;
                 }
-                else if (days == "lørdag-søndag")
+                else if (days == "Lørdag-Søndag")
                 {
                     lørdagSøndagCount++;
                 }
@@ -156,26 +156,18 @@
         {
             registeredChild.AssignedPeriod.Week = registeredChild.FirstPriority.Week;
             registeredChild.AssignedPeriod.Days = registeredChild.FirstPriority.Day;
-            Console.WriteLine("1. prio");
-
         }
         else if (prio == "prioritet2")
         {
             registeredChild.AssignedPeriod.Week = registeredChild.SecondPriority.Week;
             registeredChild.AssignedPeriod.Days = registeredChild.SecondPriority.Day;
-            Console.WriteLine("2. prio");
         }
         else
         {
             registeredChild.AssignedPeriod.Week = "Ikke Tilføjet";
             registeredChild.AssignedPeriod.Days = "Ikke Tilføjet";
-
         }
 
         await rService.EditChildItem(registeredChild);
-        Console.WriteLine("AssignedPeriod til database:");
-
-        Console.WriteLine(registeredChild.AssignedPeriod.Week);
-
     }
 }
