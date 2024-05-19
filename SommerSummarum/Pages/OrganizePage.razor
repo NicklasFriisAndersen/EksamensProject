@@ -22,9 +22,14 @@
             if (item.AssignedPeriod.Week == weekGroup.Key)
             {
                 var days = item.AssignedPeriod.Days;
+                //if (days == "Onsdag-Søndag")
+                //{
+                //    onsdagSøndagCount++;
+                //}
                 if (days == "Onsdag-Søndag")
                 {
-                    onsdagSøndagCount++;
+                    onsdagFredagCount++;
+                    lørdagSøndagCount++;
                 }
                 else if (days == "Onsdag-Fredag")
                 {
@@ -37,12 +42,33 @@
             }
         }
 
-        <h4>Uge @weekGroup.Key</h4>
-        <p>
-            Onsdag-Søndag: @onsdagSøndagCount<br />
-            Onsdag-Fredag: @onsdagFredagCount<br />
-            Lørdag-Søndag: @lørdagSøndagCount
-        </p>
+        <h4>@weekGroup.Key</h4>
+        @if (onsdagFredagCount > 20)
+        {
+            <p class="text-danger">
+                Onsdag-Fredag: @onsdagFredagCount<br />
+            </p>
+        }
+        else
+        {
+            <p>
+                Onsdag-Fredag: @onsdagFredagCount<br />
+            </p>
+        }
+
+        @if (lørdagSøndagCount > 20)
+        {
+            <p class="text-danger">
+                Lørdag-Søndag: @lørdagSøndagCount<br />
+            </p>
+        }
+        else
+        {
+            <p>
+                Lørdag-Søndag: @lørdagSøndagCount<br />
+            </p>
+        }
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -79,6 +105,9 @@
 </div>
 
 <h3>Tildel perioder</h3>
+<p>
+    Antal Børn Uden Tildelt Periode: @childList.Length
+</p>
 <div class="col-md-12 mb-3">
     <table class="table table-striped">
         <thead>
@@ -95,6 +124,7 @@
         <tbody>
             @foreach (var item in childList ?? new RegisteredChild[0])
             {
+
                 if (item.AssignedPeriod.Week == "Ikke Tilføjet")
                 {
                     <tr>
