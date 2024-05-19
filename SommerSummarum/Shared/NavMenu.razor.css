@@ -1,10 +1,18 @@
-﻿.navbar-toggler {
+﻿.logo {
+    width: 100px; /* Set the width of the image */
+    object-fit: contain; /* This property makes sure that the aspect ratio is maintained */
+    display: block; /* Makes the image a block element */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.navbar-toggler {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
 .top-row {
     height: 3.5rem;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgb(28,90,181);
 }
 
 .navbar-brand {
