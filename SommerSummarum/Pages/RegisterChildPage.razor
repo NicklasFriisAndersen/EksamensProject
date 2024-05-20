@@ -149,6 +149,21 @@
         <label for="Newsletter">Jeg vil gerne modtage en Email med informationer når Børneklubben åbner for tilmelding næste år</label>
     </div>
 
+
+
+   <div class="col-md-12 mb-3">
+            <InputCheckbox id="Tilsagt" @bind-Value="isTilsagt" class="form-check-input" />
+            <label for="Tilsagt">Jeg giver tilsagt til at barnet opholder sig i Cirkus Summarums Børneklub</label>
+            <a href="https://cirkussummarum.dk/om-cirkus-summarum/politikker/" target="_blank">[Politikker]</a>
+            @if (showTilsagtError)
+            {
+                <p class="text-danger">Tilsigelse er nødvendigt for tilmeldingen</p>
+            }
+    </div>
+
+
+
+
         <div class="col-md-12 mb-3">
             <InputCheckbox id="BeenBefore" @bind-Value="childItem.BeenBefore" class="form-check-input" />
             <label for="BeenBefore">Mit barn har været i Cirkus Summarum's pasningsordning før</label>
@@ -247,7 +262,8 @@
 
     private bool showVolunteerError = false;
     private bool showPeriodError = false;
-    
+    private bool showTilsagtError = false;
+
 
     private AssignedPeriod assignedPeriod = new AssignedPeriod();
 
@@ -258,6 +274,7 @@
     private RegisteredChild? currentRegisteredChild;
     private ModalDialog ConfirmationDialog;
     public bool isVolunteering;
+    public bool isTilsagt;
 
     public string defaultValue = null;
 
@@ -299,12 +316,23 @@
             {
                 showVolunteerError = false;
 
-                OpenConfirmationDialog(childItem); // Only open the dialog if volunteering is true
             }
             else
             {
                 // If not volunteering, show an error and do not open the dialog
                 showVolunteerError = true;
+
+                if (isTilsagt)
+                {
+                    showTilsagtError = false;
+
+                    OpenConfirmationDialog(childItem); // Only open the dialog if volunteering is true
+
+                }
+                else
+                {
+                    showTilsagtError = true;
+                }
             }
 
         }
