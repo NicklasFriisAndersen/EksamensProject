@@ -31,21 +31,19 @@ namespace Core.Models
 
         public int? Krævnr { get; set; }
 
-        public Priority? FirstPriority { get; set; }
-
-        public Priority? SecondPriority { get; set; }
-
-        public DateTime DateAdded { get; set; }
-
         public string? ParentName { get; set; }
 
         public string? ParentEmail { get; set; }
 
         public string? ParentPhoneNumber { get; set; }
 
-        public string? AssignedPeriod { get; set; } = "Ikke Tilføjet";
+        public AssignedPeriod? AssignedPeriod { get; set; }
 
-        // public User? User { get; set; }
+        public Priority? FirstPriority { get; set; }
+
+        public Priority? SecondPriority { get; set; }
+
+        public DateTime DateAdded { get; set; }
 
     }
 }

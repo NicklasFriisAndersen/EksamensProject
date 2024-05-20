@@ -8,6 +8,9 @@ namespace SommerSummarum.Services
         Task AddChildItem(RegisteredChild registeredChild);
 
         Task<RegisteredChild[]?> FilterByNewsletter();
+        
+        Task EditChildItem(RegisteredChild registeredChild);
+
     }
 }
 

@@ -11,11 +11,15 @@
 {
     <p id="name-of-user">Username: @user.Username</p>
     <p id="email-of-user">Email: @user.Email</p>
-    
+
     if (user.Role == Roles.Admin)
     {
         <p id="role-display-if-admin">Special Role: @user.Role</p>
     }
+
+    <div class="top-row px-4">
+        <button class="btn btn-secondary" @onclick="ClearLocalStorage">Log ud</button>
+    </div>
 }
 else
 {
@@ -32,9 +36,13 @@ else
         {
             user = JsonSerializer.Deserialize<User>(userInfoJson);
         }
-        
+
     }
-    
 
-
+    public async void ClearLocalStorage()
+    {
+        await localStore.RemoveItemAsync("userinfo");
+        user = null;
+        StateHasChanged();
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Core.Models;
+using MongoDB.Driver;
 
 namespace ServerAPI.Repositories
 {
@@ -11,8 +12,11 @@ namespace ServerAPI.Repositories
         
         public List<RegisteredChild> FilterChildByKraevNummer(string kraevnr);
 
-
         public List<RegisteredChild> FilterByNewsletter();
+
+        public void UpdateAssignedPeriod(RegisteredChild registeredChild);
+
+
     }
 }
 

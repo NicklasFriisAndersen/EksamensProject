@@ -47,5 +47,33 @@ namespace ServerAPI.Repositories
             var filter = Builders<RegisteredChild>.Filter.Eq("Newsletter", true);
             return collection.Find(filter).ToList();
         }
+        
+        public void UpdateAssignedPeriod(RegisteredChild registeredChild)
+        {
+            var filter = Builders<RegisteredChild>.Filter.Eq("Id", registeredChild.Id);
+
+            var update = Builders<RegisteredChild>.Update
+                .Set(r => r.Name, registeredChild.Name)
+                .Set(r => r.Age, registeredChild.Age)
+                .Set(r => r.ClothingSize, registeredChild.ClothingSize)
+                .Set(r => r.Comment, registeredChild.Comment)
+                .Set(r => r.BeenBefore, registeredChild.BeenBefore)
+                .Set(r => r.Hobbies, registeredChild.Hobbies)
+                .Set(r => r.GuardianSignature, registeredChild.GuardianSignature)
+                .Set(r => r.Krævnr, registeredChild.Krævnr)
+                .Set(r => r.ParentName, registeredChild.ParentName)
+                .Set(r => r.ParentEmail, registeredChild.ParentEmail)
+                .Set(r => r.ParentPhoneNumber, registeredChild.ParentPhoneNumber)
+                .Set(r => r.AssignedPeriod, registeredChild.AssignedPeriod)
+                .Set(r => r.FirstPriority, registeredChild.FirstPriority)
+                .Set(r => r.SecondPriority, registeredChild.SecondPriority)
+                .Set(r => r.DateAdded, registeredChild.DateAdded);
+
+            collection.UpdateOne(filter, update);
+
+        }
+
+
+
     }
 }

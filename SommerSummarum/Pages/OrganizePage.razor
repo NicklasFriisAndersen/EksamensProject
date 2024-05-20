@@ -1,0 +1,193 @@
+﻿@page "/organize"
+@using Blazorise
+@using Blazorise.SignaturePad
+@using SommerSummarum.Services
+
+@inject HttpClient Http
+@using Core.Models
+
+<h3>Organiser Ledige Pladser</h3>
+
+<!--tabel til alle perioder-->
+<div class="col-md-12 mb-3">
+    @foreach (var weekGroup in periodList.GroupBy(p => p.Week))
+    {
+        int onsdagSøndagCount = 0;
+        int onsdagFredagCount = 0;
+        int lørdagSøndagCount = 0;
+
+        // Tæl børn for hver periode-type inden for denne uge
+        foreach (var item in childList ?? new RegisteredChild[0])
+        {
+            if (item.AssignedPeriod.Week == weekGroup.Key)
+            {
+                var days = item.AssignedPeriod.Days;
+                if (days == "Onsdag-Søndag")
+                {
+                    onsdagFredagCount++;
+                    lørdagSøndagCount++;
+                }
+                else if (days == "Onsdag-Fredag")
+                {
+                    onsdagFredagCount++;
+                }
+                else if (days == "Lørdag-Søndag")
+                {
+                    lørdagSøndagCount++;
+                }
+            }
+        }
+
+        <h4>@weekGroup.Key</h4>
+        @if (onsdagFredagCount > 20)
+        {
+            <p class="text-danger">
+                Onsdag-Fredag: @onsdagFredagCount<br />
+            </p>
+        }
+        else
+        {
+            <p>
+                Onsdag-Fredag: @onsdagFredagCount<br />
+            </p>
+        }
+
+        @if (lørdagSøndagCount > 20)
+        {
+            <p class="text-danger">
+                Lørdag-Søndag: @lørdagSøndagCount<br />
+            </p>
+        }
+        else
+        {
+            <p>
+                Lørdag-Søndag: @lørdagSøndagCount<br />
+            </p>
+        }
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Navn</th>
+                    <th>Alder</th>
+                    <th>Kommentar</th>
+                    <th>1. Prioritet</th>
+                    <th>2. Prioritet</th>
+                    <th>Tildel 1. Prioritet</th>
+                    <th>Tildel 2. Prioritet</th>
+                    <th>Fjern fra Periode</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in childList ?? new RegisteredChild[0])
+                {
+                    if (item.AssignedPeriod.Week == weekGroup.Key)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Age</td>
+                            <td>@item.Comment</td>
+                            <td>@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")</td>
+                            <td>@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")</td>
+                            <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
+                            <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
+                            <td><button class="btn btn-secondary" @onclick="() => UpdateChild(item, remove)">Fjern</button></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<h3>Tildel perioder</h3>
+<div class="col-md-12 mb-3">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Navn</th>
+                <th>Alder</th>
+                <th>Kommentar</th>
+                <th>1. Prioritet</th>
+                <th>2. Prioritet</th>
+                <th>Tildel 1. Prioritet</th>
+                <th>Tildel 2. Prioritet</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in childList ?? new RegisteredChild[0])
+                {
+
+                    if (item.AssignedPeriod.Week == "Ikke Tilføjet")
+                    {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Age</td>
+                        <td>@item.Comment</td>
+                        <td>@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")</td>
+                        @if (item.SecondPriority.Week == "Jeg kan kun i 1. prioritet")
+                        {
+                            <td>Jeg kan kun i 1. prioritet</td>
+                        }
+                        else
+                        {
+                            <td>@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</td>
+                        }
+                        <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
+                        <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@code {
+    [Inject]
+    private IPeriodService pService { get; set; }
+
+    [Inject]
+    private IRegisterChildService rService { get; set; }
+
+    private string serverUrl = "https://localhost:7016";
+
+    private List<Period>? periodList = new();
+
+    private RegisteredChild[]? childList = new RegisteredChild[0];
+    private int childListCount = 0;
+
+
+    private string prioritet1 = "prioritet1";
+    private string prioritet2 = "prioritet2";
+    private string remove = "remove";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        childList = await Http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/registeredchildren/getall");
+        periodList = await pService.GetAllPeriod();
+    }
+
+    public async Task UpdateChild(RegisteredChild registeredChild, string prio)
+    {
+        if (prio == "prioritet1")
+        {
+            registeredChild.AssignedPeriod.Week = registeredChild.FirstPriority.Week;
+            registeredChild.AssignedPeriod.Days = registeredChild.FirstPriority.Day;
+        }
+        else if (prio == "prioritet2")
+        {
+            registeredChild.AssignedPeriod.Week = registeredChild.SecondPriority.Week;
+            registeredChild.AssignedPeriod.Days = registeredChild.SecondPriority.Day;
+        }
+        else
+        {
+            registeredChild.AssignedPeriod.Week = "Ikke Tilføjet";
+            registeredChild.AssignedPeriod.Days = "Ikke Tilføjet";
+            childListCount--;
+        }
+
+        await rService.EditChildItem(registeredChild);
+    }
+}

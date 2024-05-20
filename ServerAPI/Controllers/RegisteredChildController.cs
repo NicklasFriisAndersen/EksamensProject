@@ -45,6 +45,13 @@ namespace ServerAPI.Controllers
         {
             return rRepo.FilterByNewsletter();
         }
+
+        [HttpPost]
+        [Route("edit")]
+        public void editOneItem(RegisteredChild registeredChild)
+        {
+            rRepo.UpdateAssignedPeriod(registeredChild);
+        }
     }
 }
 
