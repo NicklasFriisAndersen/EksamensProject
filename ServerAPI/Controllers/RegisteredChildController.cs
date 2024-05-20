@@ -3,6 +3,7 @@ using ServerAPI.Repositories;
 using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
+using System.Text;
 
 namespace ServerAPI.Controllers
 {
@@ -51,6 +52,29 @@ namespace ServerAPI.Controllers
         public void editOneItem(RegisteredChild registeredChild)
         {
             rRepo.UpdateAssignedPeriod(registeredChild);
+        }
+
+        [HttpGet]
+        [Route("allcsv")]
+        public ActionResult DownloadAll()
+        {
+            var allChildren = rRepo.getAllItems();
+            string csv =
+                "Navn;Alder;Værge Navn;Værge Email;Værge TLF;Kommentar;Hobbier;Krævnr;Andelt Uge;Andelte Dage;Deltaget Før;Tøj Str;DatoTilføjet" + "\n";
+            foreach (var child in allChildren)
+            {
+                csv += child.Name + ";" + child.Age + ";" + child.ParentName + ";" + child.ParentEmail + ";" +
+                       child.ParentPhoneNumber + ";" + child.Comment + ";" + child.Hobbies + ";" + child.Krævnr + ";" +
+                       child.AssignedPeriod.Week + ";" + child.AssignedPeriod.Days + ";" + child.BeenBefore + ";" +
+                       child.ClothingSize + ";" + child.DateAdded + "\n";
+            }
+            //bliver lavet fra string til UTF-8 encodede bytes
+            var csvBytes = Encoding.UTF8.GetBytes(csv);
+            //en stream er en måde at håndtere bytes, og her ligger vi det i serveren
+            var stream = new MemoryStream(csvBytes);
+            var result = new FileStreamResult(stream, "text/csv");
+            result.FileDownloadName = "Børneregistreringer";
+            return result;
         }
     }
 }

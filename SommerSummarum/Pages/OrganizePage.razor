@@ -11,6 +11,8 @@
 @if (user?.Role == Roles.Admin)
 {
     <h3>Organiser Ledige Pladser</h3>
+    
+    <a class="btn" href="@($"{serverUrl}/api/registeredchildren/allcsv")" download="w3logo">Hent som CSV</a> 
 
     <!--tabel til alle perioder-->
     <div class="col-md-12 mb-3">
