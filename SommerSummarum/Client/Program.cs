@@ -40,6 +40,8 @@ public class Program
 
         builder.Services.AddSingleton<IUserService, UserService>();
 
+        builder.Services.AddSingleton<IClipboardService, ClipboardService>();
+
 
 
         builder.Services
