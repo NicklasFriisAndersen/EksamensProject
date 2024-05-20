@@ -3,22 +3,24 @@
 @inject HttpClient Http
 @using System.Text.Json
 @using SommerSummarum.Services
+@inject Blazored.LocalStorage.ILocalStorageService localStore;
+
+@if (user?.Role == Roles.Admin)
+{
+    <PageTitle>Nyhedsbrev</PageTitle>
+
+    <h2>Nyhedsbrev modtagere</h2>
 
 
-<PageTitle>Nyhedsbrev</PageTitle>
-
-<h2>Nyhedsbrev modtagere</h2>
-
-
-<table class="table table-striped">
-    <thead>
+    <table class="table table-striped">
+        <thead>
         <tr>
             <th>Værge Navn</th>
             <th>Værge tlf. nr.</th>
             <th>Værge Email</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         @foreach (var item in registeredChildList)
         {
             <tr>
@@ -27,8 +29,14 @@
                 <td>@item.ParentEmail</td>
             </tr>
         }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Du har ikke rettigheder til at se denne side</p>
+}
+
 
 
 @code {
@@ -39,18 +47,19 @@
 
     [Inject]
     private IRegisterChildService rService { get; set; }
+    
+    private User? user;
 
-    protected override async Task OnInitializedAsync()
-    {
-        registeredChildList = await rService.FilterByNewsletter();
-    }   
-   
+       protected override async Task OnInitializedAsync()
+       {
+           var userInfoJson = await localStore.GetItemAsStringAsync("userinfo");
+           if (!string.IsNullOrEmpty(userInfoJson))
+           {
+               user = JsonSerializer.Deserialize<User>(userInfoJson);
+           }
+           
+           registeredChildList = await rService.FilterByNewsletter();
 
-    /*private async Task FilterByNewsletter()
-    {
-    var url = ($"{serverUrl}/api/registeredchildren/getbynewsletter");
-        registeredChildren = await Http.GetFromJsonAsync<List<RegisteredChild>>(url);
-        StateHasChanged();
-    }*/
+       }
 
 }
