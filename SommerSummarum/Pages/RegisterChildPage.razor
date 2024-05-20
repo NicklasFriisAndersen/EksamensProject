@@ -17,11 +17,11 @@
     <ValidationSummary />
     <div class="col-md-12 mb-3">
         <label for="Name">Navn</label>
-        <InputText id="Name" @bind-Value="childItem.Name" class="form-control" placeholder="Indtast navn på barn"/>
+        <InputText id="Name" @bind-Value="childItem.Name" class="form-control" placeholder="Indtast navn på barn" />
     </div>
     <div class="col-md-6 mb-3">
         <label for="Age">Alder</label>
-        <InputNumber id="Age" @bind-Value="childItem.Age" class="form-control" placeholder="Indtast alder på barn"/>
+        <InputNumber id="Age" @bind-Value="childItem.Age" class="form-control" placeholder="Indtast alder på barn" />
     </div>
     <div class="col-md-6 mb-3">
         <label for="ClothingSize">T-shirt Størrelse</label>
@@ -35,20 +35,20 @@
             <option value="XS">XS</option>
             <option value="S">S</option>
         </InputSelect>
-                   
-       
+
+
     </div>
     <div class="col-md-12 mb-3">
         <label for="Comment">Ekstra Kommentar</label>
-        <InputText id="Comment" @bind-Value="childItem.Comment" class="form-control" placeholder="Indtast bemærkninger (evt. diagnose/sundhed/allergier)"/>
+        <InputText id="Comment" @bind-Value="childItem.Comment" class="form-control" placeholder="Indtast bemærkninger (evt. diagnose/sundhed/allergier)" />
     </div>
     <div class="col-md-6 mb-3">
         <label for="Krævnr">Krævnr</label>
-        <InputNumber id="Krævnr" @bind-Value="childItem.Krævnr" class="form-control" placeholder="Indtast eget krævnummer"/>
+        <InputNumber id="Krævnr" @bind-Value="childItem.Krævnr" class="form-control" placeholder="Indtast eget krævnummer" />
     </div>
     <div class="col-md-6 mb-3">
         <label for="Hobbies">Hobbyer</label>
-        <InputText id="Hobbies" @bind-Value="childItem.Hobbies" class="form-control" placeholder="Indtast barnets interesser"/>
+        <InputText id="Hobbies" @bind-Value="childItem.Hobbies" class="form-control" placeholder="Indtast barnets interesser" />
     </div>
     <div class="col-md-6 mb-3">
         <label for="ParentName">Værges navn</label>
@@ -62,7 +62,7 @@
         <label for="ParentEmail">Værges Email</label>
         <InputText id="ParentEmail" @bind-Value="childItem.ParentEmail" class="form-control" placeholder="Indtast Email på værge" />
     </div>
-    
+
 
     <!-- Første prioritet-->
     <div class="col-md-3 mb-3">
@@ -143,37 +143,47 @@
             <p class="text-danger">Du skal vælge en gyldig periode.</p>
         }
     </div>
-        <!-- Checkbokse-->
+    <!-- Checkbokse-->
     <div class="col-md-12 mb-3">
         <InputCheckbox id="Newsletter" @bind-Value="childItem.Newsletter" class="form-check-input" />
         <label for="Newsletter">Jeg vil gerne modtage en Email med informationer når Børneklubben åbner for tilmelding næste år</label>
     </div>
 
-        <div class="col-md-12 mb-3">
-            <InputCheckbox id="BeenBefore" @bind-Value="childItem.BeenBefore" class="form-check-input" />
-            <label for="BeenBefore">Mit barn har været i Cirkus Summarum's pasningsordning før</label>
-        </div>
+    <div class="col-md-12 mb-3">
+        <InputCheckbox id="BeenBefore" @bind-Value="childItem.BeenBefore" class="form-check-input" />
+        <label for="BeenBefore">Mit barn har været i Cirkus Summarum's pasningsordning før</label>
+    </div>
 
 
-        <div class="col-md-12 mb-3">
-            <InputCheckbox id="IsVolunteering" @bind-Value="isVolunteering" class="form-check-input" />
-            <label for="IsVolunteering">Jeg har selv været inde og oprette mig selv som frivilig på Cirkus Summarum</label>
+    <div class="col-md-12 mb-3">
+        <InputCheckbox id="IsVolunteering" @bind-Value="isVolunteering" class="form-check-input" />
+        <label for="IsVolunteering">Jeg har selv været inde og oprette mig selv som frivilig på Cirkus Summarum</label>
 
-            @if (showVolunteerError)
-            {
-                <p class="text-danger">Du skal selv allerede være registreret som frivillig for at registrere dit barn.</p>
-            }
-        </div>
+        @if (showVolunteerError)
+        {
+            <p class="text-danger">Du skal selv allerede være registreret som frivillig for at registrere dit barn.</p>
+        }
+    </div>
 
-        <!-- Underskrift-->
-        <div>
-            <label>Underskrift fra værge</label>
-            <br />
-            <SignaturePad CanvasWidth="600" CanvasHeight="400" @bind-Value="@childItem.GuardianSignature" Class="signature-pad" Style="width: 100%; height: 300px; outline-style: dotted"></SignaturePad>
-        </div>
-        <div class="col-12 mb-3">
-            <button class="btn btn-primary" @onclick="() => HandleValidSubmit()">Ansøg</button>
-        </div>
+    <div class="col-md-12 mb-3">
+        <InputCheckbox id="IsTilsagn" @bind-Value="isTilsagn" class="form-check-input" />
+        <label for="IsTilsagn">Jeg giver tilsagt til at barnet opholder sig i Cirkus Summarums Børneklub</label>
+        <a href="https://cirkussummarum.dk/om-cirkus-summarum/politikker/" target="_blank">[Politikker]</a>
+        @if (showTilsagnError)
+        {
+            <p class="text-danger">Tilsigelse er nødvendigt for tilmelding</p>
+        }
+    </div>
+
+    <!-- Underskrift-->
+    <div>
+        <label>Underskrift fra værge</label>
+        <br />
+        <SignaturePad CanvasWidth="600" CanvasHeight="400" @bind-Value="@childItem.GuardianSignature" Class="signature-pad" Style="width: 100%; height: 300px; outline-style: dotted"></SignaturePad>
+    </div>
+    <div class="col-12 mb-3">
+        <button class="btn btn-primary" @onclick="() => HandleValidSubmit()">Ansøg</button>
+    </div>
 </EditForm>
 
 <ModalDialog @ref="ConfirmationDialog" Title="Confirm register">
@@ -197,7 +207,7 @@
         <div class="col-md-6 mb-3">
             <strong>Krævnr:</strong>
             <p>@currentRegisteredChild?.Krævnr</p>
-       </div>
+        </div>
         <div class="col-md-6 mb-3">
             <strong>Hobbyer:</strong>
             <p>@currentRegisteredChild?.Hobbies</p>
@@ -206,7 +216,7 @@
             <strong>Kommentarer:</strong>
             <p>@currentRegisteredChild?.Comment</p>
         </div>
-       
+
         <div class="col-md-6 mb-3">
             <strong>Værge navn:</strong>
             <p>@currentRegisteredChild?.ParentName</p>
@@ -241,13 +251,15 @@
 
     private User? user;
 
-    //private Period[]? periodList;
-
     private List<Period>? periodList = new();
 
     private bool showVolunteerError = false;
     private bool showPeriodError = false;
-    
+    private bool showTilsagnError = false;
+
+    public bool isDateInput = false;
+    public bool isVolunteering = false;
+    public bool isTilsagn = false;
 
     private AssignedPeriod assignedPeriod = new AssignedPeriod();
 
@@ -257,7 +269,6 @@
     private RegisteredChild childItem = new RegisteredChild();
     private RegisteredChild? currentRegisteredChild;
     private ModalDialog ConfirmationDialog;
-    public bool isVolunteering;
 
     public string defaultValue = null;
 
@@ -294,21 +305,35 @@
         else
         {
             showPeriodError = false;
-
-            if (isVolunteering)
-            {
-                showVolunteerError = false;
-
-                OpenConfirmationDialog(childItem); // Only open the dialog if volunteering is true
-            }
-            else
-            {
-                // If not volunteering, show an error and do not open the dialog
-                showVolunteerError = true;
-            }
-
+            isDateInput = true;
         }
 
+        if (isVolunteering)
+        {
+            showVolunteerError = false;
+            isVolunteering = true;
+
+        }
+        else
+        {
+            // If not volunteering, show an error and do not open the dialog
+            showVolunteerError = true;
+        }
+
+        if (isTilsagn)
+        {
+            showTilsagnError = false;
+            isTilsagn = true;
+        }
+        else
+        {
+            showTilsagnError = true;
+        }
+
+        if(isDateInput & isVolunteering & isTilsagn)
+        {
+            OpenConfirmationDialog(childItem); // Only open the dialog if volunteering is true
+        }
     }
 
     public async Task AddChild()
