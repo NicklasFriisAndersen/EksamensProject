@@ -6,17 +6,20 @@
 @inject Blazored.LocalStorage.ILocalStorageService localStore;
 
 @page "/UserPermitsPage"
-<h3>Liste over brugere</h3>
 
-<table class="table table-striped">
-    <thead>
+@if (user?.Role == Roles.Admin)
+{
+    <h3>Liste over brugere</h3>
+
+    <table class="table table-striped">
+        <thead>
         <tr>
             <th>Navn</th>
             <th>Mail</th>
             <th>Rolle</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         @foreach (var item in userList ?? new User[0])
         {
             <tr>
@@ -31,8 +34,14 @@
                 <td><button class="btn btn-primary "onclick="@OnSave(item)">Gem rolle</button></td>
             </tr>
         }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Du har ikke rettigheder til at se denne side</p>
+}
+
 
 @code {
     private User? user;

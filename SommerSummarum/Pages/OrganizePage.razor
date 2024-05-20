@@ -1,72 +1,76 @@
 ﻿@page "/organize"
 @using Blazorise
 @using Blazorise.SignaturePad
+@inject Blazored.LocalStorage.ILocalStorageService localStore;
 @using SommerSummarum.Services
 
 @inject HttpClient Http
 @using Core.Models
+@using System.Text.Json
 
-<h3>Organiser Ledige Pladser</h3>
+@if (user?.Role == Roles.Admin)
+{
+    <h3>Organiser Ledige Pladser</h3>
 
-<!--tabel til alle perioder-->
-<div class="col-md-12 mb-3">
-    @foreach (var weekGroup in periodList.GroupBy(p => p.Week))
-    {
-        int onsdagSøndagCount = 0;
-        int onsdagFredagCount = 0;
-        int lørdagSøndagCount = 0;
-
-        // Tæl børn for hver periode-type inden for denne uge
-        foreach (var item in childList ?? new RegisteredChild[0])
+    <!--tabel til alle perioder-->
+    <div class="col-md-12 mb-3">
+        @foreach (var weekGroup in periodList.GroupBy(p => p.Week))
         {
-            if (item.AssignedPeriod.Week == weekGroup.Key)
+            int onsdagSøndagCount = 0;
+            int onsdagFredagCount = 0;
+            int lørdagSøndagCount = 0;
+
+            // Tæl børn for hver periode-type inden for denne uge
+            foreach (var item in childList ?? new RegisteredChild[0])
             {
-                var days = item.AssignedPeriod.Days;
-                if (days == "Onsdag-Søndag")
+                if (item.AssignedPeriod.Week == weekGroup.Key)
                 {
-                    onsdagFredagCount++;
-                    lørdagSøndagCount++;
-                }
-                else if (days == "Onsdag-Fredag")
-                {
-                    onsdagFredagCount++;
-                }
-                else if (days == "Lørdag-Søndag")
-                {
-                    lørdagSøndagCount++;
+                    var days = item.AssignedPeriod.Days;
+                    if (days == "Onsdag-Søndag")
+                    {
+                        onsdagFredagCount++;
+                        lørdagSøndagCount++;
+                    }
+                    else if (days == "Onsdag-Fredag")
+                    {
+                        onsdagFredagCount++;
+                    }
+                    else if (days == "Lørdag-Søndag")
+                    {
+                        lørdagSøndagCount++;
+                    }
                 }
             }
-        }
 
-        <h4>@weekGroup.Key</h4>
-        @if (onsdagFredagCount > 20)
-        {
-            <p class="text-danger">
-                Onsdag-Fredag: @onsdagFredagCount<br />
-            </p>
-        }
-        else
-        {
-            <p>
-                Onsdag-Fredag: @onsdagFredagCount<br />
-            </p>
-        }
+            <h4>@weekGroup.Key</h4>
+            @if (onsdagFredagCount > 20)
+            {
+                <p class="text-danger">
+                    Onsdag-Fredag: @onsdagFredagCount<br/>
+                </p>
+            }
+            else
+            {
+                <p>
+                    Onsdag-Fredag: @onsdagFredagCount<br/>
+                </p>
+            }
 
-        @if (lørdagSøndagCount > 20)
-        {
-            <p class="text-danger">
-                Lørdag-Søndag: @lørdagSøndagCount<br />
-            </p>
-        }
-        else
-        {
-            <p>
-                Lørdag-Søndag: @lørdagSøndagCount<br />
-            </p>
-        }
+            @if (lørdagSøndagCount > 20)
+            {
+                <p class="text-danger">
+                    Lørdag-Søndag: @lørdagSøndagCount<br/>
+                </p>
+            }
+            else
+            {
+                <p>
+                    Lørdag-Søndag: @lørdagSøndagCount<br/>
+                </p>
+            }
 
-        <table class="table table-striped">
-            <thead>
+            <table class="table table-striped">
+                <thead>
                 <tr>
                     <th>Navn</th>
                     <th>Alder</th>
@@ -77,8 +81,8 @@
                     <th>Tildel 2. Prioritet</th>
                     <th>Fjern fra Periode</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 @foreach (var item in childList ?? new RegisteredChild[0])
                 {
                     if (item.AssignedPeriod.Week == weekGroup.Key)
@@ -95,15 +99,15 @@
                         </tr>
                     }
                 }
-            </tbody>
-        </table>
-    }
-</div>
+                </tbody>
+            </table>
+        }
+    </div>
 
-<h3>Tildel perioder</h3>
-<div class="col-md-12 mb-3">
-    <table class="table table-striped">
-        <thead>
+    <h3>Tildel perioder</h3>
+    <div class="col-md-12 mb-3">
+        <table class="table table-striped">
+            <thead>
             <tr>
                 <th>Navn</th>
                 <th>Alder</th>
@@ -113,13 +117,13 @@
                 <th>Tildel 1. Prioritet</th>
                 <th>Tildel 2. Prioritet</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             @foreach (var item in childList ?? new RegisteredChild[0])
-                {
+            {
 
-                    if (item.AssignedPeriod.Week == "Ikke Tilføjet")
-                    {
+                if (item.AssignedPeriod.Week == "Ikke Tilføjet")
+                {
                     <tr>
                         <td>@item.Name</td>
                         <td>@item.Age</td>
@@ -138,9 +142,14 @@
                     </tr>
                 }
             }
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <p>Du har ikke rettigheder til at se denne side</p>
+}
 
 
 @code {
@@ -162,11 +171,19 @@
     private string prioritet2 = "prioritet2";
     private string remove = "remove";
 
+    private User? user;
+
 
     protected override async Task OnInitializedAsync()
     {
         childList = await Http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/registeredchildren/getall");
         periodList = await pService.GetAllPeriod();
+        
+        var userInfoJson = await localStore.GetItemAsStringAsync("userinfo");
+        if (!string.IsNullOrEmpty(userInfoJson))
+        {
+            user = JsonSerializer.Deserialize<User>(userInfoJson);
+        }
     }
 
     public async Task UpdateChild(RegisteredChild registeredChild, string prio)
