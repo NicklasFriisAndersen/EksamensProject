@@ -22,10 +22,6 @@
             if (item.AssignedPeriod.Week == weekGroup.Key)
             {
                 var days = item.AssignedPeriod.Days;
-                //if (days == "Onsdag-Søndag")
-                //{
-                //    onsdagSøndagCount++;
-                //}
                 if (days == "Onsdag-Søndag")
                 {
                     onsdagFredagCount++;
@@ -105,9 +101,6 @@
 </div>
 
 <h3>Tildel perioder</h3>
-<p>
-    Antal Børn Uden Tildelt Periode: @childList.Length
-</p>
 <div class="col-md-12 mb-3">
     <table class="table table-striped">
         <thead>
@@ -123,10 +116,10 @@
         </thead>
         <tbody>
             @foreach (var item in childList ?? new RegisteredChild[0])
-            {
-
-                if (item.AssignedPeriod.Week == "Ikke Tilføjet")
                 {
+
+                    if (item.AssignedPeriod.Week == "Ikke Tilføjet")
+                    {
                     <tr>
                         <td>@item.Name</td>
                         <td>@item.Age</td>
@@ -174,12 +167,6 @@
     {
         childList = await Http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/registeredchildren/getall");
         periodList = await pService.GetAllPeriod();
-
-        foreach (var item in periodList)
-        {
-            Console.WriteLine(item.Week);
-        }
-
     }
 
     public async Task UpdateChild(RegisteredChild registeredChild, string prio)
@@ -198,6 +185,7 @@
         {
             registeredChild.AssignedPeriod.Week = "Ikke Tilføjet";
             registeredChild.AssignedPeriod.Days = "Ikke Tilføjet";
+            childListCount--;
         }
 
         await rService.EditChildItem(registeredChild);
