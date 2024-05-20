@@ -11,6 +11,8 @@ namespace SommerSummarum.Services
         
         Task EditChildItem(RegisteredChild registeredChild);
 
+        Task<RegisteredChild[]?> GetAllChildren();
+
     }
 }
 

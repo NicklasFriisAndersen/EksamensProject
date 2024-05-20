@@ -28,11 +28,17 @@ namespace SommerSummarum.Services
             
         }
 
-
         public async Task EditChildItem(RegisteredChild registeredChild)
         {
             await http.PostAsJsonAsync<RegisteredChild>($"{serverUrl}/api/registeredchildren/edit", registeredChild);
         }
+
+        public async Task<RegisteredChild[]?> GetAllChildren()
+        {
+            var childList = await http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/registeredchildren/getall");
+            return childList;
+        }
+
     }
 }
 
