@@ -155,7 +155,6 @@
     private List<Period>? periodList = new();
 
     private RegisteredChild[]? childList = new RegisteredChild[0];
-    private int childListCount = 0;
 
 
     private string prioritet1 = "prioritet1";
@@ -185,7 +184,6 @@
         {
             registeredChild.AssignedPeriod.Week = "Ikke Tilføjet";
             registeredChild.AssignedPeriod.Days = "Ikke Tilføjet";
-            childListCount--;
         }
 
         await rService.EditChildItem(registeredChild);
