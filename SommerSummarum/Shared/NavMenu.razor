@@ -51,17 +51,21 @@
                                 <span class="oi oi-lock-locked" aria-hidden="true"></span> Konto rettigheder
                             </NavLink>
                         </div>
-                        <div class="nav-item px-3">
-                            <NavLink class="nav-link" href="profilepage">
-                                <span class="oi oi-home" aria-hidden="true"></span> Min profil
-                            </NavLink>
-                        </div>
+                        
                     }
         @if (user == null)
         {
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="loginpage">
                     <span class="oi oi-lock-locked" aria-hidden="true"></span> Administrator
+                </NavLink>
+            </div>
+        }
+        @if (user?.Role == Roles.Admin || user?.Role == Roles.Leder)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="profilepage">
+                    <span class="oi oi-home" aria-hidden="true"></span> Min profil
                 </NavLink>
             </div>
         }
