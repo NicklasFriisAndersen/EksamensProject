@@ -73,7 +73,7 @@ namespace ServerAPI.Controllers
             //en stream er en måde at håndtere bytes, og her ligger vi det i serveren
             var stream = new MemoryStream(csvBytes);
             var result = new FileStreamResult(stream, "text/csv");
-            result.FileDownloadName = "Børneregistreringer";
+            result.FileDownloadName = "Børneregistreringer.csv";
             return result;
         }
     }
