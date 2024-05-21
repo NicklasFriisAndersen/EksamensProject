@@ -16,7 +16,9 @@ namespace ServerAPI.Repositories
 
         public void UpdateAssignedPeriod(RegisteredChild registeredChild);
 
+        public List<RegisteredChild> FilterByAssignedWeek(string assignedWeek);
 
-    }
+
+	}
 }
 

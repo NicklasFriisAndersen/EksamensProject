@@ -42,6 +42,13 @@ namespace ServerAPI.Repositories
             return collection.Find(filter).ToList();
         }
 
+        public List<RegisteredChild> FilterByAssignedWeek(string assignedWeek)
+        {
+            Console.WriteLine(assignedWeek);
+            var filter = Builders<RegisteredChild>.Filter.Eq(child => child.AssignedPeriod.Week, assignedWeek);
+            return collection.Find(filter).ToList();
+        }
+
         public List<RegisteredChild> FilterByNewsletter()
         {
             var filter = Builders<RegisteredChild>.Filter.Eq("Newsletter", true);

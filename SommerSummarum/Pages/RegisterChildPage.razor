@@ -73,7 +73,15 @@
             <option value="">Vælg Ugenummer</option>
             @foreach (var item in periodList)
             {
-                <option value="@item.Week">@item.Week</option>
+                if (weekAmountDict.TryGetValue(item.Week, out int existing) && existing >= 15)
+                {
+                    <option value="@item.Week">@item.Week - Få pladser tilbage</option>
+                }
+                else
+                {
+                    <option value="@item.Week">@item.Week</option>
+                }
+                
             }
         </InputSelect>
         <!-- Vælg dag, viser ikke gentagne værdier-->
@@ -110,7 +118,14 @@
 
             @foreach (var item in periodList)
             {
-                <option value="@item.Week">@item.Week</option>
+                if (weekAmountDict.TryGetValue(item.Week, out int existing) && existing >= 15)
+                                {
+                                    <option value="@item.Week">@item.Week - Få pladser tilbage</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Week">@item.Week</option>
+                                }
             }
         </InputSelect>
         <!-- Vælg dag, viser ikke gentagne værdier-->
@@ -270,6 +285,9 @@
     private RegisteredChild? currentRegisteredChild;
     private ModalDialog ConfirmationDialog;
 
+    private Dictionary<string, int> weekAmountDict = new Dictionary<string, int>(); 
+    
+
     public string defaultValue = null;
 
     [Inject]
@@ -281,13 +299,22 @@
     protected override async Task OnInitializedAsync()
     {
         aEditContext = new EditContext(childItem);
-        //  var userInfoJson = await localStore.GetItemAsStringAsync("userinfo");
-        //if (!string.IsNullOrEmpty(userInfoJson))
-        //{
-        //  user = JsonSerializer.Deserialize<User>(userInfoJson);
-        //}
+        var childs = await rService.GetAllChildren();
+        foreach (var child in childs)
+        {
+            if (weekAmountDict.TryGetValue(child.AssignedPeriod.Week, out int existing))
+            {
+                weekAmountDict[child.AssignedPeriod.Week] = existing + 1;
+            }
+            else
+            {
+                weekAmountDict.Add(child.AssignedPeriod.Week, 1);
 
+            }
+        }
+        
         periodList = await pService.GetAllPeriod();
+        
     }
 
     public void OpenConfirmationDialog(RegisteredChild child)

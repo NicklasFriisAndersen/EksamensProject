@@ -55,13 +55,14 @@ namespace ServerAPI.Controllers
         }
 
         [HttpGet]
-        [Route("allcsv")]
-        public ActionResult DownloadAll()
+        [Route("csv")]
+        public ActionResult DownloadByWeek(string assignedWeek)
         {
-            var allChildren = rRepo.getAllItems();
+            var getByWeek = rRepo.FilterByAssignedWeek(assignedWeek);
+            Console.WriteLine(assignedWeek);
             string csv =
                 "Navn;Alder;Værge Navn;Værge Email;Værge TLF;Kommentar;Hobbier;Krævnr;Andelt Uge;Andelte Dage;Deltaget Før;Tøj Str;DatoTilføjet" + "\n";
-            foreach (var child in allChildren)
+            foreach (var child in getByWeek)
             {
                 csv += child.Name + ";" + child.Age + ";" + child.ParentName + ";" + child.ParentEmail + ";" +
                        child.ParentPhoneNumber + ";" + child.Comment + ";" + child.Hobbies + ";" + child.Krævnr + ";" +
