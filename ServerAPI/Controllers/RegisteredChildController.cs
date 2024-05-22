@@ -34,10 +34,16 @@ namespace ServerAPI.Controllers
 
         [HttpPost]
         [Route("add")]
-        public void insertOneItem(RegisteredChild registeredChild)
+        public IActionResult insertOneItem(RegisteredChild registeredChild)
         {
+            int count = rRepo.CountChildrenByKrævnr(registeredChild.Krævnr.Value);
+            if (count >= 2)
+            {
+                return BadRequest("Du kan ikke registrere mere end 2 børn til børneklubben med samme Krævnr.");
+            }
+
             rRepo.insertOneItem(registeredChild);
-        }
+            return Ok("Barnet er registreret med succes.");        }
         
         [HttpGet]
         [Route("getbykraevnr")]
