@@ -154,6 +154,8 @@
     </div>
 
     <h3>Slettede Børn</h3>
+    <button @onclick="CopyRemovedEmails" class="btn btn-primary">Kopier Mails for Fjernet</button>
+
     <div class="col-md-12 mb-3">
         <table class="table table-striped">
             <thead>
@@ -168,7 +170,6 @@
                 <th>Hent Tilbage</th>
             </tr>
             </thead>
-            <button @onclick="CopyRemovedEmails" class="btn btn-secondary">Kopier Mails for Fjernet</button>
 
             <tbody>
                 @foreach (var item in childList ?? new RegisteredChild[0])
