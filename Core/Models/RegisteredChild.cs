@@ -37,6 +37,8 @@ namespace Core.Models
 
         public string? ParentPhoneNumber { get; set; }
 
+        public bool isParent { get; set; }
+
         public AssignedPeriod? AssignedPeriod { get; set; }
 
         public Priority? FirstPriority { get; set; }
