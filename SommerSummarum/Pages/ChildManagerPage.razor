@@ -1,0 +1,127 @@
+@page "/childmanagerpage"
+@using Blazorise
+@using Blazorise.SignaturePad
+@inject Blazored.LocalStorage.ILocalStorageService localStore;
+@using SommerSummarum.Services
+
+@inject HttpClient Http
+@using Core.Models
+@using System.Text.Json
+
+@if (user?.Role == Roles.Leder)
+{
+    <h3>Oversigt over tilmeldte børn</h3>
+    
+
+    <!--tabel til alle perioder-->
+    <div class="col-md-12 mb-3">
+        @foreach (var weekGroup in periodList.GroupBy(p => p.Week))
+        {
+            int onsdagSøndagCount = 0;
+            int onsdagFredagCount = 0;
+            int lørdagSøndagCount = 0;
+
+            // Tæl børn for hver periode-type inden for denne uge
+            foreach (var item in childList ?? new RegisteredChild[0])
+            {
+                if (item.AssignedPeriod.Week == weekGroup.Key)
+                {
+                    var days = item.AssignedPeriod.Days;
+                    if (days == "Onsdag-Søndag")
+                    {
+                        onsdagFredagCount++;
+                        lørdagSøndagCount++;
+                    }
+                    else if (days == "Onsdag-Fredag")
+                    {
+                        onsdagFredagCount++;
+                    }
+                    else if (days == "Lørdag-Søndag")
+                    {
+                        lørdagSøndagCount++;
+                    }
+                }
+            }
+
+            <h4>@weekGroup.Key</h4>
+            
+                <p>
+                    Onsdag-Fredag: @onsdagFredagCount<br />
+                </p>
+                
+                <p>
+                    Lørdag-Søndag: @lørdagSøndagCount<br />
+                </p>
+                
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Navn</th>
+                        <th>Alder</th>
+                        <th>Kommentar</th>
+                        <th>Periode</th>
+                        <th>Tøj størrelse</th>
+                        <th>Hobbier</th>
+                        <th>Navn på forældre</th>
+                        <th>Telefon nummer på forældre</th>
+                        <th>Været deltagende før?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in childList ?? new RegisteredChild[0])
+                    {
+                        if (item.AssignedPeriod.Week == weekGroup.Key)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Age</td>
+                                <td>@item.Comment</td>
+                                <td>@($"{item.AssignedPeriod.Days}")</td>
+                                <td>@($"{item.ClothingSize}")</td>
+                                <td>@($"{item.Hobbies}")</td>
+                                <td>@($"{item.ParentName}")</td>
+                                <td>@($"{item.ParentPhoneNumber}")</td>
+                                <td>@($"{item.BeenBefore}")</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+    
+}
+else
+{
+    <p>Du har ikke rettigheder til at se denne side</p>
+}
+
+
+@code {
+    [Inject] private IPeriodService pService { get; set; }
+
+    [Inject] private IRegisterChildService rService { get; set; }
+
+    private string serverUrl = "https://localhost:7016";
+
+    private List<Period>? periodList = new();
+
+    private RegisteredChild[]? childList = new RegisteredChild[0];
+    
+    private User? user;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        childList = await rService.GetAllChildrenPrioSort();
+
+        periodList = await pService.GetAllPeriod();
+
+        var userInfoJson = await localStore.GetItemAsStringAsync("userinfo");
+        if (!string.IsNullOrEmpty(userInfoJson))
+        {
+            user = JsonSerializer.Deserialize<User>(userInfoJson);
+        }
+    }
+
+}
