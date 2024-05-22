@@ -39,6 +39,11 @@ namespace SommerSummarum.Services
             return childList;
         }
 
+        public async Task<RegisteredChild[]?> GetAllChildrenPrioSort()
+        {
+            var childList = await http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/registeredchildren/getallprio");
+            return childList;
+        }
     }
 }
 

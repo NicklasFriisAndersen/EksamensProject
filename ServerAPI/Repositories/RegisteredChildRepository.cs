@@ -31,6 +31,15 @@ namespace ServerAPI.Repositories
             return collection.Find(filter).ToList();
         }
 
+        public List<RegisteredChild> getAllItemsByPriority()
+        {
+            var filter = Builders<RegisteredChild>.Filter.Empty;
+
+            var sort = Builders<RegisteredChild>.Sort.Ascending(child => child.FirstPriority);
+
+            return collection.Find(filter).Sort(sort).ToList();
+        }
+
         public void insertOneItem(RegisteredChild item)
         {
             collection.InsertOne(item);
