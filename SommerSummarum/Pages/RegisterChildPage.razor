@@ -51,6 +51,10 @@
     <div class="col-md-6 mb-3">
         <label for="Krævnr">Krævnr <b>- OBS: Hvis du ikke som forælder deltager, indtast deltagende værges Kræwnr.</b></label>
         <InputNumber id="Krævnr" @bind-Value="childItem.Krævnr" class="form-control" placeholder="Indtast krævnummer" />
+        @if (showTooManyChildrenError)
+        {
+            <p class="text-danger">Du kan ikke registrere mere end 2 børn pr. krævnummer.</p>
+        }
     </div>
    
     <div class="col-md-12 mb-3">
@@ -281,6 +285,7 @@
     private bool showVolunteerError = false;
     private bool showPeriodError = false;
     private bool showTilsagnError = false;
+    private bool showTooManyChildrenError = false;
 
     public bool isDateInput = false;
     public bool isVolunteering = false;
@@ -381,12 +386,21 @@
         childItem.FirstPriority = firstPriority;
         childItem.SecondPriority = secondPriority;
 
-        await rService.AddChildItem(childItem);
-
-        childItem = new(); // clear fields in form
-        aEditContext = new EditContext(childItem); // Reset the edit context
-        ConfirmationDialog.Close();
-        NavigationManager.NavigateTo("/confirmationpage");
+        var response = await rService.AddChildItem(childItem);
+        if (response.IsSuccessStatusCode)
+        {
+            childItem = new(); // clear fields in form
+            aEditContext = new EditContext(childItem); // Reset the edit context
+            ConfirmationDialog.Close();
+            NavigationManager.NavigateTo("/confirmationpage");
+        }
+        else
+        {
+            ConfirmationDialog.Close();
+         showTooManyChildrenError = true;
+        }
+        
+        
 
     }
 

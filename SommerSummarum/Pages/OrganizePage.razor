@@ -99,8 +99,8 @@
                                 <td>@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")</td>
                                 <td>@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")</td>
                                 <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
-                                <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
-                                <td><button class="btn btn-secondary" @onclick="() => UpdateChild(item, remove)">Fjern</button></td>
+                                <td><button class="btn btn-warning" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
+                                <td><button class="btn btn-danger" @onclick="() => UpdateChild(item, remove)">Fjern</button></td>
                             </tr>
                         }
                     }
@@ -145,8 +145,8 @@
                                 <td>@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</td>
                             }
                             <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
-                            <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
-                            <td><button class="btn btn-secondary" @onclick="() => UpdateChild(item, delete)">Slet</button></td>
+                            <td><button class="btn btn-warning" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
+                            <td><button class="btn btn-danger" @onclick="() => UpdateChild(item, delete)">Slet</button></td>
                         </tr>
                     }
                 }
@@ -192,8 +192,8 @@
                                 <td>@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</td>
                             }
                             <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
-                            <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
-                            <td><button class="btn btn-secondary" @onclick="() => UpdateChild(item, remove)">Hent Tilbage</button></td>
+                            <td><button class="btn btn-warning" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
+                            <td><button class="btn btn-success" @onclick="() => UpdateChild(item, remove)">Hent Tilbage</button></td>
                         </tr>
                     }
                 }

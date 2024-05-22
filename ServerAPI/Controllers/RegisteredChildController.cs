@@ -43,7 +43,8 @@ namespace ServerAPI.Controllers
             }
 
             rRepo.insertOneItem(registeredChild);
-            return Ok("Barnet er registreret med succes.");        }
+            return Ok("Barnet er registreret.");        
+        }
         
         [HttpGet]
         [Route("getbykraevnr")]
