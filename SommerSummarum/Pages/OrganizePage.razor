@@ -47,6 +47,7 @@
 
             <h4>@weekGroup.Key</h4>
             <a class="btn btn-primary" href="@($"{serverUrl}/api/registeredchildren/csv?assignedWeek={weekGroup.Key}")" >Hent som CSV</a> 
+            <button @onclick="() => Copy(weekGroup.Key)" class="btn btn-primary">Kopier Mails</button>
             @if (onsdagFredagCount > 20)
             {
                 <p class="text-danger">
@@ -154,20 +155,23 @@
     </div>
 
     <h3>Slettede Børn</h3>
+    <button @onclick="CopyRemovedEmails" class="btn btn-primary">Kopier Mails for Fjernet</button>
+
     <div class="col-md-12 mb-3">
         <table class="table table-striped">
             <thead>
-                <tr>
-                    <th>Navn</th>
-                    <th>Alder</th>
-                    <th>Kommentar</th>
-                    <th>1. Prioritet</th>
-                    <th>2. Prioritet</th>
-                    <th>Tildel 1. Prioritet</th>
-                    <th>Tildel 2. Prioritet</th>
-                    <th>Hent Tilbage</th>
-                </tr>
+            <tr>
+                <th>Navn</th>
+                <th>Alder</th>
+                <th>Kommentar</th>
+                <th>1. Prioritet</th>
+                <th>2. Prioritet</th>
+                <th>Tildel 1. Prioritet</th>
+                <th>Tildel 2. Prioritet</th>
+                <th>Hent Tilbage</th>
+            </tr>
             </thead>
+
             <tbody>
                 @foreach (var item in childList ?? new RegisteredChild[0])
                 {
@@ -209,6 +213,9 @@ else
 
     [Inject]
     private IRegisterChildService rService { get; set; }
+    
+    [Inject]
+    private IClipboardService cService { get; set; }
 
     private string serverUrl = "https://localhost:7016";
 
@@ -264,4 +271,27 @@ else
 
         await rService.EditChildItem(registeredChild);
     }
+
+    async Task Copy(string weekGroupKey)
+    {
+        string mails = "";
+        foreach (var child in childList.Where(c => c.AssignedPeriod.Week == weekGroupKey))
+        {
+            mails += child.ParentEmail + ", ";
+        }
+
+        await cService.CopyToClipboard(mails);
+    }
+    
+    async Task CopyRemovedEmails()
+    {
+        string mails = "";
+        foreach (var child in childList.Where(c => c.AssignedPeriod.Week == "Fjernet"))
+        {
+            mails += child.ParentEmail + ", ";
+        }
+
+        await cService.CopyToClipboard(mails);
+    }
+
 }

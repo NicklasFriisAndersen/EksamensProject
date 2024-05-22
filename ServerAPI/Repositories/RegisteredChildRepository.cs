@@ -77,6 +77,7 @@ namespace ServerAPI.Repositories
                 .Set(r => r.Hobbies, registeredChild.Hobbies)
                 .Set(r => r.GuardianSignature, registeredChild.GuardianSignature)
                 .Set(r => r.Krævnr, registeredChild.Krævnr)
+                .Set(r => r.isParent, registeredChild.isParent)
                 .Set(r => r.ParentName, registeredChild.ParentName)
                 .Set(r => r.ParentEmail, registeredChild.ParentEmail)
                 .Set(r => r.ParentPhoneNumber, registeredChild.ParentPhoneNumber)

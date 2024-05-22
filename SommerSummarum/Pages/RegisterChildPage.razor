@@ -15,13 +15,18 @@
 <EditForm Model="childItem" class="row p-3" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    <div class="col-md-12 mb-3">
+    <div class="col-md-6 mb-3">
         <label for="Name">Navn</label>
         <InputText id="Name" @bind-Value="childItem.Name" class="form-control" placeholder="Indtast navn på barn" />
     </div>
     <div class="col-md-6 mb-3">
         <label for="Age">Alder<b> - OBS: Kun fra 5-15 år!</b></label>
         <InputNumber id="Age" @bind-Value="childItem.Age" class="form-control" placeholder="Indtast alder på barn"/>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label for="Hobbies">Hobbyer</label>
+        <InputText id="Hobbies" @bind-Value="childItem.Hobbies" class="form-control" placeholder="Indtast barnets interesser" />
     </div>
     <div class="col-md-6 mb-3">
         <label for="ClothingSize">T-shirt Størrelse</label>
@@ -43,24 +48,26 @@
         <InputText id="Comment" @bind-Value="childItem.Comment" class="form-control" placeholder="Indtast bemærkninger (evt. diagnose/sundhed/allergier)" />
     </div>
     <div class="col-md-6 mb-3">
-        <label for="Krævnr">Krævnr</label>
-        <InputNumber id="Krævnr" @bind-Value="childItem.Krævnr" class="form-control" placeholder="Indtast eget krævnummer" />
+        <label for="Krævnr">Krævnr <b>- OBS: Hvis du ikke som forælder deltager, indtast deltagende værges Kræwnr.</b></label>
+        <InputNumber id="Krævnr" @bind-Value="childItem.Krævnr" class="form-control" placeholder="Indtast krævnummer" />
+    </div>
+   
+    <div class="col-md-12 mb-3">
+        <InputCheckbox id="isParent" @bind-Value="childItem.isParent" class="form-check-input" />
+        <label for="isParent">Jeg som forælder deltager ikke selv, værge med angivet Kræwnummer deltager </label>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label for="ParentName">Forælder navn</label>
+        <InputText id="ParentName" @bind-Value="childItem.ParentName" class="form-control" placeholder="Indtast navn på forælder" />
     </div>
     <div class="col-md-6 mb-3">
-        <label for="Hobbies">Hobbyer</label>
-        <InputText id="Hobbies" @bind-Value="childItem.Hobbies" class="form-control" placeholder="Indtast barnets interesser" />
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="ParentName">Værges navn</label>
-        <InputText id="ParentName" @bind-Value="childItem.ParentName" class="form-control" placeholder="Indtast navn på værge" />
-    </div>
-    <div class="col-md-6 mb-3">
-        <label for="ParentPhoneNumber">Værge telefonnr.</label>
-        <InputText id="ParentPN" @bind-Value="childItem.ParentPhoneNumber" class="form-control" placeholder="Indtast telefonnr. på værge" />
+        <label for="ParentPhoneNumber">Forælder telefonnr.</label>
+        <InputText id="ParentPN" @bind-Value="childItem.ParentPhoneNumber" class="form-control" placeholder="Indtast telefonnr. på forælder" />
     </div>
     <div class="col-md-12 mb-3">
-        <label for="ParentEmail">Værges Email</label>
-        <InputText id="ParentEmail" @bind-Value="childItem.ParentEmail" class="form-control" placeholder="Indtast Email på værge" />
+        <label for="ParentEmail">Forælder Email</label>
+        <InputText id="ParentEmail" @bind-Value="childItem.ParentEmail" class="form-control" placeholder="Indtast Email på forælder" />
     </div>
 
 
@@ -170,6 +177,8 @@
     </div>
 
 
+
+
     <div class="col-md-12 mb-3">
         <InputCheckbox id="IsVolunteering" @bind-Value="isVolunteering" class="form-check-input" />
         <label for="IsVolunteering">Jeg har selv været inde og oprette mig selv som frivilig på Cirkus Summarum</label>
@@ -192,7 +201,7 @@
 
     <!-- Underskrift-->
     <div>
-        <label>Underskrift fra værge</label>
+        <label>Underskrift fra forælder</label>
         <br />
         <SignaturePad CanvasWidth="600" CanvasHeight="400" @bind-Value="@childItem.GuardianSignature" Class="signature-pad" Style="width: 100%; height: 300px; outline-style: dotted"></SignaturePad>
     </div>
@@ -275,6 +284,7 @@
     public bool isDateInput = false;
     public bool isVolunteering = false;
     public bool isTilsagn = false;
+    public bool isParent = false;
 
     private AssignedPeriod assignedPeriod = new AssignedPeriod();
 
