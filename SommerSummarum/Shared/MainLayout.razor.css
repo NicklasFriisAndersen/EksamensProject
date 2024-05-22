@@ -1,6 +1,6 @@
 ﻿.mainIndex {
     flex: 1;
-    background-image: url(Images/BGLogo.png); /*URL til dit baggrundsbillede */
+    background-image: url(Images/BGlogo.png); /*URL til dit baggrundsbillede */
     background-size: cover; /*Dækker hele skærmen */
     background-repeat: no-repeat; /*Undgår gentagelse af billedet */
     background-position: center center; /*Centrerer billedet på skærmen */

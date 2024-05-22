@@ -1,0 +1,17 @@
+﻿@page "/confirmationpage"
+@inject NavigationManager NavigationManager
+
+<h3>Bekræftelse</h3>
+
+<p>Tak for din tilmelding til Cirkus Summarum!</p>
+<p>Vi har modtaget din ansøgning og glæder os til at se dig.</p>
+<p>Du vil modtage en bekræftelsesemail med yderligere informationer snarest.</p>
+
+<button @onclick="GoBack">Tilbage til forsiden</button>
+
+@code {
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}
