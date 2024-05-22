@@ -8,6 +8,8 @@ namespace ServerAPI.Repositories
 	{
         public List<RegisteredChild> getAllItems();
 
+        public List<RegisteredChild> getAllItemsByPriority();
+
         public void insertOneItem(RegisteredChild item);
         
         public List<RegisteredChild> FilterChildByKraevNummer(string kraevnr);

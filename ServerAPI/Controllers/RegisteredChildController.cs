@@ -25,6 +25,13 @@ namespace ServerAPI.Controllers
             return rRepo.getAllItems();
         }
 
+        [HttpGet]
+        [Route("getallprio")]
+        public IEnumerable<RegisteredChild> GetAllByPrio()
+        {
+            return rRepo.getAllItemsByPriority();
+        }
+
         [HttpPost]
         [Route("add")]
         public void insertOneItem(RegisteredChild registeredChild)

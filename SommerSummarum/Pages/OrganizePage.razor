@@ -11,8 +11,8 @@
 @if (user?.Role == Roles.Admin)
 {
     <h3>Organiser Ledige Pladser</h3>
-    
-    <a class="btn btn-primary" href="@($"{serverUrl}/api/registeredchildren/allcsv")" >Hent som CSV</a> 
+
+    <a class="btn btn-primary" href="@($"{serverUrl}/api/registeredchildren/allcsv")">Hent som CSV</a>
 
     <!--tabel til alle perioder-->
     <div class="col-md-12 mb-3">
@@ -48,59 +48,59 @@
             @if (onsdagFredagCount > 20)
             {
                 <p class="text-danger">
-                    Onsdag-Fredag: @onsdagFredagCount<br/>
+                    Onsdag-Fredag: @onsdagFredagCount<br />
                 </p>
             }
             else
             {
                 <p>
-                    Onsdag-Fredag: @onsdagFredagCount<br/>
+                    Onsdag-Fredag: @onsdagFredagCount<br />
                 </p>
             }
 
             @if (lørdagSøndagCount > 20)
             {
                 <p class="text-danger">
-                    Lørdag-Søndag: @lørdagSøndagCount<br/>
+                    Lørdag-Søndag: @lørdagSøndagCount<br />
                 </p>
             }
             else
             {
                 <p>
-                    Lørdag-Søndag: @lørdagSøndagCount<br/>
+                    Lørdag-Søndag: @lørdagSøndagCount<br />
                 </p>
             }
 
             <table class="table table-striped">
                 <thead>
-                <tr>
-                    <th>Navn</th>
-                    <th>Alder</th>
-                    <th>Kommentar</th>
-                    <th>1. Prioritet</th>
-                    <th>2. Prioritet</th>
-                    <th>Tildel 1. Prioritet</th>
-                    <th>Tildel 2. Prioritet</th>
-                    <th>Fjern fra Periode</th>
-                </tr>
+                    <tr>
+                        <th>Navn</th>
+                        <th>Alder</th>
+                        <th>Kommentar</th>
+                        <th>1. Prioritet</th>
+                        <th>2. Prioritet</th>
+                        <th>Tildel 1. Prioritet</th>
+                        <th>Tildel 2. Prioritet</th>
+                        <th>Fjern fra Periode</th>
+                    </tr>
                 </thead>
                 <tbody>
-                @foreach (var item in childList ?? new RegisteredChild[0])
-                {
-                    if (item.AssignedPeriod.Week == weekGroup.Key)
+                    @foreach (var item in childList ?? new RegisteredChild[0])
                     {
-                        <tr>
-                            <td>@item.Name</td>
-                            <td>@item.Age</td>
-                            <td>@item.Comment</td>
-                            <td>@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")</td>
-                            <td>@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")</td>
-                            <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
-                            <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
-                            <td><button class="btn btn-secondary" @onclick="() => UpdateChild(item, remove)">Fjern</button></td>
-                        </tr>
+                        if (item.AssignedPeriod.Week == weekGroup.Key)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Age</td>
+                                <td>@item.Comment</td>
+                                <td>@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")</td>
+                                <td>@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")</td>
+                                <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
+                                <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
+                                <td><button class="btn btn-secondary" @onclick="() => UpdateChild(item, remove)">Fjern</button></td>
+                            </tr>
+                        }
                     }
-                }
                 </tbody>
             </table>
         }
@@ -110,40 +110,87 @@
     <div class="col-md-12 mb-3">
         <table class="table table-striped">
             <thead>
-            <tr>
-                <th>Navn</th>
-                <th>Alder</th>
-                <th>Kommentar</th>
-                <th>1. Prioritet</th>
-                <th>2. Prioritet</th>
-                <th>Tildel 1. Prioritet</th>
-                <th>Tildel 2. Prioritet</th>
-            </tr>
+                <tr>
+                    <th>Navn</th>
+                    <th>Alder</th>
+                    <th>Kommentar</th>
+                    <th>1. Prioritet</th>
+                    <th>2. Prioritet</th>
+                    <th>Tildel 1. Prioritet</th>
+                    <th>Tildel 2. Prioritet</th>
+                    <th>Slet</th>
+
+                </tr>
             </thead>
             <tbody>
-            @foreach (var item in childList ?? new RegisteredChild[0])
-            {
-
-                if (item.AssignedPeriod.Week == "Ikke Tilføjet")
+                @foreach (var item in childList ?? new RegisteredChild[0])
                 {
-                    <tr>
-                        <td>@item.Name</td>
-                        <td>@item.Age</td>
-                        <td>@item.Comment</td>
-                        <td>@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")</td>
-                        @if (item.SecondPriority.Week == "Jeg kan kun i 1. prioritet")
-                        {
-                            <td>Jeg kan kun i 1. prioritet</td>
-                        }
-                        else
-                        {
-                            <td>@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</td>
-                        }
-                        <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
-                        <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
-                    </tr>
+
+                    if (item.AssignedPeriod.Week == "Ikke Tilføjet")
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Age</td>
+                            <td>@item.Comment</td>
+                            <td>@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")</td>
+                            @if (item.SecondPriority.Week == "Jeg kan kun i 1. prioritet")
+                            {
+                                <td>Jeg kan kun i 1. prioritet</td>
+                            }
+                            else
+                            {
+                                <td>@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</td>
+                            }
+                            <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
+                            <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
+                            <td><button class="btn btn-secondary" @onclick="() => UpdateChild(item, delete)">Slet</button></td>
+                        </tr>
+                    }
                 }
-            }
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Slettede Børn</h3>
+    <div class="col-md-12 mb-3">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Navn</th>
+                    <th>Alder</th>
+                    <th>Kommentar</th>
+                    <th>1. Prioritet</th>
+                    <th>2. Prioritet</th>
+                    <th>Tildel 1. Prioritet</th>
+                    <th>Tildel 2. Prioritet</th>
+                    <th>Hent Tilbage</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in childList ?? new RegisteredChild[0])
+                {
+
+                    if (item.AssignedPeriod.Week == "Fjernet")
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Age</td>
+                            <td>@item.Comment</td>
+                            <td>@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")</td>
+                            @if (item.SecondPriority.Week == "Jeg kan kun i 1. prioritet")
+                            {
+                                <td>Jeg kan kun i 1. prioritet</td>
+                            }
+                            else
+                            {
+                                <td>@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</td>
+                            }
+                            <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
+                            <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
+                            <td><button class="btn btn-secondary" @onclick="() => UpdateChild(item, remove)">Hent Tilbage</button></td>
+                        </tr>
+                    }
+                }
             </tbody>
         </table>
     </div>
@@ -171,18 +218,18 @@ else
     private string prioritet1 = "prioritet1";
     private string prioritet2 = "prioritet2";
     private string remove = "remove";
+    private string delete = "delete";
+
 
     private User? user;
 
 
     protected override async Task OnInitializedAsync()
     {
-        //childList = await Http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/registeredchildren/getall");
-
-        childList = await rService.GetAllChildren();
+        childList = await rService.GetAllChildrenPrioSort();
 
         periodList = await pService.GetAllPeriod();
-        
+
         var userInfoJson = await localStore.GetItemAsStringAsync("userinfo");
         if (!string.IsNullOrEmpty(userInfoJson))
         {
@@ -202,10 +249,15 @@ else
             registeredChild.AssignedPeriod.Week = registeredChild.SecondPriority.Week;
             registeredChild.AssignedPeriod.Days = registeredChild.SecondPriority.Day;
         }
-        else
+        else if (prio == "remove")
         {
             registeredChild.AssignedPeriod.Week = "Ikke Tilføjet";
             registeredChild.AssignedPeriod.Days = "Ikke Tilføjet";
+        }
+        else if (prio == "delete")
+        {
+            registeredChild.AssignedPeriod.Week = "Fjernet";
+            registeredChild.AssignedPeriod.Days = "Fjernet";
         }
 
         await rService.EditChildItem(registeredChild);

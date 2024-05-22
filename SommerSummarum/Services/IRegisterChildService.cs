@@ -13,6 +13,8 @@ namespace SommerSummarum.Services
 
         Task<RegisteredChild[]?> GetAllChildren();
 
+        Task<RegisteredChild[]?> GetAllChildrenPrioSort();
+
     }
 }
 
