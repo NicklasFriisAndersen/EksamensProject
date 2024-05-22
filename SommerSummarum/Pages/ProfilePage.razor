@@ -3,6 +3,7 @@
 @inject HttpClient Http
 @using Core.Models
 @using System.Text.Json
+@inject NavigationManager NavigationManager
 
 @if (user?.Role == Roles.Admin || user?.Role == Roles.Leder)
 {
@@ -43,5 +44,6 @@
         await localStore.RemoveItemAsync("userinfo");
         user = null;
         StateHasChanged();
+        NavigationManager.NavigateTo("/ProfilePage", forceLoad: true);
     }
 }
