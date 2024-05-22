@@ -11,24 +11,10 @@
         <NavMenu />
     </div>
 
-    @if (NavigationManager.Uri.EndsWith("/"))
+    @if (NavigationManager.Uri.EndsWith("/")||NavigationManager.Uri.EndsWith("/confirmationpage"))
     {
 
         <main class="mainIndex">
-            @*@if (user == null)
-            {
-                <div class="top-row px-4">
-                    <a href="https://localhost:7168/loginpage">Login</a>
-                </div>
-            }
-            else
-            {
-                <div class="top-row px-4">
-                    <a href="#" @onclick="ClearLocalStorage">Sign out</a>
-                </div>
-            }*@
-
-
 
             <article class="content px-4">
                 @Body
@@ -38,20 +24,7 @@
     else
     {
         <main>
-            @*@if (user == null)
-            {
-                <div class="top-row px-4">
-                    <a href="https://localhost:7168/loginpage">Login</a>
-                </div>
-            }
-            else
-            {
-                <div class="top-row px-4">
-                    <a href="#" @onclick="ClearLocalStorage">Sign out</a>
-                </div>
-            }*@
-
-
+            
 
             <article class="content px-4">
                 @Body
