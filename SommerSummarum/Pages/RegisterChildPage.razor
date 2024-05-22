@@ -3,6 +3,7 @@
 @using SommerSummarum.Services
 @using System.Text.Json
 @inject HttpClient Http
+@inject NavigationManager NavigationManager
 @inject Blazored.LocalStorage.ILocalStorageService localStore
 @using Blazorise.SignaturePad
 @using ValidationSummary = Microsoft.AspNetCore.Components.Forms.ValidationSummary
@@ -385,7 +386,10 @@
         childItem = new(); // clear fields in form
         aEditContext = new EditContext(childItem); // Reset the edit context
         ConfirmationDialog.Close();
+        NavigationManager.NavigateTo("/confirmationpage");
+
     }
+
 
 }
 
