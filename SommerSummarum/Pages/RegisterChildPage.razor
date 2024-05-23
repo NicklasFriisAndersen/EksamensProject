@@ -13,7 +13,7 @@
 
 <h1>Registrer barn til børneklubben</h1>
 <h3>Maksimalt 2 børn kan registreres pr. kræwnummer, ét barn ad gangen</h3>
-<h4>OBS: Dette er ansøgning til børneklubben - Du modtager en bekræftelse på om barnet bliver optaget eller afslag via Email</h4>
+<h4>OBS: Dette er ansøgning til børneklubben - Du modtager en bekræftelse på om barnet bliver optaget eller afslag via email</h4>
 
 
 <EditForm Model="childItem" class="row p-3" OnValidSubmit="@HandleValidSubmit">
@@ -43,6 +43,9 @@
             <option value="158-164">158-164</option>
             <option value="XS">XS</option>
             <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
         </InputSelect>
 
 
@@ -52,7 +55,7 @@
         <InputText id="Comment" @bind-Value="childItem.Comment" class="form-control" placeholder="Indtast bemærkninger (evt. diagnose/sundhed/allergier)" />
     </div>
     <div class="col-md-6 mb-3">
-        <label for="Kræwnr">Kræwnr <b>- OBS: Hvis du ikke som forælder deltager, indtast deltagende værges Kræwnr.</b></label>
+        <label for="Kræwnr">Kræwnr <b>- OBS: Hvis du ikke som forælder deltager, indtast deltagende værges kræwnr.</b></label>
         <InputNumber id="Kræwnr" @bind-Value="childItem.Krævnr" class="form-control" placeholder="Indtast kræwnummer" />
         @if (showTooManyChildrenError)
         {
@@ -62,20 +65,20 @@
    
     <div class="col-md-12 mb-3">
         <InputCheckbox id="isParent" @bind-Value="childItem.isParent" class="form-check-input" />
-        <label for="isParent"> <b>Jeg som forælder deltager ikke selv, værge med angivet Kræwnummer deltager</b> </label>
+        <label for="isParent"> <b>Jeg som forælder deltager ikke selv, værge med angivet kræwnummer deltager</b> </label>
     </div>
 
     <div class="col-md-6 mb-3">
-        <label for="ParentName">Forælder navn</label>
+        <label for="ParentName">Forælder Navn</label>
         <InputText id="ParentName" @bind-Value="childItem.ParentName" class="form-control" placeholder="Indtast navn på forælder" />
     </div>
     <div class="col-md-6 mb-3">
-        <label for="ParentPhoneNumber">Forælder telefonnr.</label>
+        <label for="ParentPhoneNumber">Forælder Telefonnr.</label>
         <InputText id="ParentPN" @bind-Value="childItem.ParentPhoneNumber" class="form-control" placeholder="Indtast telefonnr. på forælder" />
     </div>
     <div class="col-md-12 mb-3">
         <label for="ParentEmail">Forælder Email</label>
-        <InputText id="ParentEmail" @bind-Value="childItem.ParentEmail" class="form-control" placeholder="Indtast Email på forælder" />
+        <InputText id="ParentEmail" @bind-Value="childItem.ParentEmail" class="form-control" placeholder="Indtast email på forælder" />
     </div>
 
 
@@ -181,7 +184,7 @@
 
     <div class="col-md-12 mb-3">
         <InputCheckbox id="BeenBefore" @bind-Value="childItem.BeenBefore" class="form-check-input" />
-        <label for="BeenBefore">Mit barn har været i Cirkus Summarum's pasningsordning før</label>
+        <label for="BeenBefore">Mit barn har været i Cirkus Summarum's børneklub før</label>
     </div>
 
 
@@ -218,7 +221,7 @@
     </div>
 </EditForm>
 
-<ModalDialog @ref="ConfirmationDialog" Title="Confirm register">
+<ModalDialog @ref="ConfirmationDialog" Title="Bekræft oplysninger">
     <div class="row p-3">
         <div class="col-md-6 mb-3">
             <strong>Navn:</strong>
@@ -233,11 +236,11 @@
             <p>@currentRegisteredChild?.ClothingSize</p>
         </div>
         <div class="col-md-6 mb-3">
-            <strong>Har deltage før:</strong>
+            <strong>Har deltaget før:</strong>
             <p>@currentRegisteredChild?.BeenBefore</p>
         </div>
         <div class="col-md-6 mb-3">
-            <strong>Krævnr:</strong>
+            <strong>Kræwnr:</strong>
             <p>@currentRegisteredChild?.Krævnr</p>
         </div>
         <div class="col-md-6 mb-3">
@@ -250,15 +253,15 @@
         </div>
 
         <div class="col-md-6 mb-3">
-            <strong>Værge navn:</strong>
+            <strong>Forældre navn:</strong>
             <p>@currentRegisteredChild?.ParentName</p>
         </div>
         <div class="col-md-6 mb-3">
-            <strong>Værge tfl.nr.:</strong>
+            <strong>Forældre telefon nummer.:</strong>
             <p>@currentRegisteredChild?.ParentPhoneNumber</p>
         </div>
         <div class="col-md-12 mb-3">
-            <strong>Værge Email:</strong>
+            <strong>Forældre email:</strong>
             <p>@currentRegisteredChild?.ParentEmail</p>
         </div>
         @if (currentRegisteredChild?.GuardianSignature is not null)

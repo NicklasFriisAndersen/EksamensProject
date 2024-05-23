@@ -9,6 +9,7 @@
 
 @page "/RegisterU18VolunteerPage"
 <h3>Registrer U18 frivillig</h3>
+<h5>Vi skal bruge dette tilsagn for at sikre os, at den frivillige under 18 har fået tilladelse fra deres forældre om at deltage.</h5>
 
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@OpenConfirmationDialog">
     <DataAnnotationsValidator />
@@ -23,15 +24,15 @@
     </div>
     <div class="col-md-6 mb-3">
         <label for="ParentName">Navn på forældre</label>
-        <InputText id="ParentName" @bind-Value="u18VolunteerItem.ParentName" class="form-control" placeholder="Indtast navn på værge"/>
+        <InputText id="ParentName" @bind-Value="u18VolunteerItem.ParentName" class="form-control" placeholder="Indtast navn på forældre"/>
     </div>
     <div class="col-md-6 mb-3">
         <label for="ParentPhoneNumber">Telefonnummer på forældre</label>
-        <InputText id="ParentPhoneNumber" @bind-Value="u18VolunteerItem.ParentPhoneNumber" class="form-control" placeholder="Indtast telefonnummer på værge"/>
+        <InputText id="ParentPhoneNumber" @bind-Value="u18VolunteerItem.ParentPhoneNumber" class="form-control" placeholder="Indtast telefonnummer på forældre"/>
     </div>
     <div class="col-md-6 mb-3">
         <label for="ParentEmail">Email på forældre</label>
-        <InputText id="ParentEmail" @bind-Value="u18VolunteerItem.ParentEmail" class="form-control" placeholder="Indtast email på værge"/>
+        <InputText id="ParentEmail" @bind-Value="u18VolunteerItem.ParentEmail" class="form-control" placeholder="Indtast email på forældre"/>
     </div>
     
     <div class="col-md-12 mb-3">
@@ -57,26 +58,26 @@
     </div>
 </EditForm>
 
-<ModalDialog @ref="ConfirmationDialog" Title="Confirm register">
+<ModalDialog @ref="ConfirmationDialog" Title="Bekræft oplysninger">
     <div class="row p-3">
         <div class="col-md-12 mb-3">
             <strong>Navn:</strong>
             <p>@u18VolunteerItem.Name</p>
         </div>
         <div class="col-md-12 mb-3">
-            <strong>Krævnummer på frivillig U18:</strong>
+            <strong>Kræwnummer på frivillig U18:</strong>
             <p>@u18VolunteerItem.KraevnummerU18</p>
         </div>
         <div class="col-md-12 mb-3">
-            <strong>Navn på værge:</strong>
+            <strong>Navn på forældre:</strong>
             <p>@u18VolunteerItem.ParentName</p>
         </div>
         <div class="col-md-12 mb-3">
-            <strong>Telefon nummer på værge:</strong>
+            <strong>Telefon nummer på forældre:</strong>
             <p>@u18VolunteerItem.ParentPhoneNumber</p>
         </div>
         <div class="col-md-12 mb-3">
-            <strong>Email på værge:</strong>
+            <strong>Email på forældre:</strong>
             <p>@u18VolunteerItem.ParentEmail</p>
         </div>
         @if (u18VolunteerItem?.GuardianSignature is not null)
@@ -139,6 +140,8 @@
         await uService.AddU18Volunteer(u18VolunteerItem);
         u18VolunteerItem = new();
         ConfirmationDialog.Close();
+        navigationManager.NavigateTo("/confirmationpage");
+
     }
     
 }
