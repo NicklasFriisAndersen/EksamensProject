@@ -9,12 +9,12 @@
 @page "/SignaturePage"
 @if (user?.Role == Roles.Admin)
 {
-    <h3>SignaturePage</h3>
+    <h3>Se underskrift på deltagende og frivillig</h3>
 
 <div class="col-md-6 mb-3">
 
-    <label for="kraevnummeru18">Søg efter Krævnummer på U18 Frivillig</label>
-    <input id="kraevnummeru18" @bind="kraevnummeru18" class="form-control" placeholder="Indtast krævnummer"/> 
+    <label for="kraewnummeru18">Søg efter Kræwnummer på U18 Frivillig eller forældre</label>
+    <input id="kraewnummeru18" @bind="kraevnummeru18" class="form-control" placeholder="Indtast kræwnummer"/> 
 
     <button class="btn btn-primary" @onclick="FilterBoth">Søg</button>
 </div>
@@ -25,7 +25,7 @@
     <thead>
     <tr>
         <th>Navn på værge</th>
-        <th>Krævnummer</th>
+        <th>Kræwnummer</th>
         <th>Email på værge</th>
         <th>Telefonnummer på værge</th>
         <th>Signatur</th>

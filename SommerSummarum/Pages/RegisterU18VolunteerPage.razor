@@ -8,7 +8,7 @@
 @using ValidationSummary = Microsoft.AspNetCore.Components.Forms.ValidationSummary
 
 @page "/RegisterU18VolunteerPage"
-<h3>RegisterU18VolunteerPage</h3>
+<h3>Registrer U18 frivillig</h3>
 
 <EditForm EditContext="@aEditContext" class="row p-3" OnValidSubmit="@OpenConfirmationDialog">
     <DataAnnotationsValidator />
@@ -18,8 +18,8 @@
         <InputText id="Navn" @bind-Value="u18VolunteerItem.Name" class="form-control" placeholder="Indtast navn på frivillig ung"/>
     </div>
     <div class="col-md-6 mb-3">
-        <label for="Kraevnummer">Krævnummer</label>
-        <InputText id="Kraevnummer" @bind-Value="u18VolunteerItem.KraevnummerU18" class="form-control" placeholder="Indtast krævnummer på frivillig ung"/>
+        <label for="Kraewnummer">Kræwnummer</label>
+        <InputText id="Kraewnummer" @bind-Value="u18VolunteerItem.KraevnummerU18" class="form-control" placeholder="Indtast kræwnummer på frivillig ung"/>
     </div>
     <div class="col-md-6 mb-3">
         <label for="ParentName">Navn på værge</label>
