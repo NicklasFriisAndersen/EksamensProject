@@ -12,7 +12,9 @@
 <PageTitle>Registrer til børneklubben</PageTitle>
 
 <h1>Registrer barn til børneklubben</h1>
-<h4>Maksimalt 2 børn kan registreres pr. kræwnummer, ét barn ad gangen</h4>
+<h3>Maksimalt 2 børn kan registreres pr. kræwnummer, ét barn ad gangen</h3>
+<h4>OBS: Dette er ansøgning til børneklubben - Du modtager en bekræftelse på om barnet bliver optaget eller afslag via Email</h4>
+
 
 <EditForm Model="childItem" class="row p-3" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
@@ -60,7 +62,7 @@
    
     <div class="col-md-12 mb-3">
         <InputCheckbox id="isParent" @bind-Value="childItem.isParent" class="form-check-input" />
-        <label for="isParent">Jeg som forælder deltager ikke selv, værge med angivet Kræwnummer deltager </label>
+        <label for="isParent"> <b>Jeg som forælder deltager ikke selv, værge med angivet Kræwnummer deltager</b> </label>
     </div>
 
     <div class="col-md-6 mb-3">
@@ -187,11 +189,11 @@
 
     <div class="col-md-12 mb-3">
         <InputCheckbox id="IsVolunteering" @bind-Value="isVolunteering" class="form-check-input" />
-        <label for="IsVolunteering">Jeg er selv tilmeldt som frivillig for Cirkus Summarum i givne periode.</label>
+        <label for="IsVolunteering">Jeg er eller værge selv tilmeldt som frivillig for Cirkus Summarum i givne periode.</label>
 
         @if (showVolunteerError)
         {
-            <p class="text-danger">Du skal selv allerede være registreret som frivillig for at registrere dit barn.</p>
+            <p class="text-danger">Man skal selv allerede være registreret som frivillig for at registrere dit barn.</p>
         }
     </div>
 

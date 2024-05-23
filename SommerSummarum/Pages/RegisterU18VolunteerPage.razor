@@ -33,6 +33,17 @@
         <label for="ParentEmail">Email på forældre</label>
         <InputText id="ParentEmail" @bind-Value="u18VolunteerItem.ParentEmail" class="form-control" placeholder="Indtast email på værge"/>
     </div>
+    
+    <div class="col-md-12 mb-3">
+        <InputCheckbox id="IsTilsagn" @bind-Value="isTilsagn" class="form-check-input" />
+        <label for="IsTilsagn">Jeg giver tilsagn til at barnet opholder sig i Cirkus Summarums Børneklub</label>
+        <a href="https://cirkussummarum.dk/om-cirkus-summarum/politikker/" target="_blank">[Politikker]</a>
+        @if (showTilsagnError)
+        {
+            <p class="text-danger">Tilsagn er nødvendigt for tilmelding</p>
+        }
+    </div>
+
     <div>
         <label>Underskrift fra forældre</label>
         <br/>
@@ -94,6 +105,12 @@
     private string serverUrl = "https://localhost:7016";
 
     private U18Volunteer u18VolunteerItem = new U18Volunteer();
+
+    private bool showTilsagnError = false;
+
+    public bool isTilsagn = false;
+
+
     
     private ModalDialog ConfirmationDialog;
     
