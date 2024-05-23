@@ -20,6 +20,7 @@ namespace ServerAPI.Repositories
 
         public List<RegisteredChild> FilterByAssignedWeek(string assignedWeek);
 
+        int CountChildrenByKrævnr(int krævnr);
 
 	}
 }

@@ -88,9 +88,12 @@ namespace ServerAPI.Repositories
 
             collection.UpdateOne(filter, update);
 
+        } 
+        
+        public int CountChildrenByKrævnr(int krævnr)
+        {
+            return (int)collection.CountDocuments(child => child.Krævnr == krævnr);
         }
-
-
 
     }
 }
