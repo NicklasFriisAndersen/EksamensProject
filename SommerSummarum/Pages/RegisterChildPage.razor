@@ -187,7 +187,7 @@
 
     <div class="col-md-12 mb-3">
         <InputCheckbox id="IsVolunteering" @bind-Value="isVolunteering" class="form-check-input" />
-        <label for="IsVolunteering">Jeg har selv været inde og oprette mig selv som frivilig på Cirkus Summarum</label>
+        <label for="IsVolunteering">Jeg er selv tilmeldt som frivillig for Cirkus Summarum i givne periode.</label>
 
         @if (showVolunteerError)
         {
@@ -197,11 +197,11 @@
 
     <div class="col-md-12 mb-3">
         <InputCheckbox id="IsTilsagn" @bind-Value="isTilsagn" class="form-check-input" />
-        <label for="IsTilsagn">Jeg giver tilsagt til at barnet opholder sig i Cirkus Summarums Børneklub</label>
+        <label for="IsTilsagn">Jeg giver tilsagn til at barnet opholder sig i Cirkus Summarums Børneklub</label>
         <a href="https://cirkussummarum.dk/om-cirkus-summarum/politikker/" target="_blank">[Politikker]</a>
         @if (showTilsagnError)
         {
-            <p class="text-danger">Tilsigelse er nødvendigt for tilmelding</p>
+            <p class="text-danger">Tilsagn er nødvendigt for tilmelding</p>
         }
     </div>
 
