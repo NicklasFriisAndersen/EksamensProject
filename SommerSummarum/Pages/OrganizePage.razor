@@ -45,8 +45,9 @@
                 }
             }
 
+
             <h4>@weekGroup.Key</h4>
-            <a class="btn btn-primary" href="@($"{serverUrl}/api/registeredchildren/csv?assignedWeek={weekGroup.Key}")" >Hent som CSV</a> 
+            <a class="btn btn-secondary" href="@($"{serverUrl}/api/registeredchildren/csv?assignedWeek={weekGroup.Key}")" >Hent som CSV</a> 
             <button @onclick="() => Copy(weekGroup.Key)" class="btn btn-primary">Kopier Mails</button>
             @if (onsdagFredagCount > 20)
             {
@@ -82,8 +83,7 @@
                         <th>Kommentar</th>
                         <th>1. Prioritet</th>
                         <th>2. Prioritet</th>
-                        <th>Tildel 1. Prioritet</th>
-                        <th>Tildel 2. Prioritet</th>
+                        <th>Tildelt Periode</th>
                         <th>Fjern fra Periode</th>
                     </tr>
                 </thead>
@@ -98,8 +98,7 @@
                                 <td>@item.Comment</td>
                                 <td>@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")</td>
                                 <td>@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")</td>
-                                <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
-                                <td><button class="btn btn-warning" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
+                                <td> <b>@($"{item.AssignedPeriod?.Week}, {item.AssignedPeriod?.Days}")</b> </td>
                                 <td><button class="btn btn-danger" @onclick="() => UpdateChild(item, remove)">Fjern</button></td>
                             </tr>
                         }
@@ -109,7 +108,8 @@
         }
     </div>
 
-    <h3>Tildel perioder</h3>
+<h3>tildel periode</h3>
+
     <div class="col-md-12 mb-3">
         <table class="table table-striped">
             <thead>
@@ -155,7 +155,7 @@
     </div>
 
     <h3>Slettede Børn</h3>
-    <button @onclick="CopyRemovedEmails" class="btn btn-primary">Kopier Mails for Fjernet</button>
+    <button @onclick="CopyRemovedEmails" class="btn btn-secondary">Kopier Mails for Fjernet</button>
 
     <div class="col-md-12 mb-3">
         <table class="table table-striped">
@@ -166,8 +166,6 @@
                 <th>Kommentar</th>
                 <th>1. Prioritet</th>
                 <th>2. Prioritet</th>
-                <th>Tildel 1. Prioritet</th>
-                <th>Tildel 2. Prioritet</th>
                 <th>Hent Tilbage</th>
             </tr>
             </thead>
@@ -191,8 +189,6 @@
                             {
                                 <td>@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</td>
                             }
-                            <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
-                            <td><button class="btn btn-warning" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
                             <td><button class="btn btn-success" @onclick="() => UpdateChild(item, remove)">Hent Tilbage</button></td>
                         </tr>
                     }
