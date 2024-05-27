@@ -209,11 +209,14 @@ else
 
     [Inject]
     private IRegisterChildService rService { get; set; }
-    
+
     [Inject]
     private IClipboardService cService { get; set; }
 
-    private string serverUrl = "https://localhost:7016";
+    //private string serverUrl = "https://localhost:7016";
+
+    private string serverUrl = "https://msfserver.azurewebsites.net/";
+
 
     private List<Period>? periodList = new();
 
@@ -278,7 +281,7 @@ else
 
         await cService.CopyToClipboard(mails);
     }
-    
+
     async Task CopyRemovedEmails()
     {
         string mails = "";

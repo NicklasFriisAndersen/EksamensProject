@@ -7,7 +7,9 @@ namespace SommerSummarum.Services
     public class UserService : IUserService
      {
       HttpClient http;
-        private string serverUrl = "https://localhost:7016";
+        //private string serverUrl = "https://localhost:7016";
+        private string serverUrl = "https://msfserver.azurewebsites.net/";
+
 
         public UserService(HttpClient http)
         {

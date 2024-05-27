@@ -10,7 +10,9 @@ namespace SommerSummarum.Services
     {
         HttpClient http;
 
-        private string serverUrl = "https://localhost:7016";
+        //private string serverUrl = "https://localhost:7016";
+        private string serverUrl = "https://msfserver.azurewebsites.net/";
+
 
         public PeriodService(HttpClient http)
         {

@@ -6,6 +6,9 @@ namespace SommerSummarum.Services;
 
 public class LoginService : ILoginService
 {
+    //private string serverUrl = "https://localhost:7016";
+    private string serverUrl = "https://msfserver.azurewebsites.net/";
+
     private HttpClient Http;
     private Blazored.LocalStorage.ILocalStorageService localStore;
     private NavigationManager navigationManager;
@@ -16,8 +19,6 @@ public class LoginService : ILoginService
         this.localStore = localStore;
         this.navigationManager = navigationManager;
     }
-    
-    private string serverUrl = "https://localhost:7016";
 
     
 
