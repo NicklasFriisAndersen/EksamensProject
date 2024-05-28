@@ -14,6 +14,8 @@ namespace SommerSummarum.Services
         Task<RegisteredChild[]?> GetAllChildren();
 
         Task<RegisteredChild[]?> GetAllChildrenPrioSort();
+        
+        public Task<RegisteredChild[]> FilterByKraew(string kraewnummer);
 
     }
 }
