@@ -6,7 +6,6 @@ namespace SommerSummarum.Services;
 
 public class LoginService : ILoginService
 {
-    //private string serverUrl = "https://localhost:7016";
     private string serverUrl = "https://msfserver.azurewebsites.net/";
 
     private HttpClient Http;

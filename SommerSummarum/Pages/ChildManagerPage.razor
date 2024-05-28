@@ -102,14 +102,11 @@ else
 
     [Inject] private IRegisterChildService rService { get; set; }
 
-    private string serverUrl = "https://localhost:7016";
-
     private List<Period>? periodList = new();
 
     private RegisteredChild[]? childList = new RegisteredChild[0];
     
     private User? user;
-
 
     protected override async Task OnInitializedAsync()
     {

@@ -7,7 +7,6 @@ public class U18VolunteerService : IU18VolunteerService
 { 
     HttpClient http;
 
-    //private string serverUrl = "https://localhost:7016";
     private string serverUrl = "https://msfserver.azurewebsites.net/";
 
 
