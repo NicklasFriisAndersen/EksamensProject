@@ -92,16 +92,18 @@ else
 
 @code {
     private User? user;
-    
+
     private string parentEmailForModal;
-    
+
     private ModalDialog? SignatureDialog;
 
     private string kraevnummeru18;
 
     private byte[] currentSignature = new byte[0];
 
-    private string serverUrl = "https://localhost:7016";
+    //private string serverUrl = "https://localhost:7016";
+
+    private string serverUrl = "https://msfserver.azurewebsites.net/";
 
     private U18Volunteer[]? U18VolunteerList = new U18Volunteer[0];
 
@@ -133,9 +135,9 @@ else
     {
         await FilterByKraevnummerU18();
         await FilterByKrævnr();
-        
+
     }
-    
+
     private async Task FilterByKrævnr()
     {
         // Build the URL with the search query
@@ -148,17 +150,17 @@ else
         // Trigger a UI refresh to show the updated volunteer list
         StateHasChanged();
     }
-    
-    
+
+
 
     private void OpenSignatureDialog(byte[] sigsag, string parentEmail)
     {
         currentSignature = sigsag;
-        parentEmailForModal = parentEmail; 
+        parentEmailForModal = parentEmail;
         SignatureDialog.Open();
     }
 
-  
-   
+
+
 
 }
