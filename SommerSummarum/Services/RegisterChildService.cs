@@ -47,6 +47,11 @@ namespace SommerSummarum.Services
             var childList = await http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/registeredchildren/getallprio");
             return childList;
         }
+
+        public async Task<RegisteredChild[]> FilterByKraew(string kraewnummer)
+        {
+            return await http.GetFromJsonAsync<RegisteredChild[]>($"{serverUrl}/api/registeredchildren/getbykraevnr?kraevnr={kraewnummer}");
+        }
     }
 }
 
