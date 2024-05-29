@@ -78,6 +78,7 @@
                     <tr>
                         <th>Navn</th>
                         <th>Alder</th>
+                        <th>Forældre Navn</th>
                         <th>Kommentar</th>
                         <th>1. Prioritet</th>
                         <th>2. Prioritet</th>
@@ -93,6 +94,7 @@
                             <tr>
                                 <td>@item.Name</td>
                                 <td>@item.Age</td>
+                                <td>@item.ParentName</td>
                                 <td>@item.Comment</td>
                                 <td>@($"{item.FirstPriority?.Week}, {item.FirstPriority?.Day}")</td>
                                 <td>@($"{item.SecondPriority?.Week}, {item.SecondPriority?.Day}")</td>
@@ -162,7 +164,7 @@
     </div>
 
     <h3>Venteliste</h3>
-    <button @onclick="CopyRemovedEmails" class="btn btn-secondary">Kopier Mails for Fjernet</button>
+    <button @onclick="CopyRemovedEmails" class="btn btn-secondary">Kopier Mails for venteliste</button>
 
     <div class="col-md-12 mb-3">
         <table class="table table-striped">
