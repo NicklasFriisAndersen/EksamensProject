@@ -24,7 +24,7 @@
     </div>
     <div class="col-md-6 mb-3">
         <label for="Age">Alder<b> - OBS: Kun fra 5-15 år!</b></label>
-        <InputNumber id="Age" @bind-Value="childItem.Age" class="form-control" placeholder="Indtast alder på barn"/>
+        <InputNumber id="Age" @bind-Value="childItem.Age" class="form-control" placeholder="Indtast alder på barn" />
     </div>
 
     <div class="col-md-6 mb-3">
@@ -46,22 +46,20 @@
             <option value="L">L</option>
             <option value="XL">XL</option>
         </InputSelect>
-
-
     </div>
     <div class="col-md-12 mb-3">
         <label for="Comment">Ekstra Kommentar</label>
         <InputText id="Comment" @bind-Value="childItem.Comment" class="form-control" placeholder="Indtast bemærkninger (evt. diagnose/sundhed/allergier)" />
     </div>
     <div class="col-md-6 mb-3">
-        <label for="Kræwnr">Kræwnr <b>- OBS: Hvis du ikke som forælder deltager, indtast deltagende værges kræwnr.</b> <br/> <i>Et kræwnummer er et unikt ID alle frivillige har.</i></label>
+        <label for="Kræwnr">Kræwnr <b>- OBS: Hvis du ikke som forælder deltager, indtast deltagende værges kræwnr.</b> <br /> <i>Et kræwnummer er et unikt ID alle frivillige har.</i></label>
         <InputNumber id="Kræwnr" @bind-Value="childItem.Krævnr" class="form-control" placeholder="Indtast kræwnummer" />
         @if (showTooManyChildrenError)
         {
             <p class="text-danger">Du kan ikke registrere mere end 2 børn pr. kræwnummer</p>
         }
     </div>
-   
+
     <div class="col-md-12 mb-3">
         <InputCheckbox id="isParent" @bind-Value="childItem.isParent" class="form-check-input" />
         <label for="isParent"> <b>Jeg som forælder deltager ikke selv, værge med angivet kræwnummer deltager</b> </label>
@@ -98,7 +96,7 @@
                 {
                     <option value="@item.Week">@item.Week</option>
                 }
-                
+
             }
         </InputSelect>
         <!-- Vælg dag, viser ikke gentagne værdier-->
@@ -136,13 +134,13 @@
             @foreach (var item in periodList)
             {
                 if (weekAmountDict.TryGetValue(item.Week, out int existing) && existing >= 15)
-                                {
-                                    <option value="@item.Week">@item.Week - Få pladser tilbage</option>
-                                }
-                                else
-                                {
-                                    <option value="@item.Week">@item.Week</option>
-                                }
+                {
+                    <option value="@item.Week">@item.Week - Få pladser tilbage</option>
+                }
+                else
+                {
+                    <option value="@item.Week">@item.Week</option>
+                }
             }
         </InputSelect>
         <!-- Vælg dag, viser ikke gentagne værdier-->

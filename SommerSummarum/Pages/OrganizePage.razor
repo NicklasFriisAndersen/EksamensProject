@@ -12,16 +12,17 @@
     
     
 
-    <!--tabel til alle perioder-->
+    <!--tabel til alle uger-->
 
     <div class="col-md-12 mb-3">
         @foreach (var weekGroup in periodList.GroupBy(p => p.Week))
         {
+            //counters
             int onsdagSøndagCount = 0;
             int onsdagFredagCount = 0;
             int lørdagSøndagCount = 0;
 
-            // Tæl børn for hver periode-type inden for denne uge
+            // Tæl børn for hver periode, inden for denne uge
             foreach (var item in childList ?? new RegisteredChild[0])
             {
                 if (item.AssignedPeriod.Week == weekGroup.Key)
@@ -47,6 +48,8 @@
             <h4>@weekGroup.Key</h4>
             <a class="btn btn-secondary" href="@($"{serverUrl}/api/registeredchildren/csv?assignedWeek={weekGroup.Key}")" >Hent som CSV</a> 
             <button @onclick="() => Copy(weekGroup.Key)" class="btn btn-secondary">Kopier Mails</button>
+
+            //counters
             @if (onsdagFredagCount > 20)
             {
                 <p class="text-danger">
@@ -73,6 +76,7 @@
                 </p>
             }
 
+            //tabel for børn i hver uge
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -109,13 +113,13 @@
     </div>
 
 <h3>Tildel periode</h3>
-
     <div class="col-md-12 mb-3">
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Navn</th>
                     <th>Alder</th>
+                    <th>Forældre Navn</th>
                     <th>Kommentar</th>
                     <th>1. Prioritet</th>
                     <th>2. Prioritet</th>
@@ -128,12 +132,13 @@
             <tbody>
                 @foreach (var item in childList ?? new RegisteredChild[0])
                 {
-
+                    //viser alle børn der ikke har fået tildelt en tid
                     if (item.AssignedPeriod.Week == "Ikke Tilføjet")
                     {
                         <tr>
                             <td>@item.Name</td>
                             <td>@item.Age</td>
+                            <td>@item.ParentName</td>
                             <td>@item.Comment</td>
                             <td>@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")</td>
                             @if (item.SecondPriority.Week == "Jeg kan kun i 1. prioritet")
@@ -144,6 +149,8 @@
                             {
                                 <td>@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</td>
                             }
+
+                            <!--knapper til ikke-fordelte børn-->
                             <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
                             @if (item.SecondPriority.Week != "Jeg kan kun i 1. prioritet")
                             {
@@ -169,14 +176,15 @@
     <div class="col-md-12 mb-3">
         <table class="table table-striped">
             <thead>
-            <tr>
-                <th>Navn</th>
-                <th>Alder</th>
-                <th>Kommentar</th>
-                <th>1. Prioritet</th>
-                <th>2. Prioritet</th>
-                <th>Hent Tilbage</th>
-            </tr>
+                <tr>
+                    <th>Navn</th>
+                    <th>Alder</th>
+                    <th>Forældre Navn</th>
+                    <th>Kommentar</th>
+                    <th>1. Prioritet</th>
+                    <th>2. Prioritet</th>
+                    <th>Hent Tilbage</th>
+                </tr>
             </thead>
 
             <tbody>
@@ -188,6 +196,7 @@
                         <tr>
                             <td>@item.Name</td>
                             <td>@item.Age</td>
+                            <td>@item.ParentName</td>
                             <td>@item.Comment</td>
                             <td>@($"{item.FirstPriority.Week}, {item.FirstPriority.Day}")</td>
                             @if (item.SecondPriority.Week == "Jeg kan kun i 1. prioritet")
