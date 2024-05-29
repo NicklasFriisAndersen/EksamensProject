@@ -145,7 +145,16 @@
                                 <td>@($"{item.SecondPriority.Week}, {item.SecondPriority.Day}")</td>
                             }
                             <td><button class="btn btn-primary" @onclick="() => UpdateChild(item, prioritet1)">Tildel 1. Prioritet</button></td>
-                            <td><button class="btn btn-warning" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
+                            @if (item.SecondPriority.Week != "Jeg kan kun i 1. prioritet")
+                            {
+                                <td><button class="btn btn-warning" @onclick="() => UpdateChild(item, prioritet2)">Tildel 2. Prioritet</button></td>
+                            }
+                            else
+                            {
+                                <td><button class="btn btn-warning" @onclick="() => UpdateChild(item, ingenPrio)">Tildel 2. Prioritet</button></td>
+
+                            }
+
                             <td><button class="btn btn-danger" @onclick="() => UpdateChild(item, delete)">Slet</button></td>
                         </tr>
                     }
@@ -227,6 +236,8 @@ else
     private string prioritet2 = "prioritet2";
     private string remove = "remove";
     private string delete = "delete";
+    private string ingenPrio = "ingenPrio";
+
 
 
     private User? user;
@@ -266,6 +277,11 @@ else
         {
             registeredChild.AssignedPeriod.Week = "Fjernet";
             registeredChild.AssignedPeriod.Days = "Fjernet";
+        }
+        else if (prio == "noPrio")
+        {
+            registeredChild.AssignedPeriod.Week = "Tilføjet";
+            registeredChild.AssignedPeriod.Days = "Tilføjet";
         }
 
         await rService.EditChildItem(registeredChild);
