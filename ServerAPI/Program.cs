@@ -10,9 +10,6 @@ public class Program
 
         builder.Services.AddSingleton<IRegisteredChildRepository, RegisteredChildRepository>();
 
-
-        // Add services to the container.
-
         builder.Services.AddSingleton<ILoginRepository, LoginRepository>();
         builder.Services.AddSingleton<IUserrepository, UserRepository>();
         builder.Services.AddSingleton<IU18VolunteerRepository, U18VolunteerRepository>();
@@ -33,8 +30,6 @@ public class Program
         });
 
         var app = builder.Build();
-
-        // Configure the HTTP request pipeline.
 
         app.UseHttpsRedirection();
 

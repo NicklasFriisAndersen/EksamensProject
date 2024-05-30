@@ -23,20 +23,14 @@ public class LoginService : ILoginService
 
     public async Task HandleLogin(string username, string password)
     {
-        // Construct the login URL with query string parameters
         var queryString = $"?username={username}&password={password}";
         var loginUrl = $"{serverUrl}/api/login/signin{queryString}";
 
-        // Perform GET request
         var response = await Http.GetAsync(loginUrl);
 
         if (response.IsSuccessStatusCode)
         {
-
-            // Redirect to profile page upon successful login
-
             string responseJson = await response.Content.ReadAsStringAsync();
-            //User? user = JsonSerializer.Deserialize<User>(responseJson);
             User? user = BsonSerializer.Deserialize<User>(responseJson);
             Console.WriteLine(responseJson);
 
@@ -45,7 +39,6 @@ public class LoginService : ILoginService
         }
         else
         {
-            // Display error message or handle failed login
             Console.WriteLine("Login failed");
         }
 

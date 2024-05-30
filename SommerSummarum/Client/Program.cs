@@ -37,10 +37,10 @@ public class Program
         builder.Services
             .AddBlazorise(options =>
             {
-                options.Immediate = true; // Optional, change based on your needs
+                options.Immediate = true; 
             })
             .AddBootstrapProviders()
-            .AddFontAwesomeIcons(); // Optional, change based on your needs
+            .AddFontAwesomeIcons(); 
 
         await builder.Build().RunAsync();
     }
